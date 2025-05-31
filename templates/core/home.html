@@ -1,0 +1,1124 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+<style>
+    .font-display { font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif; }
+    .text-gradient { background: linear-gradient(to right, #8B5CF6, #3B82F6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .bg-futuristic-dark { background-color: #0A0A0A; }
+    .service-card { transition: all 0.3s ease; background: rgba(255,255,255,0.03); backdrop-filter: blur(10px); }
+    .service-card:hover { transform: translateY(-10px); background: rgba(255,255,255,0.05); }
+    .service-icon { transition: all 0.3s ease; }
+    .contact-input { transition: all 0.3s ease; background: rgba(255,255,255,0.03); }
+    .contact-input:focus { transform: translateY(-2px); box-shadow: 0 0 20px rgba(139,92,246,0.2); background: rgba(255,255,255,0.05); }
+    .submit-button { position: relative; overflow: hidden; }
+    .submit-button::after { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; background: rgba(255,255,255,0.2); border-radius: 50%; transform: translate(-50%, -50%); transition: width 0.6s, height 0.6s; }
+    .submit-button:hover::after { width: 300px; height: 300px; }
+    .animated-bg { position: relative; overflow: hidden; }
+    .animated-bg::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle at center, rgba(139,92,246,0.1) 0%, transparent 50%); animation: rotate-bg 20s linear infinite; }
+    .animated-bg::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(45deg, rgba(59,130,246,0.05) 0%, rgba(139,92,246,0.05) 100%); animation: pulse-bg 8s ease-in-out infinite; }
+    @keyframes rotate-bg { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    @keyframes pulse-bg { 0%,100% { opacity: 0.5; } 50% { opacity: 0.8; } }
+    .fade-in-up { opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s; }
+    .fade-in-up.active { opacity: 1; transform: translateY(0); }
+    
+    /* Additional styles to ensure visibility */
+    section { 
+        min-height: auto;
+        padding: 4rem 0;
+        position: relative;
+        z-index: 1;
+    }
+    .container {
+        position: relative;
+        z-index: 2;
+    }
+    .bg-futuristic-dark {
+        background-color: #0A0A0A;
+        position: relative;
+    }
+    .bg-futuristic-dark::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(to bottom, rgba(10,10,10,0.95), rgba(10,10,10,0.98));
+        z-index: 1;
+    }
+    
+    /* Adjust specific section spacing */
+    #hero {
+        min-height: 90vh;
+        padding: 6rem 0;
+    }
+    #services, #about, #contact {
+        padding: 3rem 0;
+    }
+    
+    @keyframes scroll {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(-50%);
+        }
+    }
+    
+    .animate-scroll {
+        animation: scroll 30s linear infinite;
+    }
+    
+    .animate-scroll:hover {
+        animation-play-state: paused;
+    }
+    
+    .stat-number {
+        opacity: 1;
+        transform: none;
+    }
+
+    .compass-line {
+        position: relative;
+        overflow: visible;
+    }
+
+    .line-path {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, 
+            rgba(139, 92, 246, 0) 0%,
+            rgba(139, 92, 246, 0.1) 50%,
+            rgba(139, 92, 246, 0) 100%
+        );
+        box-shadow: 0 0 8px rgba(139, 92, 246, 0.2);
+    }
+
+    /* Adjust line paths for diagonal lines */
+    .compass-line[style*="rotate(-45deg)"] .line-path,
+    .compass-line[style*="rotate(45deg)"] .line-path {
+        background: linear-gradient(45deg, 
+            rgba(139, 92, 246, 0) 0%,
+            rgba(139, 92, 246, 0.1) 50%,
+            rgba(139, 92, 246, 0) 100%
+        );
+    }
+
+    .pulse-dot {
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        background: rgba(139, 92, 246, 0.8);
+        border-radius: 50%;
+        box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+        animation: pulseFlow 3s ease-in-out infinite;
+    }
+
+    @keyframes pulseFlow {
+        0% {
+            transform: translate(-50%, -50%);
+            opacity: 0;
+        }
+        20% {
+            opacity: 1;
+        }
+        80% {
+            opacity: 1;
+        }
+        100% {
+            transform: translate(50%, 50%);
+            opacity: 0;
+        }
+    }
+
+    /* Diagonal animations */
+    .compass-line[style*="rotate(-45deg)"] .pulse-dot,
+    .compass-line[style*="rotate(45deg)"] .pulse-dot {
+        animation: pulseFlowDiagonal 3s ease-in-out infinite;
+    }
+
+    @keyframes pulseFlowDiagonal {
+        0% {
+            transform: translate(-50%, -50%);
+            opacity: 0;
+        }
+        20% {
+            opacity: 1;
+        }
+        80% {
+            opacity: 1;
+        }
+        100% {
+            transform: translate(50%, 50%);
+            opacity: 0;
+        }
+    }
+
+    /* Vertical animation for south line */
+    .compass-line[style*="translate(-50%, 0)"] .pulse-dot {
+        animation: pulseFlowVertical 3s ease-in-out infinite;
+    }
+
+    @keyframes pulseFlowVertical {
+        0% {
+            transform: translateY(-50%);
+            opacity: 0;
+        }
+        20% {
+            opacity: 1;
+        }
+        80% {
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(50%);
+            opacity: 0;
+        }
+    }
+
+    /* Enhance the core glow */
+    .compass-core {
+        box-shadow: 0 0 40px rgba(139, 92, 246, 0.2);
+    }
+
+    /* Card hover effects */
+    .compass-direction:hover .compass-content {
+        box-shadow: 0 0 30px rgba(139, 92, 246, 0.3);
+        border-color: rgba(139, 92, 246, 0.5);
+    }
+
+    /* Ensure all cards are visible by default */
+    .compass-direction {
+        opacity: 1;
+        transform: scale(1);
+        transition: all 0.3s ease;
+    }
+
+    .compass-direction:hover {
+        transform: scale(1.05);
+    }
+
+    .compass-content {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        width: 220px;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    /* Mobile Styles */
+    @media (max-width: 768px) {
+        .compass-direction {
+            position: relative !important;
+            top: auto !important;
+            left: auto !important;
+            right: auto !important;
+            bottom: auto !important;
+            transform: none !important;
+            margin: 1rem auto !important;
+            display: flex !important;
+            justify-content: center !important;
+        }
+
+        .compass-content {
+            width: 100%;
+            max-width: 320px;
+            margin: 0 auto;
+        }
+
+        /* Adjust the compass core for mobile */
+        .compass-core {
+            position: relative !important;
+            top: auto !important;
+            left: auto !important;
+            transform: none !important;
+            margin: 2rem auto !important;
+        }
+
+        /* Hide the connecting lines on mobile */
+        .compass-line {
+            display: none !important;
+        }
+    }
+
+    @keyframes pulse-slow {
+        0%, 100% { opacity: 0.5; }
+        50% { opacity: 0.8; }
+    }
+
+    @keyframes shimmer {
+        0% { transform: translateY(-100%); }
+        100% { transform: translateY(100%); }
+    }
+
+    .animate-pulse-slow {
+        animation: pulse-slow 4s ease-in-out infinite;
+    }
+
+    .animate-shimmer {
+        animation: shimmer 8s linear infinite;
+    }
+
+    .particle-container {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+
+    .particle {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: rgba(59, 130, 246, 0.5);
+        border-radius: 50%;
+        animation: float 15s infinite linear;
+    }
+
+    .particle:nth-child(1) {
+        top: 20%;
+        left: 10%;
+        animation-delay: 0s;
+    }
+
+    .particle:nth-child(2) {
+        top: 60%;
+        left: 30%;
+        animation-delay: -3s;
+    }
+
+    .particle:nth-child(3) {
+        top: 40%;
+        left: 50%;
+        animation-delay: -6s;
+    }
+
+    .particle:nth-child(4) {
+        top: 80%;
+        left: 70%;
+        animation-delay: -9s;
+    }
+
+    .particle:nth-child(5) {
+        top: 30%;
+        left: 90%;
+        animation-delay: -12s;
+    }
+
+    @keyframes float {
+        0% {
+            transform: translateY(0) translateX(0);
+            opacity: 0;
+        }
+        25% {
+            opacity: 0.5;
+        }
+        50% {
+            transform: translateY(-100px) translateX(50px);
+            opacity: 0;
+        }
+        75% {
+            opacity: 0.5;
+        }
+        100% {
+            transform: translateY(0) translateX(0);
+            opacity: 0;
+        }
+    }
+
+    /* Enhanced Background Animations */
+    @keyframes gradient-shift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    @keyframes float-particles {
+        0%, 100% { transform: translateY(0) translateX(0); }
+        25% { transform: translateY(-20px) translateX(10px); }
+        50% { transform: translateY(-40px) translateX(-10px); }
+        75% { transform: translateY(-20px) translateX(10px); }
+    }
+
+    @keyframes glow-pulse {
+        0%, 100% { opacity: 0.3; }
+        50% { opacity: 0.6; }
+    }
+
+    .animated-bg {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .animated-bg::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle at center, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+        animation: rotate-bg 20s linear infinite;
+    }
+
+    .animated-bg::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(45deg, 
+            rgba(59, 130, 246, 0.05) 0%, 
+            rgba(139, 92, 246, 0.05) 50%,
+            rgba(59, 130, 246, 0.05) 100%
+        );
+        background-size: 200% 200%;
+        animation: gradient-shift 8s ease infinite;
+    }
+
+    /* Floating Particles */
+    .particles {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+    }
+
+    .particle {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: rgba(139, 92, 246, 0.3);
+        border-radius: 50%;
+        animation: float-particles 15s infinite linear;
+    }
+
+    .particle:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+    .particle:nth-child(2) { top: 60%; left: 30%; animation-delay: -3s; }
+    .particle:nth-child(3) { top: 40%; left: 50%; animation-delay: -6s; }
+    .particle:nth-child(4) { top: 80%; left: 70%; animation-delay: -9s; }
+    .particle:nth-child(5) { top: 30%; left: 90%; animation-delay: -12s; }
+
+    /* Glowing Orbs */
+    .glow-orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(40px);
+        animation: glow-pulse 4s ease-in-out infinite;
+    }
+
+    .glow-orb:nth-child(1) {
+        width: 300px;
+        height: 300px;
+        background: rgba(139, 92, 246, 0.1);
+        top: -150px;
+        left: -150px;
+    }
+
+    .glow-orb:nth-child(2) {
+        width: 200px;
+        height: 200px;
+        background: rgba(59, 130, 246, 0.1);
+        bottom: -100px;
+        right: -100px;
+        animation-delay: -2s;
+    }
+
+    /* Animated Grid */
+    .animated-grid {
+        position: absolute;
+        inset: 0;
+        opacity: 0.2;
+    }
+
+    .animated-grid::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: 
+            linear-gradient(to right, rgba(26, 26, 26, 0.1) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(26, 26, 26, 0.1) 1px, transparent 1px);
+        background-size: 4rem 4rem;
+    }
+
+    .animated-grid::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, 
+            transparent,
+            rgba(59, 130, 246, 0.05),
+            transparent
+        );
+        animation: shimmer 8s linear infinite;
+    }
+
+    @keyframes shimmer {
+        0% { transform: translateY(-100%); }
+        100% { transform: translateY(100%); }
+    }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<!-- Navigation (overrides base nav for this page) -->
+<nav class="fixed top-0 left-0 right-0 z-50 bg-primary/90 backdrop-blur-lg border-b border-white/10">
+    <div class="container mx-auto px-4 flex items-center justify-between py-4">
+        <a href="/" class="text-2xl font-bold font-display tracking-tight text-white">
+            T<span class="text-gradient">FUTURE</span>
+        </a>
+        <div class="hidden md:flex items-center space-x-8">
+            <a href="#" class="text-sm text-gray-300 hover:text-white transition-colors">Home</a>
+            <a href="#portfolio" class="text-sm text-gray-300 hover:text-white transition-colors">Portfolio</a>
+            <a href="#services" class="text-sm text-gray-300 hover:text-white transition-colors">Services</a>
+            <a href="#about" class="text-sm text-gray-300 hover:text-white transition-colors">About Us</a>
+        </div>
+        <a href="#contact" class="hidden md:block bg-accent hover:bg-accent/80 text-primary rounded-full px-6 py-2 text-sm font-medium">Contact Us</a>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="relative min-h-[90vh] pt-16 flex items-center overflow-hidden">
+    <!-- Background elements -->
+    <div class="absolute inset-0 bg-blue-900/30 overflow-hidden">
+        <img src="/media/images/hero.jpg" alt="Hero Background" class="absolute inset-0 w-full h-full object-cover z-0">
+        <div class="absolute inset-0 bg-black/50 z-5"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-900/40 via-transparent to-purple-900/40 z-10"></div>
+        <div class="absolute w-full h-full opacity-20 bg-[radial-gradient(circle_at_30%_50%,rgba(139,92,246,0.3),transparent_40%),radial-gradient(circle_at_70%_70%,rgba(14,165,233,0.3),transparent_40%)] z-20"></div>
+        <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-blue-900/80 to-transparent z-30"></div>
+    </div>
+
+    <!-- Content -->
+    <div class="container mx-auto px-4 relative z-40 py-10 md:py-16">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div class="space-y-6">
+                <h1 class="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">
+                    Powering Bold Brands  <span class="block text-gradient text-3xl sm:text-4xl md:text-5xl lg:text-6xl">with Unforgettable Experiences</span>
+                </h1>
+                <p class="mt-4 sm:mt-6 text-base sm:text-lg text-gray-300 max-w-xl">
+                    We architect brands from logo to merchandise, digital kits to live event rollouts — ensuring clarity, cohesion, and impact at every level.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#explore" class="bg-accent hover:bg-accent/80 text-primary rounded-full px-6 sm:px-8 py-3 text-base font-medium flex items-center transition-all hover:scale-105">Work with us</a>
+                    <a href="#contact" class="border border-white/20 bg-white/5 hover:bg-white/10 text-white rounded-full px-6 sm:px-8 py-3 text-base font-medium flex items-center transition-all hover:scale-105">See our work</a>
+                </div>
+                <div class="mt-12 pt-8 border-t border-white/10">
+                    <p class="text-sm text-gray-400 mb-6">Brands that trusted us with their vision</p>
+                    <div class="relative overflow-hidden">
+                        <div class="flex space-x-12 animate-scroll">
+                            <!-- First set of logos -->
+                            <div class="flex space-x-12">
+                                <div class="flex items-center justify-center w-32 h-12">
+                                    <img src="https://placehold.co/200x80/1a1a1a/ffffff?text=CowebLux" alt="CowebLux" class="h-8 opacity-70 hover:opacity-100 transition-opacity">
+                                </div>
+                                <div class="flex items-center justify-center w-32 h-12">
+                                    <img src="https://placehold.co/200x80/1a1a1a/ffffff?text=OTech" alt="OTech" class="h-8 opacity-70 hover:opacity-100 transition-opacity">
+                                </div>
+                                <div class="flex items-center justify-center w-32 h-12">
+                                    <img src="https://placehold.co/200x80/1a1a1a/ffffff?text=Rise" alt="Rise" class="h-8 opacity-70 hover:opacity-100 transition-opacity">
+                                </div>
+                                <div class="flex items-center justify-center w-32 h-12">
+                                    <img src="https://placehold.co/200x80/1a1a1a/ffffff?text=Comrade" alt="Comrade Stores" class="h-8 opacity-70 hover:opacity-100 transition-opacity">
+                                </div>
+                                <div class="flex items-center justify-center w-32 h-12">
+                                    <img src="https://placehold.co/200x80/1a1a1a/ffffff?text=TerraKind" alt="TerraKind" class="h-8 opacity-70 hover:opacity-100 transition-opacity">
+                                </div>
+                            </div>
+                            <!-- Duplicate set for seamless loop -->
+                            <div class="flex space-x-12">
+                                <div class="flex items-center justify-center w-32 h-12">
+                                    <img src="https://placehold.co/200x80/1a1a1a/ffffff?text=CowebLux" alt="CowebLux" class="h-8 opacity-70 hover:opacity-100 transition-opacity">
+                                </div>
+                                <div class="flex items-center justify-center w-32 h-12">
+                                    <img src="https://placehold.co/200x80/1a1a1a/ffffff?text=OTech" alt="OTech" class="h-8 opacity-70 hover:opacity-100 transition-opacity">
+                                </div>
+                                <div class="flex items-center justify-center w-32 h-12">
+                                    <img src="https://placehold.co/200x80/1a1a1a/ffffff?text=Rise" alt="Rise" class="h-8 opacity-70 hover:opacity-100 transition-opacity">
+                                </div>
+                                <div class="flex items-center justify-center w-32 h-12">
+                                    <img src="https://placehold.co/200x80/1a1a1a/ffffff?text=Comrade" alt="Comrade Stores" class="h-8 opacity-70 hover:opacity-100 transition-opacity">
+                                </div>
+                                <div class="flex items-center justify-center w-32 h-12">
+                                    <img src="https://placehold.co/200x80/1a1a1a/ffffff?text=TerraKind" alt="TerraKind" class="h-8 opacity-70 hover:opacity-100 transition-opacity">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- The Empire Behind The Experience Section -->
+<section id="explore" class="relative py-24 bg-gradient-to-b from-futuristic-dark to-black overflow-hidden animated-bg">
+    <div class="container mx-auto px-4 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="space-y-8 fade-in-up">
+                <h2 class="font-display text-4xl md:text-5xl font-bold">The Empire Behind <span class="text-gradient">The Experience</span></h2>
+                <p class="text-gray-400 text-lg">We don't just design. We craft the full experience — from the first scroll to the final applause.</p>
+                <p class="text-gray-400 text-lg">TFuture is a creative experience studio, designing identities, visuals, and branded moments across digital and real-world spaces. Every detail we build is meant to connect, inspire, and stick.</p>
+                <div class="pt-4">
+                    <a href="#contact" class="bg-accent hover:bg-accent/80 text-primary rounded-full px-8 py-4 text-base font-medium transition-all hover:scale-105">Browse the Brands We've Elevated</a>
+                </div>
+            </div>
+            <div class="relative fade-in-up">
+                <div class="absolute inset-0 bg-gradient-to-br from-purple-500/30 to-blue-500/30 blur-3xl animate-pulse-glow rounded-2xl"></div>
+                <img src="/media/images/abouts us.jpg" alt="The Empire Behind The Experience" class="relative z-10 rounded-2xl shadow-2xl">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section id="services" class="relative py-24 bg-gradient-to-b from-futuristic-dark to-black overflow-hidden animated-bg">
+    <div class="container mx-auto px-4 relative z-10">
+        <div class="text-center max-w-2xl mx-auto mb-16 fade-in-up">
+            <h2 class="font-display text-4xl md:text-5xl font-bold mb-4">Our <span class="text-gradient">Expertise</span></h2>
+            <p class="text-gray-400">We deliver exceptional digital solutions through our core services, each designed to elevate your brand.</p>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Hero Service Card -->
+            <div class="service-card border border-white/10 rounded-lg p-8 fade-in-up lg:h-full">
+                <div class="text-accent mb-6 service-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-12 h-12">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42" />
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-display mb-4">Brand Strategies & Identity Systems</h3>
+                <div class="space-y-4 text-gray-400 mb-6">
+                    <p class="text-lg md:block hidden">We build your brand from the ground up — starting with your purpose, tone, and voice.</p>
+                    <p class="text-lg md:block hidden">Then we bring it to life through a full visual identity: logos, colors, fonts, and clear guidelines.</p>
+                    <p class="text-lg md:block hidden">Every element is crafted to work across all platforms — from pitch decks and social media to banners and branded merchandise.</p>
+                    <p class="text-lg font-medium text-white md:block hidden">The result? A brand that looks right, feels right, and connects deeply.</p>
+                    <p class="text-lg md:hidden">We build your brand from the ground up — creating a cohesive visual identity that works across all platforms.</p>
+                </div>
+                <button onclick="openServiceModal('Brand Strategies & Identity Systems')" class="w-full bg-accent/20 hover:bg-accent/30 text-accent rounded-lg px-6 py-3 text-base font-medium transition-all hover:scale-105">Request Service</button>
+            </div>
+
+            <!-- Smaller Service Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 lg:col-span-2">
+                <!-- Company Profiles -->
+                <div class="service-card border border-white/10 rounded-lg p-6 fade-in-up h-full">
+                    <div class="text-accent mb-4 service-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-10 h-10">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-display mb-2">Company Profiles & Digital Kits</h3>
+                    <p class="text-gray-400 mb-4">We craft compelling company profiles, brand decks, pitch documents, and press kits designed to impress clients, investors, and media.</p>
+                    <button onclick="openServiceModal('Company Profiles & Digital Kits')" class="w-full bg-accent/20 hover:bg-accent/30 text-accent rounded-lg px-4 py-2 text-sm font-medium transition-all hover:scale-105">Request Service</button>
+                </div>
+
+                <!-- Social Media -->
+                <div class="service-card border border-white/10 rounded-lg p-6 fade-in-up h-full">
+                    <div class="text-accent mb-4 service-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-10 h-10">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-display mb-2">Social Media Visuals</h3>
+                    <p class="text-gray-400 mb-4">We design daily & campaign visuals — from post templates, carousels, story frames, cover photos, to email signatures and announcement posts.</p>
+                    <button onclick="openServiceModal('Social Media Visuals')" class="w-full bg-accent/20 hover:bg-accent/30 text-accent rounded-lg px-4 py-2 text-sm font-medium transition-all hover:scale-105">Request Service</button>
+                </div>
+
+                <!-- Event Branding -->
+                <div class="service-card border border-white/10 rounded-lg p-6 fade-in-up h-full">
+                    <div class="text-accent mb-4 service-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-10 h-10">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-3 2.148 2.148A12.061 12.061 0 0116.5 7.605" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-display mb-2">Event Branding</h3>
+                    <p class="text-gray-400 mb-4">Visuals that shape real-world experiences: stage layouts, booth design, poster placement, on-screen content, event signage, and branded merchandise.</p>
+                    <button onclick="openServiceModal('Event Branding')" class="w-full bg-accent/20 hover:bg-accent/30 text-accent rounded-lg px-4 py-2 text-sm font-medium transition-all hover:scale-105">Request Service</button>
+                </div>
+
+                <!-- Real-World Rollouts -->
+                <div class="service-card border border-white/10 rounded-lg p-6 fade-in-up h-full">
+                    <div class="text-accent mb-4 service-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-10 h-10">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-display mb-2">Real-World Rollouts</h3>
+                    <p class="text-gray-400 mb-4">We handle the translation of your brand into the physical world — directional signs, branded t-shirts, banners, backdrops, lanyards, staff kits, props.</p>
+                    <button onclick="openServiceModal('Real-World Rollouts')" class="w-full bg-accent/20 hover:bg-accent/30 text-accent rounded-lg px-4 py-2 text-sm font-medium transition-all hover:scale-105">Request Service</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Why Work With Us Section -->
+<section class="relative min-h-screen bg-gradient-to-b from-[#0A0F1C] to-[#050A14] overflow-hidden animated-bg">
+    <!-- Animated Background Elements -->
+    <div class="absolute inset-0 bg-gradient-to-br from-blue-900/5 via-[#0A0F1C] to-purple-900/5"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.05),transparent_70%)] animate-pulse-slow"></div>
+    
+    <!-- Animated Grid -->
+    <div class="animated-grid"></div>
+
+    <!-- Floating Particles -->
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <!-- Glowing Orbs -->
+    <div class="glow-orb"></div>
+    <div class="glow-orb"></div>
+
+    <div class="container mx-auto px-4 relative z-10">
+        <!-- Section Header -->
+        <div class="text-center max-w-3xl mx-auto pt-16 pb-12 fade-in-up">
+            <h2 class="font-display text-4xl md:text-5xl font-bold mb-4">Why Work With <span class="text-gradient">Us</span></h2>
+            <p class="text-xl text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">From our core to every corner of your brand — these are the reasons clients choose and stay with TFuture.</p>
+        </div>
+
+        <!-- Compass Layout -->
+        <div class="relative max-w-4xl mx-auto min-h-[800px] mb-24">
+            <!-- Compass Core -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32">
+                <div class="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-purple-600/10 rounded-full blur-xl animate-pulse"></div>
+                <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-purple-600/20 rounded-full"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <span class="text-2xl font-display font-bold text-white">TFuture</span>
+                </div>
+            </div>
+
+            <!-- Connecting Lines -->
+            <div class="absolute inset-0">
+                <!-- North-West Line -->
+                <div class="absolute top-1/2 left-1/2 w-[300px] h-[300px] compass-line" style="transform: translate(-50%, -50%) rotate(-45deg);">
+                    <div class="line-path"></div>
+                    <div class="pulse-dot"></div>
+                </div>
+                <!-- North-East Line -->
+                <div class="absolute top-1/2 left-1/2 w-[300px] h-[300px] compass-line" style="transform: translate(-50%, -50%) rotate(45deg);">
+                    <div class="line-path"></div>
+                    <div class="pulse-dot"></div>
+                </div>
+                <!-- East Line -->
+                <div class="absolute top-1/2 left-1/2 w-[300px] h-2 compass-line" style="transform: translate(0, -50%);">
+                    <div class="line-path"></div>
+                    <div class="pulse-dot"></div>
+                </div>
+                <!-- West Line -->
+                <div class="absolute top-1/2 left-1/2 w-[300px] h-2 compass-line" style="transform: translate(-100%, -50%);">
+                    <div class="line-path"></div>
+                    <div class="pulse-dot"></div>
+                </div>
+                <!-- South Line -->
+                <div class="absolute top-1/2 left-1/2 w-2 h-[300px] compass-line" style="transform: translate(-50%, 0);">
+                    <div class="line-path"></div>
+                    <div class="pulse-dot"></div>
+                </div>
+            </div>
+
+            <!-- Compass Directions -->
+            <div class="absolute inset-0">
+                <!-- North-West: Trusted Execution -->
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 compass-direction" data-direction="northwest" style="transform: translate(-50%, -50%) translate(-300px, -300px);">
+                    <div class="compass-content">
+                        <h3 class="text-2xl font-display mb-2">Trusted Execution</h3>
+                        <p class="text-gray-400">From ideation to final rollout, we handle everything with precision and care.</p>
+                    </div>
+                </div>
+
+                <!-- North-East: Design-Led Innovation -->
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 compass-direction" data-direction="northeast" style="transform: translate(-50%, -50%) translate(300px, -300px);">
+                    <div class="compass-content">
+                        <h3 class="text-2xl font-display mb-2">Design-Led Innovation</h3>
+                        <p class="text-gray-400">Pushing boundaries with cutting-edge design solutions that set new standards.</p>
+                    </div>
+                </div>
+
+                <!-- East: Seamless Collaboration -->
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 compass-direction" data-direction="east" style="transform: translate(-50%, -50%) translate(300px, 0);">
+                    <div class="compass-content">
+                        <h3 class="text-2xl font-display mb-2">Seamless Collaboration</h3>
+                        <p class="text-gray-400">Clear communication, regular updates, and a partnership approach to every project.</p>
+                    </div>
+                </div>
+
+                <!-- West: Future-Proof Solutions -->
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 compass-direction" data-direction="west" style="transform: translate(-50%, -50%) translate(-300px, 0);">
+                    <div class="compass-content">
+                        <h3 class="text-2xl font-display mb-2">Future-Proof Solutions</h3>
+                        <p class="text-gray-400">Building with tomorrow in mind — scalable, adaptable, and ahead of the curve.</p>
+                    </div>
+                </div>
+
+                <!-- South: Multi-Touchpoint Mastery -->
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 compass-direction" data-direction="south" style="transform: translate(-50%, -50%) translate(0, 300px);">
+                    <div class="compass-content">
+                        <h3 class="text-2xl font-display mb-2">Multi-Touchpoint Mastery</h3>
+                        <p class="text-gray-400">Seamless brand experiences across all platforms and touchpoints.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Process Section -->
+<section class="relative py-24 bg-gradient-to-b from-futuristic-dark to-black overflow-hidden animated-bg">
+    <div class="container mx-auto px-4 relative z-10">
+        <div class="text-center max-w-2xl mx-auto mb-16 fade-in-up">
+            <h2 class="font-display text-4xl md:text-5xl font-bold mb-4">Your Journey With <span class="text-gradient">Us</span></h2>
+            <p class="text-gray-400 text-lg">From the first hello to the final rollout, our process is transparent, collaborative, and seamless.</p>
+        </div>
+        <div class="max-w-4xl mx-auto">
+            <!-- Discovery -->
+            <div class="relative mb-8 md:mb-16 fade-in-up">
+                <div class="flex flex-col md:flex-row items-start gap-4">
+                    <div class="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0">
+                        <span class="text-xl font-bold text-accent">1</span>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-xl font-display mb-2">Discovery</h3>
+                        <p class="text-gray-400">We understand your brand, vision, and audience.</p>
+                    </div>
+                </div>
+                <div class="hidden md:block absolute left-6 top-12 w-0.5 h-16 bg-gradient-to-b from-accent/50 to-transparent"></div>
+            </div>
+
+            <!-- Strategy & Blueprint -->
+            <div class="relative mb-8 md:mb-16 fade-in-up">
+                <div class="flex flex-col md:flex-row items-start gap-4">
+                    <div class="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0">
+                        <span class="text-xl font-bold text-accent">2</span>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-xl font-display mb-2">Strategy & Blueprint</h3>
+                        <p class="text-gray-400">We build a roadmap — brand goals, voice, and rollout plan.</p>
+                    </div>
+                </div>
+                <div class="hidden md:block absolute left-6 top-12 w-0.5 h-16 bg-gradient-to-b from-accent/50 to-transparent"></div>
+            </div>
+
+            <!-- Creative Development -->
+            <div class="relative mb-8 md:mb-16 fade-in-up">
+                <div class="flex flex-col md:flex-row items-start gap-4">
+                    <div class="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0">
+                        <span class="text-xl font-bold text-accent">3</span>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-xl font-display mb-2">Creative Development</h3>
+                        <p class="text-gray-400">This is where visuals, messaging, and systems take shape.</p>
+                    </div>
+                </div>
+                <div class="hidden md:block absolute left-6 top-12 w-0.5 h-16 bg-gradient-to-b from-accent/50 to-transparent"></div>
+            </div>
+
+            <!-- Execution & Delivery -->
+            <div class="relative mb-8 md:mb-16 fade-in-up">
+                <div class="flex flex-col md:flex-row items-start gap-4">
+                    <div class="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0">
+                        <span class="text-xl font-bold text-accent">4</span>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-xl font-display mb-2">Execution & Delivery</h3>
+                        <p class="text-gray-400">We bring the experience to life — every detail executed flawlessly.</p>
+                    </div>
+                </div>
+                <div class="hidden md:block absolute left-6 top-12 w-0.5 h-16 bg-gradient-to-b from-accent/50 to-transparent"></div>
+            </div>
+
+            <!-- Launch & Support -->
+            <div class="relative fade-in-up">
+                <div class="flex flex-col md:flex-row items-start gap-4">
+                    <div class="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0">
+                        <span class="text-xl font-bold text-accent">5</span>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-xl font-display mb-2">Launch & Support</h3>
+                        <p class="text-gray-400">Even after go-live, we stay with you to optimize and evolve.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="relative py-24 bg-gradient-to-b from-black to-futuristic-dark overflow-hidden animated-bg">
+    <div class="container mx-auto px-4 relative z-10">
+        <div class="text-center max-w-2xl mx-auto mb-16 fade-in-up">
+            <h2 class="font-display text-4xl md:text-5xl font-bold mb-4"><span class="text-gradient">Testimonials</span></h2>
+            <p class="text-gray-400">Hear from the brands we've transformed with our bold, minimal, and elegant designs.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- OTech Testimonial -->
+            <div class="service-card border border-white/10 rounded-lg p-8 fade-in-up">
+                <div class="flex items-center mb-6">
+                    <div class="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center text-accent font-bold text-xl">MS</div>
+                    <div class="ml-4">
+                        <h4 class="font-display text-lg">Michael Santos</h4>
+                        <p class="text-gray-400 text-sm">CTO, OTech</p>
+                    </div>
+                </div>
+                <p class="text-gray-300">"TFuture's approach to brand strategy transformed our tech company's image. Their ability to translate complex technology into compelling visual stories is remarkable."</p>
+            </div>
+
+            <!-- Rise Testimonial -->
+            <div class="service-card border border-white/10 rounded-lg p-8 fade-in-up">
+                <div class="flex items-center mb-6">
+                    <div class="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center text-accent font-bold text-xl">AL</div>
+                    <div class="ml-4">
+                        <h4 class="font-display text-lg">Aisha Lee</h4>
+                        <p class="text-gray-400 text-sm">Founder & CEO, Rise</p>
+                    </div>
+                </div>
+                <p class="text-gray-300">"From our brand identity to our event rollouts, TFuture has been instrumental in our growth. Their attention to detail and creative vision is unmatched."</p>
+            </div>
+
+            <!-- TerraKind Testimonial -->
+            <div class="service-card border border-white/10 rounded-lg p-8 fade-in-up">
+                <div class="flex items-center mb-6">
+                    <div class="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center text-accent font-bold text-xl">RK</div>
+                    <div class="ml-4">
+                        <h4 class="font-display text-lg">Rachel Kim</h4>
+                        <p class="text-gray-400 text-sm">Marketing Director, TerraKind</p>
+                    </div>
+                </div>
+                <p class="text-gray-300">"TFuture's multi-touchpoint approach helped us create a cohesive brand experience across all platforms. Their work has significantly elevated our market presence."</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="relative py-24 bg-gradient-to-b from-black to-futuristic-dark overflow-hidden animated-bg">
+    <!-- Animated Background Elements -->
+    <div class="absolute inset-0 bg-gradient-to-br from-blue-900/5 via-[#0A0F1C] to-purple-900/5"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.05),transparent_70%)] animate-pulse-slow"></div>
+    
+    <!-- Animated Grid -->
+    <div class="animated-grid"></div>
+
+    <!-- Floating Particles -->
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <!-- Glowing Orbs -->
+    <div class="glow-orb"></div>
+    <div class="glow-orb"></div>
+
+    <div class="container mx-auto px-4 relative z-10">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="mb-12 fade-in-up">
+                <h2 class="font-display text-4xl md:text-5xl font-bold mb-4">Any <span class="text-gradient">Query?</span></h2>
+                <p class="text-gray-400 max-w-2xl mx-auto text-lg mb-8">Have a question or want to learn more? We're here to help you bring your vision to life.</p>
+                <button onclick="openServiceModal('Other')" class="bg-accent hover:bg-accent/80 text-primary rounded-full px-8 py-4 text-base font-medium transition-all hover:scale-105">Leave a Message</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Service Request Modal -->
+<div id="serviceModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden transition-all duration-300" onclick="closeServiceModal()">
+    <div class="min-h-screen px-4 text-center flex items-center justify-center">
+        <div class="inline-block align-middle my-8 p-6 w-full max-w-lg text-left align-middle transition-all transform bg-futuristic-dark/95 shadow-2xl rounded-2xl border border-white/10 relative" onclick="event.stopPropagation()">
+            <!-- Close Button -->
+            <button onclick="closeServiceModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors duration-200">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <div class="mb-6">
+                <h3 class="text-2xl font-display font-bold text-white">Request Service</h3>
+                <p class="text-gray-400 mt-2">Fill out the form below and we'll get back to you within 24 hours.</p>
+            </div>
+
+            <form id="serviceForm" class="space-y-6">
+                <input type="hidden" id="selectedService" name="service">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-1">First Name</label>
+                        <input type="text" class="contact-input w-full px-3 py-2 bg-transparent border border-white/10 rounded-lg focus:outline-none focus:border-accent text-white placeholder-gray-500 text-sm" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-1">Last Name</label>
+                        <input type="text" class="contact-input w-full px-3 py-2 bg-transparent border border-white/10 rounded-lg focus:outline-none focus:border-accent text-white placeholder-gray-500 text-sm" required>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-1">Email</label>
+                        <input type="email" class="contact-input w-full px-3 py-2 bg-transparent border border-white/10 rounded-lg focus:outline-none focus:border-accent text-white placeholder-gray-500 text-sm" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-1">Phone</label>
+                        <input type="tel" class="contact-input w-full px-3 py-2 bg-transparent border border-white/10 rounded-lg focus:outline-none focus:border-accent text-white placeholder-gray-500 text-sm" required>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-1">Service</label>
+                    <input type="text" id="serviceDisplay" class="contact-input w-full px-3 py-2 bg-transparent border border-white/10 rounded-lg focus:outline-none focus:border-accent text-white placeholder-gray-500 text-sm" readonly>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-1">Message</label>
+                    <textarea rows="4" class="contact-input w-full px-3 py-2 bg-transparent border border-white/10 rounded-lg focus:outline-none focus:border-accent text-white placeholder-gray-500 text-sm resize-none" required></textarea>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="w-full bg-accent hover:bg-accent/80 text-primary rounded-lg px-6 py-3 text-base font-medium transition-all hover:scale-105">Send Request</button>
+
+                <!-- Divider -->
+                <div class="relative my-6">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-white/10"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-2 bg-futuristic-dark/95 text-gray-400">Or</span>
+                    </div>
+                </div>
+
+                <!-- WhatsApp Button -->
+                <a href="https://wa.me/your_number" target="_blank" class="w-full bg-green-600 hover:bg-green-700 text-white rounded-lg px-6 py-3 text-base font-medium transition-all hover:scale-105 flex items-center justify-center">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+                    </svg>
+                    Contact via WhatsApp
+                </a>
+
+                <!-- Security Note -->
+                <div class="text-sm text-gray-400 text-center mt-6">
+                    <span class="flex items-center justify-center">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                        Your information is secure and encrypted
+                    </span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Start counting immediately without waiting for DOMContentLoaded
+    function countToTarget(element) {
+        const target = parseInt(element.getAttribute('data-target'));
+        const symbol = element.getAttribute('data-symbol');
+        const suffix = element.getAttribute('data-suffix');
+        
+        if (symbol) {
+            element.textContent = symbol;
+        } else {
+            let current = 0;
+            const duration = 1000; // 1 second
+            const steps = 20;
+            const stepValue = target / steps;
+            const interval = setInterval(() => {
+                current += stepValue;
+                if (current >= target) {
+                    clearInterval(interval);
+                    element.textContent = target + (suffix || '');
+                } else {
+                    element.textContent = Math.round(current) + (suffix || '');
+                }
+            }, duration / steps);
+        }
+    }
+
+    // Start counting as soon as possible
+    const stats = document.querySelectorAll('.stat-number');
+    stats.forEach(stat => {
+        countToTarget(stat);
+    });
+
+    // Handle other animations after DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        // Function to handle fade-in animations for other elements
+        function handleFadeIn() {
+            const elements = document.querySelectorAll('.fade-in-up:not(.stat-number)');
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('active');
+                }
+            });
+        }
+
+        // Initial check for other animations
+        handleFadeIn();
+
+        // Check on scroll for other animations
+        window.addEventListener('scroll', () => {
+            handleFadeIn();
+        });
+    });
+
+    // Service Modal Functions
+    function openServiceModal(service) {
+        const modal = document.getElementById('serviceModal');
+        modal.classList.remove('hidden');
+        modal.classList.add('opacity-100');
+        document.getElementById('selectedService').value = service;
+        document.getElementById('serviceDisplay').value = service;
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeServiceModal() {
+        const modal = document.getElementById('serviceModal');
+        modal.classList.add('opacity-0');
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            modal.classList.remove('opacity-0');
+        }, 300);
+        document.body.style.overflow = 'auto';
+    }
+
+    // Close modal when pressing Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeServiceModal();
+        }
+    });
+
+    // Handle form submission
+    document.getElementById('serviceForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        // Add your form submission logic here
+        closeServiceModal();
+    });
+
+    // Compass Direction Animations
+    function handleCompassAnimations() {
+        const directions = document.querySelectorAll('.compass-direction');
+        
+        directions.forEach(direction => {
+            const rect = direction.getBoundingClientRect();
+            const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+            
+            if (isVisible) {
+                direction.classList.add('active');
+            }
+        });
+    }
+
+    // Add scroll event listener for compass animations
+    window.addEventListener('scroll', handleCompassAnimations);
+    // Initial check
+    handleCompassAnimations();
+</script>
+{% endblock %} 
