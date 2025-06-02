@@ -1,0 +1,612 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About Us - TFuture Designs{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-primary relative overflow-hidden">
+    <!-- Animated Background Elements -->
+    <div class="absolute inset-0 bg-gradient-to-br from-blue-900/5 via-[#0A0F1C] to-purple-900/5"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.05),transparent_70%)] animate-pulse-slow"></div>
+    
+    <!-- Animated Grid -->
+    <div class="animated-grid"></div>
+
+    <!-- Floating Particles -->
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <!-- Glowing Orbs -->
+    <div class="glow-orb"></div>
+    <div class="glow-orb"></div>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-[70vh] pt-16 flex items-center overflow-hidden">
+        <!-- Background elements -->
+        <div class="absolute inset-0 bg-blue-900/30 overflow-hidden">
+            <img src="{% static 'images/hero-about.jpg' %}" alt="Hero Background" class="absolute inset-0 w-full h-full object-cover z-0">
+            <div class="absolute inset-0 bg-black/50 z-5"></div>
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-900/40 via-transparent to-purple-900/40 z-10"></div>
+            <div class="absolute w-full h-full opacity-20 bg-[radial-gradient(circle_at_30%_50%,rgba(139,92,246,0.3),transparent_40%),radial-gradient(circle_at_70%_70%,rgba(14,165,233,0.3),transparent_40%)] z-20"></div>
+            <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-blue-900/80 to-transparent z-30"></div>
+        </div>
+
+        <!-- Content -->
+        <div class="container mx-auto px-4 relative z-40 py-10 md:py-16">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div class="space-y-6">
+                    <h1 class="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">
+                        About <span class="block text-gradient text-3xl sm:text-4xl md:text-5xl lg:text-6xl">TFuture</span>
+                    </h1>
+                    <p class="mt-4 sm:mt-6 text-base sm:text-lg text-gray-300 max-w-xl">
+                        We're a global branding studio helping startups, events, and bold businesses craft unforgettable brand identities.
+                    </p>
+                    <p class="text-base sm:text-lg text-gray-300 max-w-xl">
+                        From Nairobi to New York, we turn vision into presence, and presence into legacy.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="#contact" class="bg-accent hover:bg-accent/80 text-primary rounded-full px-6 sm:px-8 py-3 text-base font-medium flex items-center transition-all hover:scale-105">Get in Touch</a>
+                        <a href="#services" class="border border-white/20 bg-white/5 hover:bg-white/10 text-white rounded-full px-6 sm:px-8 py-3 text-base font-medium flex items-center transition-all hover:scale-105">Our Services</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our DNA -->
+    <section class="py-16 relative">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-[90rem] mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center text-gradient">Our DNA</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24">
+                    <!-- Vision -->
+                    <div class="futuristic-card group relative rounded-lg p-8 fade-in-up h-full">
+                        <div class="relative z-10">
+                            <h2 class="text-2xl font-bold mb-4 text-accent">Our Vision</h2>
+                            <p class="text-gray-400 leading-relaxed">
+                                To be the world's most trusted creative partner for unforgettable brand launches, bold rebrands, and immersive event experiences — turning ideas into iconic global identities.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Mission -->
+                    <div class="futuristic-card group relative rounded-lg p-8 fade-in-up h-full">
+                        <div class="relative z-10">
+                            <h2 class="text-2xl font-bold mb-4 text-accent">Our Mission</h2>
+                            <div class="space-y-4 text-gray-400">
+                                <p class="leading-relaxed">
+                                    We help visionary startups, businesses, and events build unforgettable brands — through strategy, design, and immersive brand experiences that spark connection and command attention.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Our Promise -->
+                    <div class="futuristic-card group relative rounded-lg p-8 fade-in-up h-full">
+                        <div class="relative z-10">
+                            <h2 class="text-2xl font-bold mb-4 text-accent">Our Promise</h2>
+                            <div class="space-y-4 text-gray-400">
+                                <p class="leading-relaxed">
+                                    We don't design for trends. We design for imprint.
+                                    When you work with TFuture, you don't just get visuals.
+                                    You get a story, an emotion, a presence — built to move people in Nairobi, New York, or anywhere in between.
+                                    No matter your stage, we deliver unforgettable.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tagline -->
+                <div class="mt-16 text-center fade-in-up">
+                    <p class="text-sm italic text-gray-500">We don't design for trends. We design for imprint. - The TFuture Way</p>
+                </div>
+
+                <!-- Our Values -->
+                <div class="mt-24 fade-in-up">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center text-gradient">Our Values</h2>
+                    <p class="text-gray-400 mb-16 text-center max-w-2xl mx-auto">These core principles guide every project, every decision, and every interaction at TFuture.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="futuristic-card group relative rounded-lg p-6 fade-in-up">
+                            <div class="relative z-10">
+                                <div class="text-accent mb-4 service-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-10 h-10">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-display mb-2 text-white group-hover:text-accent transition-colors duration-300">Ownership</h3>
+                                <p class="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">We finish what we start. No excuses. Every project is our responsibility until it's perfect.</p>
+                            </div>
+                        </div>
+                        <div class="futuristic-card group relative rounded-lg p-6 fade-in-up">
+                            <div class="relative z-10">
+                                <div class="text-accent mb-4 service-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-10 h-10">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-display mb-2 text-white group-hover:text-accent transition-colors duration-300">Trust</h3>
+                                <p class="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">We earn it by delivering — not promising. Your success is our success.</p>
+                            </div>
+                        </div>
+                        <div class="futuristic-card group relative rounded-lg p-6 fade-in-up">
+                            <div class="relative z-10">
+                                <div class="text-accent mb-4 service-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-10 h-10">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-display mb-2 text-white group-hover:text-accent transition-colors duration-300">Creativity & Innovation</h3>
+                                <p class="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">Every solution must surprise. We push boundaries to create memorable experiences.</p>
+                            </div>
+                        </div>
+                        <div class="futuristic-card group relative rounded-lg p-6 fade-in-up">
+                            <div class="relative z-10">
+                                <div class="text-accent mb-4 service-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-10 h-10">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-display mb-2 text-white group-hover:text-accent transition-colors duration-300">Clarity</h3>
+                                <p class="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">Simplicity is power. No fluff. No noise. Just clear, impactful communication.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Who We Serve -->
+    <section class="py-16 relative">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-[90rem] mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center text-gradient">Who We Serve</h2>
+                <div class="relative">
+                    <!-- Desktop Grid / Mobile Single Card -->
+                    <div class="md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 overflow-x-auto md:overflow-visible pb-8 hide-scrollbar">
+                        <!-- Startups Card -->
+                        <div class="futuristic-card group relative rounded-lg w-full md:w-full flex-shrink-0 overflow-hidden">
+                            <div class="relative h-[200px]">
+                                <img src="{% static 'images/startups.jpeg' %}" alt="Startups" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-primary/90 to-transparent"></div>
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-xl font-display mb-2 text-white">Startups</h3>
+                                <p class="text-gray-400">Launching from zero with a brand that stands out from day one.</p>
+                            </div>
+                        </div>
+
+                        <!-- Summits & Events Card -->
+                        <div class="futuristic-card group relative rounded-lg w-full md:w-full flex-shrink-0 overflow-hidden">
+                            <div class="relative h-[200px]">
+                                <img src="{% static 'images/summit.jpg' %}" alt="Summits & Events" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-primary/90 to-transparent"></div>
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-xl font-display mb-2 text-white">Summits & Events</h3>
+                                <p class="text-gray-400">Creating unforgettable experiences that leave lasting impressions.</p>
+                            </div>
+                        </div>
+
+                        <!-- Rebrands Card -->
+                        <div class="futuristic-card group relative rounded-lg w-full md:w-full flex-shrink-0 overflow-hidden">
+                            <div class="relative h-[200px]">
+                                <img src="{% static 'images/rebrand.jpg' %}" alt="Established Brands" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-primary/90 to-transparent"></div>
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-xl font-display mb-2 text-white">Rebrands for established brands</h3>
+                                <p class="text-gray-400">Ready for a bold rebrand that propels you into the future.</p>
+                            </div>
+                        </div>
+
+                        <!-- Corporate Events Card -->
+                        <div class="futuristic-card group relative rounded-lg w-full md:w-full flex-shrink-0 overflow-hidden">
+                            <div class="relative h-[200px]">
+                                <img src="{% static 'images/events.jpeg' %}" alt="Passion Projects" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-primary/90 to-transparent"></div>
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-xl font-display mb-2 text-white">Corporate & Brand milestone Events</h3>
+                                <p class="text-gray-400">We help established company brand their most important internal & public moments from events to celebrations</p>
+                            </div>
+                        </div>
+
+                        <!-- Visionaries Card -->
+                        <div class="futuristic-card group relative rounded-lg w-full md:w-full flex-shrink-0 overflow-hidden">
+                            <div class="relative h-[200px]">
+                                <img src="{% static 'images/visionaries.jpg' %}" alt="Visionaries" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-primary/90 to-transparent"></div>
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-xl font-display mb-2 text-white">Visionaries</h3>
+                                <p class="text-gray-400">Who want the world to feel their brand's impact.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Navigation -->
+                    <div class="flex md:hidden justify-center mt-8 space-x-4">
+                        <button class="scroll-left p-2 rounded-full bg-accent/10 hover:bg-accent/20 transition-colors opacity-100" data-direction="prev">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 text-accent">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <button class="scroll-right p-2 rounded-full bg-accent/10 hover:bg-accent/20 transition-colors opacity-100" data-direction="next">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 text-accent">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="relative py-16">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-[90rem] mx-auto">
+                <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-900/30 to-purple-900/30 backdrop-blur-sm">
+                    <!-- Background Elements -->
+                    <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(139,92,246,0.3),transparent_40%),radial-gradient(circle_at_70%_70%,rgba(14,165,233,0.3),transparent_40%)]"></div>
+                    <div class="absolute inset-0 bg-gradient-to-br from-blue-900/40 via-transparent to-purple-900/40"></div>
+                    
+                    <!-- Content -->
+                    <div class="relative z-10 px-6 py-16 sm:px-12 sm:py-20 lg:px-16 lg:py-24">
+                        <div class="text-center max-w-3xl mx-auto">
+                            <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 text-gradient">Ready to Make Your Mark?</h2>
+                            <p class="text-lg sm:text-xl text-gray-300 mb-8">Let's create something unforgettable together.</p>
+                            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                                <a href="#contact" class="bg-accent hover:bg-accent/80 text-primary rounded-full px-8 py-3 text-base font-medium transition-all hover:scale-105">Get in Touch</a>
+                                <a href="#services" class="border border-white/20 bg-white/5 hover:bg-white/10 text-white rounded-full px-8 py-3 text-base font-medium transition-all hover:scale-105">Our Services</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Smooth Scroll Behavior */
+    html {
+        scroll-behavior: smooth;
+    }
+
+    /* Scroll Animations */
+    .fade-in-up {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .fade-in-up.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .fade-in {
+        opacity: 0;
+        transition: opacity 0.6s ease-out;
+    }
+
+    .fade-in.visible {
+        opacity: 1;
+    }
+
+    .scale-in {
+        opacity: 0;
+        transform: scale(0.9);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .scale-in.visible {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    /* Animated Background Elements */
+    .animated-grid {
+        position: absolute;
+        inset: 0;
+        opacity: 0.2;
+    }
+
+    .animated-grid::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: 
+            linear-gradient(to right, rgba(26, 26, 26, 0.1) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(26, 26, 26, 0.1) 1px, transparent 1px);
+        background-size: 4rem 4rem;
+    }
+
+    .animated-grid::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, 
+            transparent,
+            rgba(59, 130, 246, 0.05),
+            transparent
+        );
+        animation: shimmer 8s linear infinite;
+    }
+
+    @keyframes shimmer {
+        0% { transform: translateY(-100%); }
+        100% { transform: translateY(100%); }
+    }
+
+    /* Floating Particles */
+    .particles {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+    }
+
+    .particle {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: rgba(139, 92, 246, 0.3);
+        border-radius: 50%;
+        animation: float-particles 15s infinite linear;
+    }
+
+    .particle:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+    .particle:nth-child(2) { top: 60%; left: 30%; animation-delay: -3s; }
+    .particle:nth-child(3) { top: 40%; left: 50%; animation-delay: -6s; }
+    .particle:nth-child(4) { top: 80%; left: 70%; animation-delay: -9s; }
+    .particle:nth-child(5) { top: 30%; left: 90%; animation-delay: -12s; }
+
+    @keyframes float-particles {
+        0% { transform: translateY(0) translateX(0); }
+        25% { transform: translateY(-20px) translateX(10px); }
+        50% { transform: translateY(-40px) translateX(-10px); }
+        75% { transform: translateY(-20px) translateX(10px); }
+        100% { transform: translateY(0) translateX(0); }
+    }
+
+    /* Glowing Orbs */
+    .glow-orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(40px);
+        animation: glow-pulse 4s ease-in-out infinite;
+    }
+
+    .glow-orb:nth-child(1) {
+        width: 300px;
+        height: 300px;
+        background: rgba(139, 92, 246, 0.1);
+        top: -150px;
+        left: -150px;
+    }
+
+    .glow-orb:nth-child(2) {
+        width: 200px;
+        height: 200px;
+        background: rgba(59, 130, 246, 0.1);
+        bottom: -100px;
+        right: -100px;
+        animation-delay: -2s;
+    }
+
+    @keyframes glow-pulse {
+        0%, 100% { opacity: 0.5; transform: scale(1); }
+        50% { opacity: 0.8; transform: scale(1.1); }
+    }
+
+    @keyframes pulse-slow {
+        0%, 100% { opacity: 0.5; }
+        50% { opacity: 0.8; }
+    }
+
+    /* Futuristic Card Styles */
+    .futuristic-card {
+        position: relative;
+    }
+
+    .futuristic-card::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom right, rgba(59, 130, 246, 0.05), rgba(139, 92, 246, 0.05));
+        border-radius: 0.5rem;
+        z-index: 0;
+    }
+
+    .futuristic-card::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(45deg, transparent, rgba(139, 92, 246, 0.1), transparent);
+        border-radius: 0.5rem;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 0;
+    }
+
+    .futuristic-card:hover::after {
+        opacity: 1;
+    }
+
+    .futuristic-card .border-glow {
+        position: absolute;
+        inset: 0;
+        border: 1px solid rgba(139, 92, 246, 0.1);
+        border-radius: 0.5rem;
+        z-index: 0;
+    }
+
+    .futuristic-card:hover .border-glow {
+        border-color: rgba(139, 92, 246, 0.3);
+        box-shadow: 0 0 20px rgba(139, 92, 246, 0.1);
+    }
+
+    .futuristic-card .content {
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Animated Border */
+    @keyframes border-flow {
+        0% {
+            border-image: linear-gradient(45deg, transparent, rgba(139, 92, 246, 0.3), transparent) 1;
+        }
+        50% {
+            border-image: linear-gradient(45deg, transparent, rgba(59, 130, 246, 0.3), transparent) 1;
+        }
+        100% {
+            border-image: linear-gradient(45deg, transparent, rgba(139, 92, 246, 0.3), transparent) 1;
+        }
+    }
+
+    .animate-border-flow {
+        animation: border-flow 3s linear infinite;
+    }
+
+    /* Hide scrollbar but keep functionality */
+    .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Smooth scroll behavior */
+    .overflow-x-auto {
+        scroll-behavior: smooth;
+    }
+
+    /* Mobile card navigation */
+    @media (max-width: 768px) {
+        .overflow-x-auto {
+            display: flex;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .futuristic-card {
+            scroll-snap-align: center;
+            width: 100%;
+            flex: 0 0 100%;
+        }
+
+        .scroll-left, .scroll-right {
+            transition: opacity 0.3s ease;
+        }
+
+        .scroll-left.hidden, .scroll-right.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all elements with animation classes
+        document.querySelectorAll('.fade-in-up, .fade-in, .scale-in').forEach((el) => {
+            observer.observe(el);
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    const headerOffset = 80; // Adjust based on your header height
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Mobile card navigation
+        const container = document.querySelector('.overflow-x-auto');
+        const prevButton = document.querySelector('.scroll-left');
+        const nextButton = document.querySelector('.scroll-right');
+        const cards = container.querySelectorAll('.futuristic-card');
+        
+        if (window.innerWidth < 768) {
+            let currentIndex = 0;
+            
+            function updateNavigation() {
+                prevButton.classList.toggle('hidden', currentIndex === 0);
+                nextButton.classList.toggle('hidden', currentIndex === cards.length - 1);
+            }
+
+            function scrollToCard(index) {
+                const card = cards[index];
+                container.scrollTo({
+                    left: card.offsetLeft,
+                    behavior: 'smooth'
+                });
+                currentIndex = index;
+                updateNavigation();
+            }
+
+            prevButton.addEventListener('click', () => {
+                if (currentIndex > 0) {
+                    scrollToCard(currentIndex - 1);
+                }
+            });
+
+            nextButton.addEventListener('click', () => {
+                if (currentIndex < cards.length - 1) {
+                    scrollToCard(currentIndex + 1);
+                }
+            });
+
+            // Initial state
+            updateNavigation();
+
+            // Update on scroll
+            container.addEventListener('scroll', () => {
+                const scrollLeft = container.scrollLeft;
+                const cardWidth = cards[0].offsetWidth;
+                currentIndex = Math.round(scrollLeft / cardWidth);
+                updateNavigation();
+            });
+        }
+    });
+</script>
+{% endblock %} 
