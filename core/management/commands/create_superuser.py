@@ -5,24 +5,22 @@ class Command(BaseCommand):
     help = 'Creates or updates a superuser with predefined credentials'
 
     def handle(self, *args, **options):
-        user, created = User.objects.get_or_create(
+        # Delete existing admin user if it exists
+        User.objects.filter(username='admin').delete()
+        
+        # Create new superuser
+        user = User.objects.create_superuser(
             username='admin',
-            defaults={
-                'email': 'christopherombwori06@gmail.com',
-                'is_staff': True,
-                'is_superuser': True
-            }
+            email='christopherombwori06@gmail.com',
+            password='kali'
         )
         
-        if not created:
-            user.email = 'christopherombwori06@gmail.com'
-            user.is_staff = True
-            user.is_superuser = True
+        # Print user details for debugging
+        self.stdout.write(self.style.SUCCESS(f'User details:'))
+        self.stdout.write(f'Username: {user.username}')
+        self.stdout.write(f'Email: {user.email}')
+        self.stdout.write(f'Is staff: {user.is_staff}')
+        self.stdout.write(f'Is superuser: {user.is_superuser}')
+        self.stdout.write(f'Is active: {user.is_active}')
         
-        user.set_password('kali')
-        user.save()
-        
-        if created:
-            self.stdout.write(self.style.SUCCESS('Superuser created successfully'))
-        else:
-            self.stdout.write(self.style.SUCCESS('Superuser updated successfully')) 
+        self.stdout.write(self.style.SUCCESS('Superuser created successfully')) 
