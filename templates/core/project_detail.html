@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ project.title }} - TFuture Designs{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-primary relative overflow-hidden">
+    <!-- Project Header -->
+    <section class="relative py-16">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-[90rem] mx-auto">
+                <div class="mb-12">
+                    <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-4 text-white">
+                        {{ project.title }}
+                    </h1>
+                    <div class="flex flex-wrap gap-4 text-gray-300">
+                        <div>
+                            <span class="text-accent">Client:</span> {{ project.client }}
+                        </div>
+                        <div>
+                            <span class="text-accent">Industry:</span> {{ project.industry }}
+                        </div>
+                        <div>
+                            <span class="text-accent">Category:</span> {{ project.get_category_display }}
+                        </div>
+                        <div>
+                            <span class="text-accent">Subcategory:</span> {{ project.get_subcategory_display }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Gallery -->
+    <section class="relative pb-16">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-[90rem] mx-auto">
+                <div class="grid grid-cols-1 gap-8">
+                    {% for image in project.images.all %}
+                    <div class="project-image-container fade-in-up">
+                        <div class="relative overflow-hidden rounded-lg">
+                            <img src="{{ image.image.url }}" 
+                                 alt="{{ image.caption|default:project.title }}" 
+                                 class="w-full h-auto object-cover cursor-zoom-in"
+                                 loading="lazy">
+                            {% if image.caption %}
+                            <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
+                                <p class="text-white text-sm">{{ image.caption }}</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="fixed inset-0 z-50 hidden bg-black/90">
+        <div class="absolute inset-0 flex items-center justify-center p-4">
+            <img id="modalImage" src="" alt="" class="max-w-full max-h-[90vh] object-contain">
+        </div>
+        <button id="closeModal" class="absolute top-4 right-4 text-white hover:text-accent transition-colors">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .project-image-container {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .project-image-container.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .project-image-container img {
+        transition: transform 0.3s ease;
+    }
+
+    .project-image-container img:hover {
+        transform: scale(1.02);
+    }
+
+    #imageModal {
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    #imageModal.active {
+        opacity: 1;
+    }
+
+    #modalImage {
+        transform: scale(0.9);
+        transition: transform 0.3s ease;
+    }
+
+    #imageModal.active #modalImage {
+        transform: scale(1);
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Intersection Observer for scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        document.querySelectorAll('.project-image-container').forEach((el) => {
+            observer.observe(el);
+        });
+
+        // Image Modal
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        const closeModal = document.getElementById('closeModal');
+        const projectImages = document.querySelectorAll('.project-image-container img');
+
+        projectImages.forEach(img => {
+            img.addEventListener('click', () => {
+                modalImg.src = img.src;
+                modalImg.alt = img.alt;
+                modal.classList.remove('hidden');
+                setTimeout(() => modal.classList.add('active'), 10);
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        function closeImageModal() {
+            modal.classList.remove('active');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        closeModal.addEventListener('click', closeImageModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeImageModal();
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeImageModal();
+        });
+    });
+</script>
+{% endblock %} 
