@@ -156,6 +156,7 @@
         position: relative;
         overflow: hidden;
         transition: all 0.3s ease;
+        border: 1px solid transparent;
     }
 
     .filter-btn::after {
@@ -178,6 +179,7 @@
 
     .filter-btn.active {
         background: rgba(100, 255, 218, 0.2);
+        border: 1px solid rgba(100, 255, 218, 0.3);
         box-shadow: 0 0 20px rgba(100, 255, 218, 0.2);
         transform: translateY(-2px);
     }
@@ -193,12 +195,14 @@
         mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
         -webkit-mask-composite: xor;
         mask-composite: exclude;
+        opacity: 1;
     }
 
     .sub-filter-btn {
         position: relative;
         overflow: hidden;
         transition: all 0.3s ease;
+        border: 1px solid transparent;
     }
 
     .sub-filter-btn::after {
@@ -221,6 +225,7 @@
 
     .sub-filter-btn.active {
         background: rgba(100, 255, 218, 0.2);
+        border: 1px solid rgba(100, 255, 218, 0.3);
         box-shadow: 0 0 20px rgba(100, 255, 218, 0.2);
         transform: translateY(-2px);
     }
@@ -236,6 +241,7 @@
         mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
         -webkit-mask-composite: xor;
         mask-composite: exclude;
+        opacity: 1;
     }
 
     /* Portfolio Item Hover Effects */
@@ -472,6 +478,23 @@
             });
         }
 
+        // Function to create or get "Show All" button
+        function getShowAllButton(container) {
+            let showAllBtn = container.querySelector('.show-all-btn');
+            if (!showAllBtn) {
+                showAllBtn = document.createElement('button');
+                showAllBtn.className = 'sub-filter-btn show-all-btn px-4 py-1 rounded-full bg-accent/5 hover:bg-accent/10 text-accent transition-all active';
+                showAllBtn.textContent = 'Show All';
+                showAllBtn.setAttribute('data-subfilter', 'all');
+                container.insertBefore(showAllBtn, container.firstChild);
+                showAllBtn.addEventListener('click', () => {
+                    updateActiveButton(showAllBtn, true);
+                    showAllInCategory(container.id === 'brand-subcategories' ? 'brand-identity' : 'communication-kits');
+                });
+            }
+            return showAllBtn;
+        }
+
         // Main filter functionality
         filterButtons.forEach(button => {
             button.addEventListener('click', () => {
@@ -492,43 +515,19 @@
                 if (filter === 'brand-identity') {
                     brandSubcategories.classList.remove('hidden');
                     communicationSubcategories.classList.add('hidden');
-                    // Add "Show All" button if it doesn't exist
-                    if (!document.querySelector('#brand-subcategories .show-all-btn')) {
-                        const showAllBtn = document.createElement('button');
-                        showAllBtn.className = 'sub-filter-btn px-4 py-1 rounded-full bg-accent/5 hover:bg-accent/10 text-accent transition-all active';
-                        showAllBtn.textContent = 'Show All';
-                        showAllBtn.setAttribute('data-subfilter', 'all');
-                        brandSubcategories.insertBefore(showAllBtn, brandSubcategories.firstChild);
-                        showAllBtn.addEventListener('click', () => {
-                            updateActiveButton(showAllBtn, true);
-                            showAllInCategory('brand-identity');
-                        });
-                    }
+                    const showAllBtn = getShowAllButton(brandSubcategories);
+                    updateActiveButton(showAllBtn, true);
+                    showAllInCategory('brand-identity');
                 } else if (filter === 'communication-kits') {
                     brandSubcategories.classList.add('hidden');
                     communicationSubcategories.classList.remove('hidden');
-                    // Add "Show All" button if it doesn't exist
-                    if (!document.querySelector('#communication-subcategories .show-all-btn')) {
-                        const showAllBtn = document.createElement('button');
-                        showAllBtn.className = 'sub-filter-btn px-4 py-1 rounded-full bg-accent/5 hover:bg-accent/10 text-accent transition-all active';
-                        showAllBtn.textContent = 'Show All';
-                        showAllBtn.setAttribute('data-subfilter', 'all');
-                        communicationSubcategories.insertBefore(showAllBtn, communicationSubcategories.firstChild);
-                        showAllBtn.addEventListener('click', () => {
-                            updateActiveButton(showAllBtn, true);
-                            showAllInCategory('communication-kits');
-                        });
-                    }
+                    const showAllBtn = getShowAllButton(communicationSubcategories);
+                    updateActiveButton(showAllBtn, true);
+                    showAllInCategory('communication-kits');
                 } else {
                     brandSubcategories.classList.add('hidden');
                     communicationSubcategories.classList.add('hidden');
                 }
-
-                // Reset subcategory buttons
-                subFilterButtons.forEach(btn => {
-                    btn.classList.remove('active');
-                    btn.classList.remove('bg-accent/20');
-                });
             });
         });
 

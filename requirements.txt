@@ -6,3 +6,5 @@ sqlparse==0.5.1
 typing_extensions==4.12.2
 whitenoise==6.6.0
 pillow
+psycopg2-binary==2.9.10
+python-dotenv==1.1.0

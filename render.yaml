@@ -14,4 +14,22 @@ services:
       - key: DEBUG
         value: false
       - key: ALLOWED_HOSTS
-        value: .onrender.com 
+        value: .onrender.com
+      - key: DB_NAME
+        value: tfuture
+      - key: DB_USER
+        value: tfuture_user
+      - key: DB_PASSWORD
+        fromService:
+          type: postgres
+          name: dpg-d12krrp5pdvs73crgo70-a
+          property: password
+      - key: DB_HOST
+        value: dpg-d12krrp5pdvs73crgo70-a
+      - key: DB_PORT
+        value: 5432
+
+  - type: postgres
+    name: tfuture-db
+    plan: free
+    ipAllowList: [] 
