@@ -5,6 +5,7 @@ services:
     buildCommand: |
       pip install -r requirements.txt
       python manage.py collectstatic --noinput
+      python manage.py migrate
     startCommand: gunicorn TFuture.wsgi:application
     envVars:
       - key: PYTHON_VERSION
@@ -14,5 +15,5 @@ services:
       - key: DEBUG
         value: false
       - key: ALLOWED_HOSTS
-        value: .onrender.com
-    staticPublishPath: ./staticfiles 
+        value: .onrender.com, tfuturedesigns.studio, www.tfuturedesigns.studio
+    staticPublishPath: ./staticfiles
