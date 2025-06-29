@@ -12,6 +12,9 @@ def terms(request):
 def about(request):
     return render(request, 'core/about.html')
 
+def products(request):
+    return render(request, 'core/products.html')
+
 def portfolio(request): 
     projects = Project.objects.all().order_by('-created_at')
     print("Projects in view:", list(projects.values('title', 'slug')))  # Debug output
