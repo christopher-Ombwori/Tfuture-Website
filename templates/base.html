@@ -103,6 +103,40 @@
     <main class="pt-16">
         {% block content %}{% endblock %}
     </main>
+    <!-- Brevo Popup iframe (hidden by default) -->
+    <iframe id="brevo-popup"
+            src="{% static 'brevo-frame.html' %}"
+            style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:9999; background:rgba(0,0,0,0.5); border:none;">
+    </iframe>
+    <!-- Close button for the popup -->
+    <button id="close-popup"
+            style="display:none; position:fixed; top:10px; right:10px; z-index:10000;">Close</button>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const popup = document.getElementById('brevo-popup');
+        const closeBtn = document.getElementById('close-popup');
+        // Listen for clicks on any button with the get-notified-btn class
+        document.querySelectorAll('.get-notified-btn').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            popup.style.display = 'block';
+            closeBtn.style.display = 'block';
+          });
+        });
+        closeBtn.addEventListener('click', function() {
+          popup.style.display = 'none';
+          closeBtn.style.display = 'none';
+        });
+        // Register service worker for sw.js
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register("sw.js")
+            .then(function(registration) {
+              console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            }, function(err) {
+              console.log('ServiceWorker registration failed: ', err);
+            });
+        }
+      });
+    </script>
 
     <!-- Footer -->
     <footer class="bg-secondary py-12">
@@ -150,7 +184,7 @@
     <!-- Scripts -->
     <script src="https://unpkg.com/alpinejs" defer></script>
     <script>
-        // Mobile menu functionality
+   // Mobile menu functionality
         document.addEventListener('DOMContentLoaded', function() {
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
