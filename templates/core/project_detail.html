@@ -4,6 +4,18 @@
 {% block title %}{{ project.title }} - TFuture Designs{% endblock %}
 
 {% block content %}
+<!-- Brevo Tracker -->
+<script src="https://cdn.brevo.com/js/sdk-loader.js" async></script>
+<script>
+    // Version: 2.0
+    window.Brevo = window.Brevo || [];
+    Brevo.push([
+        "init",
+        {
+        client_key: "58430jpbd8g7yb3d4rolzm9n"
+        }
+    ]);
+</script>
 <div class="min-h-screen bg-primary relative overflow-hidden">
     <!-- Project Header -->
     <section class="relative py-16">

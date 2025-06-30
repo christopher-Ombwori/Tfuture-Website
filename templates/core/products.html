@@ -1,6 +1,19 @@
 {% extends 'base.html' %}
 {% load static %}
 
+<!-- Brevo Tracker -->
+<script src="https://cdn.brevo.com/js/sdk-loader.js" async></script>
+<script>
+    // Version: 2.0
+    window.Brevo = window.Brevo || [];
+    Brevo.push([
+        "init",
+        {
+        client_key: "58430jpbd8g7yb3d4rolzm9n"
+        }
+    ]);
+</script>
+
 {% block extra_css %}
 <style>
     .font-display { font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif; }
