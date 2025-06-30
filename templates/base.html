@@ -118,32 +118,36 @@
     <main class="pt-16">
         {% block content %}{% endblock %}
     </main>
-    <!-- Brevo Popup iframe (hidden by default) -->
-    <iframe id="brevo-popup"
-            src="/brevo-frame.html"
-            style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:9999; background:rgba(0,0,0,0.5); border:none;">
-    </iframe>
-    <!-- Close button for the popup -->
-    <button id="close-popup"
-            style="display:none; position:fixed; top:10px; right:10px; z-index:10000;">Close</button>
+    <!-- Brevo Popup Overlay (hidden by default) -->
+    <div id="brevo-popup-overlay" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:9999; background:rgba(10,25,47,0.95); display:flex; justify-content:center; align-items:center;">
+        <div style="position:relative; display:flex; justify-content:center; align-items:center;">
+            <iframe
+                id="brevo-popup"
+                src="https://f2984f4a.sibforms.com/serve/MUIFAEjrHVk_DEDA84WvrnmaF52pCQKIjYZoYiX84LB31paMaFdeufcy6vPUbRPpFYvRAv3JWoRjkd6Q_Q3n7glAj3eSJJvbw3CshAWmMuW2XIZyHaQNFC9sZ0FozSW3SIgUJV8KdnRyOaIRVZIhKvat7J1s5yUNqrO5_zjYPQi8ssAnNp6d5n8lRNX2-Nl5kBpWUt5VQpjH-kD4"
+                frameborder="0"
+                scrolling="auto"
+                allowfullscreen
+                style="background:#112240; border-radius:12px; box-shadow:0 0 30px #64FFDA55; border:none; margin:0; padding:0; width:540px; height:540px; max-width:90vw; max-height:90vh;">
+            </iframe>
+            <button id="close-popup" style="position:absolute; top:10px; right:10px; background:#64FFDA; color:#0A192F; border:none; border-radius:50%; width:36px; height:36px; font-size:1.5rem; font-weight:bold; cursor:pointer; box-shadow:0 2px 8px #0002;">&times;</button>
+        </div>
+    </div>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
-        const popup = document.getElementById('brevo-popup');
+        const overlay = document.getElementById('brevo-popup-overlay');
         const closeBtn = document.getElementById('close-popup');
         // Listen for clicks on any button with the get-notified-btn class
         document.querySelectorAll('.get-notified-btn').forEach(function(btn) {
           btn.addEventListener('click', function() {
-            popup.style.display = 'block';
-            closeBtn.style.display = 'block';
+            overlay.style.display = 'flex';
           });
         });
         closeBtn.addEventListener('click', function() {
-          popup.style.display = 'none';
-          closeBtn.style.display = 'none';
+          overlay.style.display = 'none';
         });
         // Register service worker for sw.js
         if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.register("sw.js")
+          navigator.serviceWorker.register("/sw.js")
             .then(function(registration) {
               console.log('ServiceWorker registration successful with scope: ', registration.scope);
             }, function(err) {
