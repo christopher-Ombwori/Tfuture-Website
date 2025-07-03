@@ -22,7 +22,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.views.generic import TemplateView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('my-admin-futuristic', admin.site.urls),
     path('', include('core.urls')),
     path('sw.js', TemplateView.as_view(template_name='sw.js', content_type='application/javascript')),
     path('brevo-frame.html', TemplateView.as_view(template_name='brevo-frame.html', content_type='text/html')),
