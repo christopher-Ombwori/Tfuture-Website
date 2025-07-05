@@ -1,10 +1,17 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Project
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
+import json
+from .models import Project, Service, ServiceRequest
 
 # Create your views here.
 
 def home(request):
-    return render(request, 'core/home.html')
+    services = Service.objects.filter(is_active=True).order_by('order')
+    return render(request, 'core/home.html', {
+        'services': services
+    })
 
 def terms(request):
     return render(request, 'core/terms.html')
@@ -27,3 +34,59 @@ def project_detail(request, slug):
     return render(request, 'core/project_detail.html', {
         'project': project
     })
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def submit_service_request(request):
+    try:
+        data = json.loads(request.body)
+        
+        # Extract form data
+        first_name = data.get('first_name')
+        last_name = data.get('last_name')
+        email = data.get('email')
+        phone = data.get('phone')
+        service_id = data.get('service_id')
+        message = data.get('message')
+        
+        # Validate required fields
+        if not all([first_name, last_name, email, phone, service_id, message]):
+            return JsonResponse({
+                'success': False,
+                'message': 'All fields are required'
+            }, status=400)
+        
+        # Get the service
+        try:
+            service = Service.objects.get(id=service_id, is_active=True)
+        except Service.DoesNotExist:
+            return JsonResponse({
+                'success': False,
+                'message': 'Invalid service selected'
+            }, status=400)
+        
+        # Save the service request
+        ServiceRequest.objects.create(
+            service=service,
+            first_name=first_name,
+            last_name=last_name,
+            email=email,
+            phone=phone,
+            message=message
+        )
+        
+        return JsonResponse({
+            'success': True,
+            'message': 'Thank you! We\'ll get back to you within 24 hours.'
+        })
+        
+    except json.JSONDecodeError:
+        return JsonResponse({
+            'success': False,
+            'message': 'Invalid request data'
+        }, status=400)
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'message': 'An error occurred. Please try again.'
+        }, status=500)
