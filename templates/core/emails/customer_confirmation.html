@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Request Confirmation - TFuture</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .email-container {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #8B5CF6;
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #8B5CF6;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #6B7280;
+            font-size: 16px;
+        }
+        .success-alert {
+            background: linear-gradient(135deg, #10B981, #059669);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .success-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+        .success-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .success-subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        .info-section {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .info-item:last-child {
+            border-bottom: none;
+        }
+        .info-label {
+            font-weight: bold;
+            color: #374151;
+        }
+        .info-value {
+            color: #1F2937;
+        }
+        .next-steps {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3B82F6;
+            margin-bottom: 20px;
+        }
+        .next-steps h3 {
+            color: #1e40af;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        .step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        .step-number {
+            background: #3B82F6;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        .step-text {
+            color: #1F2937;
+            line-height: 1.5;
+        }
+        .contact-info {
+            background-color: #fef3c7;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #f59e0b;
+            margin-bottom: 20px;
+        }
+        .contact-info h3 {
+            color: #92400e;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .contact-icon {
+            margin-right: 10px;
+            color: #f59e0b;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+            color: #6B7280;
+            font-size: 14px;
+        }
+        .social-links {
+            margin-top: 15px;
+        }
+        .social-link {
+            display: inline-block;
+            margin: 0 10px;
+            color: #8B5CF6;
+            text-decoration: none;
+        }
+        @media (max-width: 600px) {
+            .info-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .info-value {
+                margin-top: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <div class="logo">TFuture</div>
+            <div class="subtitle">Brand & Design Studio</div>
+        </div>
+
+        <div class="success-alert">
+            <div class="success-icon">✅</div>
+            <div class="success-title">Request Received!</div>
+            <div class="success-subtitle">Thank you for choosing TFuture</div>
+        </div>
+
+        <div class="info-section">
+            <h3 style="margin-top: 0; color: #1F2937;">Request Details</h3>
+            <div class="info-item">
+                <span class="info-label">Name:</span>
+                <span class="info-value">{{ first_name }} {{ last_name }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Service:</span>
+                <span class="info-value">{{ service_name }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Request ID:</span>
+                <span class="info-value">#{{ request_id }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Submitted:</span>
+                <span class="info-value">{{ created_at|date:"F j, Y" }} at {{ created_at|time:"g:i A" }}</span>
+            </div>
+        </div>
+
+        <div class="next-steps">
+            <h3>What Happens Next?</h3>
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-text">Our team will review your request within the next few hours</div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-text">We'll contact you within 24 hours to discuss your project details</div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-text">We'll provide a customized proposal and timeline for your project</div>
+            </div>
+        </div>
+
+        <div class="contact-info">
+            <h3>Need to reach us?</h3>
+            <div class="contact-item">
+                <span class="contact-icon">📧</span>
+                <span>Email: hello@tfuture.com</span>
+            </div>
+            <div class="contact-item">
+                <span class="contact-icon">📱</span>
+                <span>Phone: +1 (555) 123-4567</span>
+            </div>
+            <div class="contact-item">
+                <span class="contact-icon">🌐</span>
+                <span>Website: www.tfuture.com</span>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Thank you for choosing TFuture for your brand and design needs!</p>
+            <div class="social-links">
+                <a href="#" class="social-link">Instagram</a>
+                <a href="#" class="social-link">LinkedIn</a>
+                <a href="#" class="social-link">Twitter</a>
+            </div>
+            <p style="margin-top: 15px; font-size: 12px;">
+                This is an automated confirmation. Please do not reply to this email.
+            </p>
+        </div>
+    </div>
+</body>
+</html> 

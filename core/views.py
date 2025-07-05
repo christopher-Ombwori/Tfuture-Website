@@ -4,6 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 import json
 from .models import Project, Service, ServiceRequest
+from .email_utils import send_service_request_emails
 
 # Create your views here.
 
@@ -66,7 +67,7 @@ def submit_service_request(request):
             }, status=400)
         
         # Save the service request
-        ServiceRequest.objects.create(
+        service_request = ServiceRequest.objects.create(
             service=service,
             first_name=first_name,
             last_name=last_name,
@@ -75,9 +76,20 @@ def submit_service_request(request):
             message=message
         )
         
+        # Send email notifications
+        try:
+            email_results = send_service_request_emails(service_request)
+            if email_results['all_sent']:
+                email_status = 'Emails sent successfully'
+            else:
+                email_status = 'Some emails failed to send'
+        except Exception as e:
+            email_status = f'Email error: {str(e)}'
+        
         return JsonResponse({
             'success': True,
-            'message': 'Thank you! We\'ll get back to you within 24 hours.'
+            'message': 'Thank you! We\'ll get back to you within 24 hours.',
+            'email_status': email_status
         })
         
     except json.JSONDecodeError:
