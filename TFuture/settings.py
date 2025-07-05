@@ -14,6 +14,9 @@ import os
 from pathlib import Path
 from decouple import config
 
+# Load environment variables from .env file
+# You can copy .env.dev or .env.prod to .env based on your environment
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -154,4 +157,4 @@ if not DEBUG:
     # Add this to serve static files in production
     WHITENOISE_USE_FINDERS = config('WHITENOISE_USE_FINDERS', default=True, cast=bool)
     WHITENOISE_MANIFEST_STRICT = config('WHITENOISE_MANIFEST_STRICT', default=False, cast=bool)
-    WHITENOISE_ALLOW_ALL_ORIGINS = config('WHITENOISE_ALLOW_ALL_ORIGINS', default=True, cast=bool)
+WHITENOISE_ALLOW_ALL_ORIGINS = config('WHITENOISE_ALLOW_ALL_ORIGINS', default=True, cast=bool)
