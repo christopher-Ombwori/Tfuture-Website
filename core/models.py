@@ -105,13 +105,28 @@ class ProjectImage(models.Model):
         return f"{self.project.title} - Image {self.order}"
 
 class ServiceRequest(models.Model):
+    STATUS_CHOICES = [
+        ('new', 'New'),
+        ('in_progress', 'In Progress'),
+        ('contacted', 'Contacted'),
+        ('completed', 'Completed'),
+        ('spam', 'Spam'),
+        ('cancelled', 'Cancelled'),
+    ]
+    
     service = models.ForeignKey('Service', on_delete=models.CASCADE, related_name='requests')
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     email = models.EmailField()
     phone = models.CharField(max_length=30)
     message = models.TextField()
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='new')
+    admin_notes = models.TextField(blank=True, help_text='Internal notes for this request')
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name} - {self.service.name}"
+        return f"{self.first_name} {self.last_name} - {self.service.name} ({self.get_status_display()})"
