@@ -14,7 +14,7 @@
 *.xml text eol=lf
 *.sql text eol=lf
 
-# Binary files (no line ending conversion)
+# Binary files (no line endin conversion)
 *.png binary
 *.jpg binary
 *.jpeg binary
