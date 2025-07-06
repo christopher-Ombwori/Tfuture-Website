@@ -1,0 +1,260 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+    .font-display { font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif; }
+    .text-gradient { background: linear-gradient(to right, #8B5CF6, #3B82F6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .bg-futuristic-dark { background-color: #0A0A0A; }
+    .animated-bg { position: relative; overflow: hidden; }
+    .animated-bg::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle at center, rgba(139,92,246,0.1) 0%, transparent 50%); animation: rotate-bg 20s linear infinite; }
+    
+    @keyframes rotate-bg {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    .coming-soon-container {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 2rem;
+    }
+    
+    .coming-soon-card {
+        background: rgba(255,255,255,0.03);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 24px;
+        padding: 4rem 2rem;
+        max-width: 600px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .coming-soon-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(139,92,246,0.1), rgba(59,130,246,0.1));
+        border-radius: 24px;
+        z-index: -1;
+    }
+    
+    .coming-soon-icon {
+        font-size: 4rem;
+        margin-bottom: 1.5rem;
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+    }
+    
+    .coming-soon-title {
+        font-size: 3rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #8B5CF6, #3B82F6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .coming-soon-subtitle {
+        font-size: 1.25rem;
+        color: #9CA3AF;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+    }
+    
+    .coming-soon-description {
+        color: #D1D5DB;
+        margin-bottom: 2.5rem;
+        line-height: 1.7;
+        font-size: 1.1rem;
+    }
+    
+    .notification-form {
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 12px;
+        padding: 2rem;
+        margin-top: 2rem;
+    }
+    
+    .notification-input {
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        color: white;
+        width: 100%;
+        margin-bottom: 1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .notification-input:focus {
+        outline: none;
+        border-color: #8B5CF6;
+        box-shadow: 0 0 0 3px rgba(139,92,246,0.1);
+    }
+    
+    .notification-button {
+        background: linear-gradient(135deg, #8B5CF6, #3B82F6);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 0.75rem 2rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 100%;
+    }
+    
+    .notification-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(139,92,246,0.3);
+    }
+    
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-top: 3rem;
+    }
+    
+    .feature-item {
+        background: rgba(255,255,255,0.02);
+        border: 1px solid rgba(255,255,255,0.05);
+        border-radius: 12px;
+        padding: 1.5rem;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+    
+    .feature-item:hover {
+        transform: translateY(-5px);
+        background: rgba(255,255,255,0.05);
+    }
+    
+    .feature-icon {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        color: #8B5CF6;
+    }
+    
+    .feature-title {
+        font-weight: 600;
+        color: white;
+        margin-bottom: 0.5rem;
+    }
+    
+    .feature-description {
+        color: #9CA3AF;
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+    
+    @media (max-width: 768px) {
+        .coming-soon-title {
+            font-size: 2rem;
+        }
+        
+        .coming-soon-subtitle {
+            font-size: 1.1rem;
+        }
+        
+        .features-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="animated-bg min-h-screen bg-futuristic-dark">
+    <div class="coming-soon-container">
+        <div class="coming-soon-card">
+            <div class="coming-soon-icon">📝</div>
+            <h1 class="coming-soon-title">Blog Coming Soon</h1>
+            <p class="coming-soon-subtitle">We're crafting something amazing for you</p>
+            <p class="coming-soon-description">
+                Our blog is under construction, but we're working hard to bring you insightful articles about branding, design, and business growth. Stay tuned for valuable content that will help you build your brand and grow your business.
+            </p>
+            
+            <div class="notification-form">
+                <h3 class="text-white font-semibold mb-4">Get Notified When We Launch</h3>
+                <form id="notifyForm" class="space-y-4">
+                    <input type="email" placeholder="Enter your email address" class="notification-input" required>
+                    <button type="submit" class="notification-button">Notify Me</button>
+                </form>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">🎨</div>
+                    <h4 class="feature-title">Brand Insights</h4>
+                    <p class="feature-description">Expert tips on building memorable brands</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">💡</div>
+                    <h4 class="feature-title">Design Tips</h4>
+                    <p class="feature-description">Professional design strategies and trends</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🚀</div>
+                    <h4 class="feature-title">Business Growth</h4>
+                    <p class="feature-description">Strategies to scale your business</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Handle notification form submission
+    document.getElementById('notifyForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const email = e.target.querySelector('input[type="email"]').value;
+        
+        // Show success message
+        alert('Thank you! We\'ll notify you when our blog launches.');
+        e.target.reset();
+    });
+    
+    // Add some interactive animations
+    document.addEventListener('DOMContentLoaded', function() {
+        const featureItems = document.querySelectorAll('.feature-item');
+        
+        featureItems.forEach((item, index) => {
+            item.style.animationDelay = `${index * 0.1}s`;
+            item.classList.add('fade-in-up');
+        });
+    });
+    
+    // Add fade-in animation
+    const style = document.createElement('style');
+    style.textContent = `
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    `;
+    document.head.appendChild(style);
+</script>
+{% endblock %} 
