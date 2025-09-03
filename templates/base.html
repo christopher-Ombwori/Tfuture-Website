@@ -36,6 +36,9 @@
         }
     </script>
     
+    <!-- Font Awesome (for social icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2Pkf6M3Ea9HqZ8cwYVbVQxN0Pp1jFK/T5dFIF8Da1j7H3F6lW3W9zXf2Nw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
     <!-- Custom CSS -->
     <style>
         body {
@@ -47,8 +50,10 @@
         }
         .gradient-text {
             background: linear-gradient(45deg, #64FFDA, #7B68EE);
+            background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            color: transparent;
         }
     </style>
     
@@ -86,13 +91,15 @@
                 </button>
 
                 <!-- Desktop Navigation -->
-                <div class="hidden md:flex items-center justify-between flex-1 max-w-sm mx-auto px-10">
-                    <a href="/" class="hover:text-accent transition-colors font-medium">Home</a>
-                    <a href="{% url 'core:portfolio' %}" class="hover:text-accent transition-colors font-medium">Portfolio</a>
-                    <a href="{% url 'core:products' %}" class="hover:text-accent transition-colors font-medium">Products</a>
-                    <a href="{% url 'core:blog' %}" class="hover:text-accent transition-colors font-medium">Blog</a>
-                    <a href="{% url 'core:about' %}" class="hover:text-accent transition-colors font-medium">About Us</a>
+                {% with current=request.resolver_match.url_name %}
+                <div class="hidden md:flex items-center gap-8 mx-auto px-10">
+                    <a href="/" class="transition-colors font-medium hover:text-accent {% if current == 'home' %}text-accent{% endif %}">Home</a>
+                    <a href="{% url 'core:portfolio' %}" class="transition-colors font-medium hover:text-accent {% if current == 'portfolio' %}text-accent{% endif %}">Our Work</a>
+                    <a href="{% url 'core:products' %}" class="transition-colors font-medium hover:text-accent {% if current == 'products' %}text-accent{% endif %}">Products</a>
+                    <a href="{% url 'core:blog' %}" class="transition-colors font-medium hover:text-accent {% if current == 'blog' %}text-accent{% endif %}">Information Hub</a>
+                    <a href="{% url 'core:about' %}" class="transition-colors font-medium hover:text-accent {% if current == 'about' %}text-accent{% endif %}">About Us</a>
                 </div>
+                {% endwith %}
 
                 <!-- Contact Button -->
                 <div class="hidden md:block">
@@ -104,9 +111,9 @@
             <div id="mobile-menu" class="md:hidden hidden">
                 <div class="pt-4 pb-3 space-y-3">
                     <a href="/" class="block px-3 py-2 text-base font-medium hover:text-accent transition-colors">Home</a>
-                    <a href="{% url 'core:portfolio' %}" class="block px-3 py-2 text-base font-medium hover:text-accent transition-colors">Portfolio</a>
+                    <a href="{% url 'core:portfolio' %}" class="block px-3 py-2 text-base font-medium hover:text-accent transition-colors">Our Work</a>
                     <a href="{% url 'core:products' %}" class="block px-3 py-2 text-base font-medium hover:text-accent transition-colors">Products</a>
-                    <a href="{% url 'core:blog' %}" class="block px-3 py-2 text-base font-medium hover:text-accent transition-colors">Blog</a>
+                    <a href="{% url 'core:blog' %}" class="block px-3 py-2 text-base font-medium hover:text-accent transition-colors">Information Hub</a>
                     <a href="{% url 'core:about' %}" class="block px-3 py-2 text-base font-medium hover:text-accent transition-colors">About Us</a>
                     <div class="px-3 pt-2">
                         <button onclick="openServiceModal('General Inquiry')" class="block w-full bg-accent hover:bg-accent/80 text-primary rounded-full px-6 py-2 text-sm font-medium text-center transition-all hover:scale-105">Contact Us</button>
@@ -192,11 +199,33 @@
                 </div>
                 <div>
                     <h4 class="font-semibold mb-4">Follow Us</h4>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-gray-400 hover:text-accent">LinkedIn</a>
-                        <a href="#" class="text-gray-400 hover:text-accent">Instagram</a>
-                        <a href="#" class="text-gray-400 hover:text-accent">Tiktok</a>
-                    </div>
+                    <ul class="space-y-2">
+                        <li>
+                            <a href="https://www.linkedin.com/company/tfuture-designs/" class="text-gray-400 hover:text-accent">
+                                LinkedIn
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.instagram.com/t.tfuture/" class="text-gray-400 hover:text-accent">
+                                Instagram
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.facebook.com/profile.php?id=61574848637945" class="text-gray-400 hover:text-accent">
+                                Facebook
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.tiktok.com/@tfuturedesigns" class="text-gray-400 hover:text-accent">
+                                TikTok
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.behance.net/TFuturedesigns" class="text-gray-400 hover:text-accent">
+                                Behance
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
             <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">

@@ -10,8 +10,10 @@ from .email_utils import send_service_request_emails
 
 def home(request):
     services = Service.objects.filter(is_active=True).order_by('order')
+    featured_projects = Project.objects.all().order_by('-created_at')[:4]
     return render(request, 'core/home.html', {
-        'services': services
+        'services': services,
+        'featured_projects': featured_projects,
     })
 
 def terms(request):
