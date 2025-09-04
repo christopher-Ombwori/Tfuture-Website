@@ -1,4 +1,5 @@
 {% load static %}
+{% load wagtailcore_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -94,7 +95,13 @@
                 {% with current=request.resolver_match.url_name %}
                 <div class="hidden md:flex items-center gap-8 mx-auto px-10">
                     <a href="/" class="transition-colors font-medium hover:text-accent {% if current == 'home' %}text-accent{% endif %}">Home</a>
-                    <a href="{% url 'core:portfolio' %}" class="transition-colors font-medium hover:text-accent {% if current == 'portfolio' %}text-accent{% endif %}">Our Work</a>
+                    {% if our_work_page %}
+                    <a href="{% pageurl our_work_page %}" 
+                    class="transition-colors font-medium hover:text-accent {% if current == 'our_work_page' %}text-accent{% endif %}">
+                  Our Work
+                </a>
+                {% endif %}
+
                     <a href="{% url 'core:products' %}" class="transition-colors font-medium hover:text-accent {% if current == 'products' %}text-accent{% endif %}">Products</a>
                     <a href="{% url 'core:blog' %}" class="transition-colors font-medium hover:text-accent {% if current == 'blog' %}text-accent{% endif %}">Information Hub</a>
                     <a href="{% url 'core:about' %}" class="transition-colors font-medium hover:text-accent {% if current == 'about' %}text-accent{% endif %}">About Us</a>
@@ -111,7 +118,9 @@
             <div id="mobile-menu" class="md:hidden hidden">
                 <div class="pt-4 pb-3 space-y-3">
                     <a href="/" class="block px-3 py-2 text-base font-medium hover:text-accent transition-colors">Home</a>
-                    <a href="{% url 'core:portfolio' %}" class="block px-3 py-2 text-base font-medium hover:text-accent transition-colors">Our Work</a>
+                    {% if our_work_page %}
+                    <a href="{% pageurl our_work_page %}" class="block px-3 py-2 text-base font-medium hover:text-accent transition-colors">Our Work</a>
+                    {% endif %}
                     <a href="{% url 'core:products' %}" class="block px-3 py-2 text-base font-medium hover:text-accent transition-colors">Products</a>
                     <a href="{% url 'core:blog' %}" class="block px-3 py-2 text-base font-medium hover:text-accent transition-colors">Information Hub</a>
                     <a href="{% url 'core:about' %}" class="block px-3 py-2 text-base font-medium hover:text-accent transition-colors">About Us</a>
@@ -184,7 +193,9 @@
                     <h4 class="font-semibold mb-4">Quick Links</h4>
                     <ul class="space-y-2">
                         <li><a href="{% url 'core:about' %}" class="text-gray-400 hover:text-accent">About</a></li>
-                        <li><a href="{% url 'core:portfolio' %}" class="text-gray-400 hover:text-accent">Portfolio</a></li>
+                        {% if our_work_page %}
+                        <li><a href="{% pageurl our_work_page %}" class="text-gray-400 hover:text-accent">Our Work</a></li>
+                        {% endif %}
                         <li><a href="{% url 'core:products' %}" class="text-gray-400 hover:text-accent">Products</a></li>
                         <li><a href="#services" class="text-gray-400 hover:text-accent">Services</a></li>
                         <li><a href="{% url 'core:terms' %}" class="text-gray-400 hover:text-accent">Terms of Service</a></li>

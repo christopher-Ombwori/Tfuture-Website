@@ -1,5 +1,6 @@
-{% extends 'base.html' %}
-{% load static %}
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
 
 {% block title %}Portfolio - TFuture Designs{% endblock %}
 
@@ -70,7 +71,7 @@
         <div class="container mx-auto px-4 relative z-40 py-10 md:py-16">
             <div class="max-w-3xl mx-auto text-center parallax-content">
                 <h1 class="font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-6 parallax-text">
-                    Our <span class="text-gradient no-glow">Portfolio</span>
+                    Our <span class="text-gradient no-glow">Work</span>
                 </h1>
                 <p class="text-lg text-gray-300 mb-8 parallax-text">
                     Discover how we've helped brands transform their presence and create unforgettable experiences.
@@ -111,30 +112,23 @@
                             <!-- Main Filters -->
                             <div class="space-y-2 mb-6">
                                 <h4 class="text-sm font-medium text-accent/80 mb-3">Categories</h4>
-                                <button class="filter-btn w-full text-left px-4 py-3 rounded-lg bg-accent/10 hover:bg-accent/20 text-accent transition-all" data-filter="brand-identity">Brand & Visual Identity</button>
-                                <button class="filter-btn w-full text-left px-4 py-3 rounded-lg bg-accent/10 hover:bg-accent/20 text-accent transition-all" data-filter="communication-kits">Company Communication Kits</button>
-                                <button class="filter-btn w-full text-left px-4 py-3 rounded-lg bg-accent/10 hover:bg-accent/20 text-accent transition-all" data-filter="events">Events Experience</button>
-                                <button class="filter-btn w-full text-left px-4 py-3 rounded-lg bg-accent/10 hover:bg-accent/20 text-accent transition-all" data-filter="rollouts">Rollouts & Merchandise</button>
-                                <button class="filter-btn active w-full text-left px-4 py-3 rounded-lg bg-accent/10 hover:bg-accent/20 text-accent transition-all" data-filter="all">All</button>
+                                {% for cat in categories %}
+                                <button class="filter-btn w-full text-left px-4 py-3 rounded-lg bg-accent/10 hover:bg-accent/20 text-accent transition-all" data-filter-id="{{ cat.id }}">{{ cat.name }}</button>
+                                {% endfor %}
+                                <button class="filter-btn active w-full text-left px-4 py-3 rounded-lg bg-accent/10 hover:bg-accent/20 text-accent transition-all" data-filter-id="all">All</button>
                             </div>
 
-                            <!-- Brand Subcategories -->
-                            <div id="mobile-brand-subcategories" class="space-y-2 mb-6 hidden">
-                                <h4 class="text-sm font-medium text-accent/80 mb-3">Brand Identity Types</h4>
-                                <button class="sub-filter-btn w-full text-left px-4 py-3 rounded-lg bg-accent/5 hover:bg-accent/10 text-accent transition-all" data-subfilter="full-brand">Full Brand Identity</button>
-                                <button class="sub-filter-btn w-full text-left px-4 py-3 rounded-lg bg-accent/5 hover:bg-accent/10 text-accent transition-all" data-subfilter="visual-identity">Visual Identity</button>
-                                <button class="sub-filter-btn w-full text-left px-4 py-3 rounded-lg bg-accent/5 hover:bg-accent/10 text-accent transition-all" data-subfilter="logofolio">Logofolio</button>
+                            <!-- Dynamic Mobile Subcategories -->
+                            {% for cat in categories %}
+                            {% if cat.subcategories.all %}
+                            <div id="mobile-subcategories-{{ cat.id }}" class="space-y-2 mb-6 hidden">
+                                <h4 class="text-sm font-medium text-accent/80 mb-3">{{ cat.name }} Subcategories</h4>
+                                {% for sub in cat.subcategories.all %}
+                                <button class="sub-filter-btn w-full text-left px-4 py-3 rounded-lg bg-accent/5 hover:bg-accent/10 text-accent transition-all" data-subfilter-id="{{ sub.id }}">{{ sub.name }}</button>
+                                {% endfor %}
                             </div>
-
-                            <!-- Communication Subcategories -->
-                            <div id="mobile-communication-subcategories" class="space-y-2 mb-6 hidden">
-                                <h4 class="text-sm font-medium text-accent/80 mb-3">Communication Types</h4>
-                                <button class="sub-filter-btn w-full text-left px-4 py-3 rounded-lg bg-accent/5 hover:bg-accent/10 text-accent transition-all" data-subfilter="company-profiles">Company Profiles</button>
-                                <button class="sub-filter-btn w-full text-left px-4 py-3 rounded-lg bg-accent/5 hover:bg-accent/10 text-accent transition-all" data-subfilter="presentations">Presentations</button>
-                                <button class="sub-filter-btn w-full text-left px-4 py-3 rounded-lg bg-accent/5 hover:bg-accent/10 text-accent transition-all" data-subfilter="internal-coms">Internal Coms & SOPs</button>
-                                <button class="sub-filter-btn w-full text-left px-4 py-3 rounded-lg bg-accent/5 hover:bg-accent/10 text-accent transition-all" data-subfilter="stationery">Stationery</button>
-                                <button class="sub-filter-btn w-full text-left px-4 py-3 rounded-lg bg-accent/5 hover:bg-accent/10 text-accent transition-all" data-subfilter="social-media">Social Media Kits</button>
-                            </div>
+                            {% endif %}
+                            {% endfor %}
                         </div>
 
                         <!-- Apply Button -->
@@ -148,58 +142,70 @@
 
                 <!-- Desktop Filter Buttons (hidden on mobile) -->
                 <div class="hidden sm:flex flex-wrap justify-center gap-4 mb-12">
-                    <button class="filter-btn active px-6 py-2 rounded-full bg-accent/10 hover:bg-accent/20 text-accent transition-all" data-filter="brand-identity">Brand & Visual Identity</button>
-                    <button class="filter-btn px-6 py-2 rounded-full bg-accent/10 hover:bg-accent/20 text-accent transition-all" data-filter="communication-kits">Company Communication Kits</button>
-                    <button class="filter-btn px-6 py-2 rounded-full bg-accent/10 hover:bg-accent/20 text-accent transition-all" data-filter="events">Events Experience</button>
-                    <button class="filter-btn px-6 py-2 rounded-full bg-accent/10 hover:bg-accent/20 text-accent transition-all" data-filter="rollouts">Rollouts & Merchandise</button>
-                    <button class="filter-btn px-6 py-2 rounded-full bg-accent/10 hover:bg-accent/20 text-accent transition-all" data-filter="all">All</button>
+                    {% for cat in categories %}
+                    <button class="filter-btn px-6 py-2 rounded-full bg-accent/10 hover:bg-accent/20 text-accent transition-all" data-filter-id="{{ cat.id }}">{{ cat.name }}</button>
+                    {% endfor %}
+                    <button class="filter-btn px-6 py-2 rounded-full bg-accent/10 hover:bg-accent/20 text-accent transition-all" data-filter-id="all">All</button>
                 </div>
 
                 <!-- Desktop Subcategory Filters (hidden on mobile) -->
-                <div id="brand-subcategories" class="hidden sm:flex flex-wrap justify-center gap-4 mb-8 hidden">
-                    <button class="sub-filter-btn px-4 py-1.5 rounded-full bg-accent/5 hover:bg-accent/10 text-accent transition-all" data-subfilter="full-brand">Full Brand Identity</button>
-                    <button class="sub-filter-btn px-4 py-1.5 rounded-full bg-accent/5 hover:bg-accent/10 text-accent transition-all" data-subfilter="visual-identity">Visual Identity</button>
-                    <button class="sub-filter-btn px-4 py-1.5 rounded-full bg-accent/5 hover:bg-accent/10 text-accent transition-all" data-subfilter="logofolio">Logofolio</button>
-                </div>
-
-                <div id="communication-subcategories" class="hidden sm:flex flex-wrap justify-center gap-4 mb-8 hidden">
-                    <button class="sub-filter-btn px-4 py-1.5 rounded-full bg-accent/5 hover:bg-accent/10 text-accent transition-all" data-subfilter="company-profiles">Company Profiles</button>
-                    <button class="sub-filter-btn px-4 py-1.5 rounded-full bg-accent/5 hover:bg-accent/10 text-accent transition-all" data-subfilter="presentations">Presentations</button>
-                    <button class="sub-filter-btn px-4 py-1.5 rounded-full bg-accent/5 hover:bg-accent/10 text-accent transition-all" data-subfilter="internal-coms">Internal Coms & SOPs</button>
-                    <button class="sub-filter-btn px-4 py-1.5 rounded-full bg-accent/5 hover:bg-accent/10 text-accent transition-all" data-subfilter="stationery">Stationery</button>
-                    <button class="sub-filter-btn px-4 py-1.5 rounded-full bg-accent/5 hover:bg-accent/10 text-accent transition-all" data-subfilter="social-media">Social Media Kits</button>
-                </div>
-
-                <!-- Portfolio Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-8">
-                    {% for project in projects %}
-                    <div class="portfolio-item fade-in-up" data-category="{{ project.category }}" data-subcategory="{{ project.subcategory }}">
-                        <a href="{% url 'core:project_detail' slug=project.slug %}" class="block group rounded-2xl overflow-hidden bg-white/5 border border-white/10 hover:border-accent/40 transition-all">
-                                <div class="relative h-[360px]">
-                                    {% if project.images.first %}
-                                        <img src="{{ project.images.first.image.url }}" alt="{{ project.title }}" class="w-full h-full object-cover">
-                                    {% else %}
-                                        <img src="{% static 'images/hero-about.jpg' %}" alt="{{ project.title }}" class="w-full h-full object-cover">
-                                    {% endif %}
-                                <!-- Accent tint on hover to match active nav color -->
-                                <div class="absolute inset-0 bg-accent/0 group-hover:bg-accent/10 transition-colors duration-300"></div>
-                                <!-- Dark gradient reveal -->
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                                <!-- Text reveal on hover -->
-                                <div class="pointer-events-none absolute inset-0 flex flex-col justify-end p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    <h3 class="text-2xl font-display font-semibold text-white">{{ project.title }}</h3>
-                                    <p class="mt-1 text-white/80 text-sm">{{ project.get_category_display }}</p>
-                                    <span class="mt-3 inline-flex items-center text-white/90">
-                                        <span class="relative after:content-[''] after:inline-block after:w-0 after:h-px after:bg-white/60 after:align-middle after:transition-all after:duration-300 group-hover:after:w-6 mr-2">View project</span>
-                                        <svg class="w-4 h-4 transform transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M13 5l7 7-7 7" />
-                                        </svg>
-                                    </span>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+                {% for cat in categories %}
+                {% if cat.subcategories.all %}
+                <div id="subcategories-{{ cat.id }}" class="hidden sm:flex flex-wrap justify-center gap-4 mb-8 hidden">
+                    {% for sub in cat.subcategories.all %}
+                    <button class="sub-filter-btn px-4 py-1.5 rounded-full bg-accent/5 hover:bg-accent/10 text-accent transition-all" data-subfilter-id="{{ sub.id }}">{{ sub.name }}</button>
                     {% endfor %}
+                </div>
+                {% endif %}
+                {% endfor %}
+
+<!-- Portfolio Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-8">
+  {% for project in page.get_children.live.specific %}
+  {% with cat=project.category %}
+  {% if cat %}
+  {% if cat.parent %}
+  <div class="portfolio-item fade-in-up" data-category-id="{{ cat.parent.id }}" data-subcategory-id="{{ cat.id }}">
+  {% else %}
+  <div class="portfolio-item fade-in-up" data-category-id="{{ cat.id }}" data-subcategory-id="">
+  {% endif %}
+  {% else %}
+  <div class="portfolio-item fade-in-up" data-category-id="" data-subcategory-id="">
+  {% endif %}
+  {% endwith %}
+      <a href="{{ project.url }}" class="block group rounded-2xl overflow-hidden bg-white/5 border border-white/10 hover:border-accent/40 transition-all">
+          <div class="relative h-[360px]">
+              {% if project.hero_image %}
+                  {% image project.hero_image fill-1200x800 class="w-full h-full object-cover" %}
+              {% else %}
+                  <img src="{% static 'images/hero-about.jpg' %}" alt="{{ project.title }}" class="w-full h-full object-cover">
+              {% endif %}
+
+              <!-- Accent tint on hover -->
+              <div class="absolute inset-0 bg-accent/0 group-hover:bg-accent/10 transition-colors duration-300"></div>
+              <!-- Dark gradient reveal -->
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <!-- Text reveal on hover -->
+              <div class="pointer-events-none absolute inset-0 flex flex-col justify-end p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <h3 class="text-2xl font-display font-semibold text-white">{{ project.title }}</h3>
+                  {% if project.excerpt %}
+                      <p class="mt-1 text-white/80 text-sm">{{ project.excerpt }}</p>
+                  {% endif %}
+                  <span class="mt-3 inline-flex items-center text-white/90">
+                      <span class="relative after:content-[''] after:inline-block after:w-0 after:h-px after:bg-white/60 after:align-middle after:transition-all after:duration-300 group-hover:after:w-6 mr-2">View project</span>
+                      <svg class="w-4 h-4 transform transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M13 5l7 7-7 7" />
+                      </svg>
+                  </span>
+              </div>
+          </div>
+      </a>
+  </div>
+  {% empty %}
+      <p class="text-gray-400">No projects yet. Add some in Wagtail admin.</p>
+  {% endfor %}
+</div>
+
                 </div>
             </div>
         </div>
@@ -631,8 +637,6 @@
         const mobileFilterPanel = document.getElementById('mobileFilterPanel');
         const closeFilterPanel = document.getElementById('closeFilterPanel');
         const applyFilters = document.getElementById('applyFilters');
-        const mobileBrandSubcategories = document.getElementById('mobile-brand-subcategories');
-        const mobileCommunicationSubcategories = document.getElementById('mobile-communication-subcategories');
 
         // Open filter panel
         mobileFilterBtn.addEventListener('click', () => {
@@ -655,46 +659,58 @@
         // Filter functionality
         const filterButtons = document.querySelectorAll('.filter-btn');
         const portfolioItems = document.querySelectorAll('.portfolio-item');
-        const brandSubcategories = document.getElementById('brand-subcategories');
-        const communicationSubcategories = document.getElementById('communication-subcategories');
         const subFilterButtons = document.querySelectorAll('.sub-filter-btn');
 
         // Function to update active button styles
         function updateActiveButton(button, isSubFilter = false) {
             if (isSubFilter) {
-                const subfilter = button.getAttribute('data-subfilter');
+                const subfilter = button.getAttribute('data-subfilter-id');
                 // Clear all sub-filter actives (both mobile and desktop)
                 subFilterButtons.forEach(btn => {
                     btn.classList.remove('active');
                     btn.classList.remove('bg-accent/20');
                 });
                 // Activate matching subfilters across both UIs
-                document.querySelectorAll(`.sub-filter-btn[data-subfilter="${subfilter}"]`).forEach(btn => {
+                document.querySelectorAll(`.sub-filter-btn[data-subfilter-id="${subfilter}"]`).forEach(btn => {
                     btn.classList.add('active');
                     btn.classList.add('bg-accent/20');
                 });
             } else {
-                const filter = button.getAttribute('data-filter');
+                const filter = button.getAttribute('data-filter-id');
                 // Clear all main filter actives (both mobile and desktop)
                 filterButtons.forEach(btn => {
                     btn.classList.remove('active');
                     btn.classList.remove('bg-accent/20');
                 });
                 // Activate matching main filters across both UIs
-                document.querySelectorAll(`.filter-btn[data-filter="${filter}"]`).forEach(btn => {
+                document.querySelectorAll(`.filter-btn[data-filter-id="${filter}"]`).forEach(btn => {
                     btn.classList.add('active');
                     btn.classList.add('bg-accent/20');
                 });
             }
         }
 
-        // Function to show all items in a category
-        function showAllInCategory(category) {
-            portfolioItems.forEach(item => {
-                if (item.getAttribute('data-category') === category) {
-                    item.style.display = 'block';
-                }
+        // Show/hide subcategory groups for a given category id
+        function toggleSubcategoryGroups(categoryId) {
+            // Desktop groups
+            document.querySelectorAll('[id^="subcategories-"]').forEach(group => {
+                group.classList.add('hidden');
+                group.classList.add('sm:hidden');
             });
+            const activeDesktop = document.getElementById(`subcategories-${categoryId}`);
+            if (activeDesktop) {
+                activeDesktop.classList.remove('hidden');
+                activeDesktop.classList.remove('sm:hidden');
+            }
+
+            // Mobile groups
+            document.querySelectorAll('[id^="mobile-subcategories-"]').forEach(group => {
+                group.classList.add('hidden');
+            });
+            const activeMobile = document.getElementById(`mobile-subcategories-${categoryId}`);
+            if (activeMobile) {
+                activeMobile.classList.remove('hidden');
+            }
         }
 
         // Main filter functionality
@@ -707,44 +723,20 @@
                 subFilterButtons.forEach(btn => btn.classList.remove('active'));
 
                 // Filter items for the selected main category
-                const filter = button.getAttribute('data-filter');
+                const filter = button.getAttribute('data-filter-id');
                 portfolioItems.forEach(item => {
-                    if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                    if (filter === 'all' || item.getAttribute('data-category-id') === filter) {
                         item.style.display = 'block';
                     } else {
                         item.style.display = 'none';
                     }
                 });
 
-                // Show only relevant subcategories when applicable
-                if (filter === 'brand-identity') {
-                    // Show brand subs
-                    brandSubcategories.classList.remove('hidden');
-                    brandSubcategories.classList.remove('sm:hidden');
-                    // Hide communication subs
-                    communicationSubcategories.classList.add('hidden');
-                    communicationSubcategories.classList.add('sm:hidden');
-                    // Mobile
-                    mobileBrandSubcategories.classList.remove('hidden');
-                    mobileCommunicationSubcategories.classList.add('hidden');
-                } else if (filter === 'communication-kits') {
-                    // Hide brand subs
-                    brandSubcategories.classList.add('hidden');
-                    brandSubcategories.classList.add('sm:hidden');
-                    // Show communication subs
-                    communicationSubcategories.classList.remove('hidden');
-                    communicationSubcategories.classList.remove('sm:hidden');
-                    // Mobile
-                    mobileBrandSubcategories.classList.add('hidden');
-                    mobileCommunicationSubcategories.classList.remove('hidden');
+                // Show subcategories for this category (if any)
+                if (filter !== 'all') {
+                    toggleSubcategoryGroups(filter);
                 } else {
-                    // Categories without subcategories: hide all subcategory groups
-                    brandSubcategories.classList.add('hidden');
-                    brandSubcategories.classList.add('sm:hidden');
-                    communicationSubcategories.classList.add('hidden');
-                    communicationSubcategories.classList.add('sm:hidden');
-                    mobileBrandSubcategories.classList.add('hidden');
-                    mobileCommunicationSubcategories.classList.add('hidden');
+                    toggleSubcategoryGroups('');
                 }
 
                 // Do not persist active main filter; default should always be Brand & Visual Identity on load
@@ -754,20 +746,17 @@
         // Subcategory filtering (only applies when main category supports subcategories)
         subFilterButtons.forEach(button => {
             button.addEventListener('click', () => {
-                const subfilter = button.getAttribute('data-subfilter');
-                const activeCategory = document.querySelector('.filter-btn.active').getAttribute('data-filter');
-
-                if (activeCategory !== 'brand-identity' && activeCategory !== 'communication-kits') {
-                    return; // ignore clicks if current category doesn't support subcategories
-                }
+                const subfilter = button.getAttribute('data-subfilter-id');
+                const activeCategory = document.querySelector('.filter-btn.active').getAttribute('data-filter-id');
+                if (!activeCategory || activeCategory === 'all') return;
 
                 // Update active subcategory button
                 updateActiveButton(button, true);
 
                 // Filter items: show only items matching both main category and subcategory
                 portfolioItems.forEach(item => {
-                    const category = item.getAttribute('data-category');
-                    const itemSubcategory = item.getAttribute('data-subcategory');
+                    const category = item.getAttribute('data-category-id');
+                    const itemSubcategory = item.getAttribute('data-subcategory-id');
 
                     if (category === activeCategory && itemSubcategory === subfilter) {
                         item.style.display = 'block';
@@ -778,22 +767,19 @@
             });
         });
 
-        // Always default to Brand & Visual Identity on load
-        const brandButton = document.querySelector('.filter-btn[data-filter="brand-identity"]');
-        if (brandButton) {
-            updateActiveButton(brandButton);
+        // Default to the first category (if any)
+        const firstCategoryBtn = document.querySelector('.filter-btn[data-filter-id]:not([data-filter-id="all"])');
+        if (firstCategoryBtn) {
+            updateActiveButton(firstCategoryBtn);
+            const firstId = firstCategoryBtn.getAttribute('data-filter-id');
             portfolioItems.forEach(item => {
-                if (item.getAttribute('data-category') === 'brand-identity') {
+                if (item.getAttribute('data-category-id') === firstId) {
                     item.style.display = 'block';
                 } else {
                     item.style.display = 'none';
                 }
             });
-            // Show brand subcategories, hide others by default
-            if (brandSubcategories) { brandSubcategories.classList.remove('hidden'); brandSubcategories.classList.remove('sm:hidden'); }
-            if (communicationSubcategories) { communicationSubcategories.classList.add('hidden'); communicationSubcategories.classList.add('sm:hidden'); }
-            if (mobileBrandSubcategories) mobileBrandSubcategories.classList.remove('hidden');
-            if (mobileCommunicationSubcategories) mobileCommunicationSubcategories.classList.add('hidden');
+            toggleSubcategoryGroups(firstId);
         }
 
         // Intersection Observer for scroll animations

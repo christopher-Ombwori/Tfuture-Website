@@ -14,6 +14,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+# TFuture/urls.py
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
@@ -26,6 +27,13 @@ urlpatterns = [
     path('', include('core.urls')),
     path('sw.js', TemplateView.as_view(template_name='sw.js', content_type='application/javascript')),
     path('brevo-frame.html', TemplateView.as_view(template_name='brevo-frame.html', content_type='text/html')),
+
+    # Wagtail admin + docs
+    path('admin/', include('wagtail.admin.urls')),
+    path('documents/', include('wagtail.documents.urls')),
+
+    # Wagtail page routing (keep last)
+    path('', include('wagtail.urls')),
 ]
 
 if settings.DEBUG:
