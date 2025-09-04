@@ -1,11 +1,31 @@
 from django.db import models
 from wagtail.models import Page
 from wagtail.fields import RichTextField, StreamField
-from wagtail.admin.panels import FieldPanel, InlinePanel
+from wagtail.admin.panels import FieldPanel
 from modelcluster.fields import ParentalKey
 from wagtail.snippets.models import register_snippet
 from wagtail import blocks
 from wagtail.images.blocks import ImageChooserBlock
+
+
+class HeroBlock(blocks.StructBlock):
+    label = blocks.CharBlock(required=True, help_text="Small label above the headline")
+    headline = blocks.CharBlock(required=True, help_text="Main project headline")
+    tags = blocks.ListBlock(blocks.CharBlock(required=True), help_text="Tags shown next to the hero")
+    hero_image = ImageChooserBlock(required=True)
+
+    class Meta:
+        icon = "title"
+        label = "Hero"
+
+
+class IntroBlock(blocks.StructBlock):
+    subheading = blocks.CharBlock(required=True, help_text="Muted subheading")
+    context = blocks.RichTextBlock(required=True, help_text="Intro/context paragraph")
+
+    class Meta:
+        icon = "openquote"
+        label = "Intro"
 
 
 @register_snippet
@@ -49,10 +69,7 @@ class ProjectIndexPage(Page):
 class ProjectPage(Page):
     """A single project detail page."""
 
-    client = models.CharField(max_length=200, blank=True)
-    industry = models.CharField(max_length=200, blank=True)
-
-    # Instead of CharField → link to Category snippet
+    # Used only for listing-page filtering, not displayed on detail page
     category = models.ForeignKey(
         "cms.Category",
         null=True,
@@ -62,31 +79,68 @@ class ProjectPage(Page):
         help_text="Select a category or subcategory from snippets."
     )
 
-    description = RichTextField(blank=True)
+    hero = StreamField([
+        ("hero", HeroBlock()),
+    ], use_json_field=True, blank=True, default=list)
+
+    intro = StreamField([
+        ("intro", IntroBlock()),
+    ], use_json_field=True, blank=True, default=list)
 
     body = StreamField([
         ("heading", blocks.CharBlock(form_classname="full title")),
-        ("paragraph", blocks.RichTextBlock()),
+        ("muted_subheading", blocks.CharBlock(help_text="Muted subheading")),
+        ("rich_text", blocks.RichTextBlock()),
+        ("quote", blocks.BlockQuoteBlock()),
         ("image", ImageChooserBlock()),
-        ("video", blocks.URLBlock(help_text="YouTube/Vimeo link")),
+        ("image_with_caption", blocks.StructBlock([
+            ("image", ImageChooserBlock()),
+            ("caption", blocks.CharBlock(required=False)),
+        ])),
+        ("image_grid", blocks.ListBlock(blocks.StructBlock([
+            ("image", ImageChooserBlock()),
+            ("caption", blocks.CharBlock(required=False)),
+        ]), help_text="Add 2-6 images")),
+        ("video_embed", blocks.URLBlock(help_text="YouTube/Vimeo link")),
+        ("two_column", blocks.StructBlock([
+            ("left", blocks.StreamBlock([
+                ("rich_text", blocks.RichTextBlock()),
+                ("image", ImageChooserBlock()),
+                ("quote", blocks.BlockQuoteBlock()),
+                ("code", blocks.TextBlock(help_text="Code")),
+            ], required=False)),
+            ("right", blocks.StreamBlock([
+                ("rich_text", blocks.RichTextBlock()),
+                ("image", ImageChooserBlock()),
+                ("quote", blocks.BlockQuoteBlock()),
+                ("code", blocks.TextBlock(help_text="Code")),
+            ], required=False)),
+        ])),
+        ("stats_grid", blocks.ListBlock(blocks.StructBlock([
+            ("label", blocks.CharBlock()),
+            ("value", blocks.CharBlock()),
+        ]), help_text="Small set of key stats")),
+        ("bulleted_list", blocks.ListBlock(blocks.CharBlock())),
+        ("callout", blocks.StructBlock([
+            ("title", blocks.CharBlock()),
+            ("body", blocks.RichTextBlock()),
+        ])),
         ("code", blocks.TextBlock(help_text="Paste code snippet")),
     ], use_json_field=True, blank=True)
 
     content_panels = Page.content_panels + [
-        FieldPanel("client"),
-        FieldPanel("industry"),
         FieldPanel("category"),
-        FieldPanel("description"),
+        FieldPanel("hero"),
+        FieldPanel("intro"),
         FieldPanel("body"),
-        InlinePanel("images", label="Project Images"),
     ]
 
 
 class ProjectImage(models.Model):
-    """Images associated with a project."""
+    """Deprecated: previously associated gallery images (kept for legacy migrations)."""
     project = ParentalKey(
         ProjectPage,
-        related_name="images",
+        related_name="legacy_images",
         on_delete=models.CASCADE,
     )
     image = models.ForeignKey(

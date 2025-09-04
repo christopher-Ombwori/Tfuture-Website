@@ -6,48 +6,93 @@
 {% block content %}
 <section class="py-16">
   <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-[90rem]">
-    <!-- Heading -->
-    <h1 class="font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-4">
-      {{ page.title }}
-    </h1>
-    <!-- Technologies/Tags -->
-    {% if page.technologies %}
-      <div class="mb-4">
-        <span class="inline-block bg-accent/10 text-accent px-3 py-1 rounded-full text-sm font-medium">
-          {{ page.technologies }}
-        </span>
-      </div>
-    {% endif %}
-    <!-- Hero Image -->
-    {% if page.hero_image %}
-    {% image page.hero_image width-1920 class="w-full h-auto shadow-lg my-8" loading="lazy" %}
 
-
-  {% endif %}
-  
-    <!-- Excerpt -->
-    {% if page.excerpt %}
-      <p class="text-lg text-gray-300 max-w-2xl mb-8">{{ page.excerpt }}</p>
-    {% endif %}
-    <!-- Project URL and Date -->
-    <div class="mb-8">
-      {% if page.project_url %}
-        <a href="{{ page.project_url }}" class="btn mr-4">View Project</a>
-      {% endif %}
-      {% if page.date_completed %}
-        <span class="text-sm text-gray-400">Completed: {{ page.date_completed }}</span>
-      {% endif %}
-    </div>
-    <!-- Body Content -->
-    <div>
-      {% for block in page.body %}
-      {% if block.block_type == 'image' %}
-        {% image block.value width-1920 class="w-full h-auto shadow-lg my-8" loading="lazy" %}
-      {% else %}
-        {% include_block block %}
+    <!-- Hero -->
+    {% for blk in page.hero %}
+      {% if blk.block_type == 'hero' %}
+        <div class="mb-8">
+          <div class="uppercase tracking-widest text-sm text-accent/80">{{ blk.value.label }}</div>
+          <h1 class="font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mt-2">{{ blk.value.headline }}</h1>
+          {% if blk.value.tags %}
+          <div class="flex flex-wrap gap-2 mt-4">
+            {% for t in blk.value.tags %}
+              <span class="inline-block bg-accent/10 text-accent px-3 py-1 rounded-full text-sm">{{ t }}</span>
+            {% endfor %}
+          </div>
+          {% endif %}
+          <div class="mt-8">
+            {% image blk.value.hero_image width-1920 class="w-full h-auto shadow-lg" loading="lazy" %}
+          </div>
+        </div>
       {% endif %}
     {% endfor %}
-    
+
+    <!-- Intro -->
+    {% for blk in page.intro %}
+      {% if blk.block_type == 'intro' %}
+        <div class="mb-12">
+          <div class="text-lg text-gray-400">{{ blk.value.subheading }}</div>
+          <div class="prose prose-invert max-w-none mt-4">{{ blk.value.context|richtext }}</div>
+        </div>
+      {% endif %}
+    {% endfor %}
+
+    <!-- Body -->
+    <div>
+      {% for block in page.body %}
+        {% if block.block_type == 'image' %}
+          {% image block.value width-1920 class="w-full h-auto shadow-lg my-8" loading="lazy" %}
+        {% elif block.block_type == 'image_with_caption' %}
+          <figure class="my-8">
+            {% image block.value.image width-1920 class="w-full h-auto shadow-lg" loading="lazy" %}
+            {% if block.value.caption %}<figcaption class="text-sm text-gray-400 mt-2">{{ block.value.caption }}</figcaption>{% endif %}
+          </figure>
+        {% elif block.block_type == 'image_grid' %}
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 my-8">
+            {% for item in block.value %}
+              <div>
+                {% image item.image width-1200 class="w-full h-auto shadow" loading="lazy" %}
+                {% if item.caption %}<div class="text-sm text-gray-400 mt-1">{{ item.caption }}</div>{% endif %}
+              </div>
+            {% endfor %}
+          </div>
+        {% elif block.block_type == 'two_column' %}
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 my-8">
+            <div>
+              {% for b in block.value.left %}
+                {% include_block b %}
+              {% endfor %}
+            </div>
+            <div>
+              {% for b in block.value.right %}
+                {% include_block b %}
+              {% endfor %}
+            </div>
+          </div>
+        {% elif block.block_type == 'stats_grid' %}
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 my-8">
+            {% for stat in block.value %}
+              <div class="p-4 rounded-lg bg-white/5 border border-white/10">
+                <div class="text-sm text-gray-400">{{ stat.label }}</div>
+                <div class="text-2xl font-semibold mt-1">{{ stat.value }}</div>
+              </div>
+            {% endfor %}
+          </div>
+        {% elif block.block_type == 'bulleted_list' %}
+          <ul class="list-disc pl-6 my-6">
+            {% for item in block.value %}
+              <li class="mb-1">{{ item }}</li>
+            {% endfor %}
+          </ul>
+        {% elif block.block_type == 'callout' %}
+          <div class="p-6 rounded-lg bg-accent/10 border border-accent/20 my-8">
+            <div class="text-accent font-semibold">{{ block.value.title }}</div>
+            <div class="prose prose-invert max-w-none mt-2">{% include_block block.value.body %}</div>
+          </div>
+        {% else %}
+          {% include_block block %}
+        {% endif %}
+      {% endfor %}
     </div>
   </div>
 </section>
