@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load wagtailcore_tags %}
+
 
 <!-- Brevo Tracker -->
 <script src="https://cdn.brevo.com/js/sdk-loader.js" async></script>
@@ -606,7 +608,7 @@
                     <h3 class="text-2xl font-display mb-4">{{ service.name }}</h3>
                     <div class="space-y-4 text-gray-400 mb-6">
                         {% if service.description %}
-                            <p class="text-lg md:block hidden">{{ service.description|linebreaks }}</p>
+                            <p class="text-lg md:block hidden">{{ service.description|richtext }}</p>
                         {% endif %}
                         {% if service.short_description %}
                             <p class="text-lg md:hidden">{{ service.short_description }}</p>
