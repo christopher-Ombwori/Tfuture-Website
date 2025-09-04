@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load wagtailcore_tags %}
+
 
 <!-- Brevo Tracker -->
 <script src="https://cdn.brevo.com/js/sdk-loader.js" async></script>
@@ -81,7 +83,9 @@
 
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
                     <button onclick="openServiceModal('Product Inquiry')" class="bg-accent hover:bg-accent/80 text-primary rounded-full px-8 py-4 text-base font-medium transition-all hover:scale-105 get-notified-btn">Get Notified</button>
-                    <a href="{% url 'core:portfolio' %}" class="border border-white/20 bg-white/5 hover:bg-white/10 text-white rounded-full px-8 py-4 text-base font-medium transition-all hover:scale-105">View Our Work</a>
+                    {% if our_work_page %}
+                    <a href="{% pageurl our_work_page %}" class="block px-3 py-2 text-base font-medium hover:text-accent transition-colors">Our Work</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
