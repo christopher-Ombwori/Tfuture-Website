@@ -20,7 +20,8 @@ class HeroBlock(blocks.StructBlock):
 
 
 class IntroBlock(blocks.StructBlock):
-    subheading = blocks.CharBlock(required=True, help_text="Muted subheading")
+    subheading = blocks.CharBlock(required=False, help_text="Normal subheading (H2 size)")
+    muted_subheading = blocks.CharBlock(required=False, help_text="Muted subheading (H3 size)")
     context = blocks.RichTextBlock(required=True, help_text="Intro/context paragraph")
 
     class Meta:
@@ -89,6 +90,7 @@ class ProjectPage(Page):
 
     body = StreamField([
         ("heading", blocks.CharBlock(form_classname="full title")),
+        ("subheading", blocks.CharBlock(help_text="Normal subheading (H2 size)")),
         ("muted_subheading", blocks.CharBlock(help_text="Muted subheading")),
         ("rich_text", blocks.RichTextBlock()),
         ("quote", blocks.BlockQuoteBlock()),

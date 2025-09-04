@@ -11,7 +11,7 @@
     {% for blk in page.hero %}
       {% if blk.block_type == 'hero' %}
         <div class="mb-8">
-          <div class="uppercase tracking-widest text-sm text-accent/80">{{ blk.value.label }}</div>
+          <div class="uppercase tracking-widest text-sm text-accent/100">{{ blk.value.label }}</div>
           <h1 class="font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mt-2">{{ blk.value.headline }}</h1>
           {% if blk.value.tags %}
           <div class="flex flex-wrap gap-2 mt-4">
@@ -30,15 +30,20 @@
     <!-- Intro -->
     {% for blk in page.intro %}
       {% if blk.block_type == 'intro' %}
-        <div class="mb-12">
-          <div class="text-lg text-gray-400">{{ blk.value.subheading }}</div>
+        <div class="mb-12 content-typography">
+          {% if blk.value.subheading %}
+            <h2 class="text-white">{{ blk.value.subheading }}</h2>
+          {% endif %}
+          {% if blk.value.muted_subheading %}
+            <h3 class="text-gray-300">{{ blk.value.muted_subheading }}</h3>
+          {% endif %}
           <div class="prose prose-invert max-w-none mt-4">{{ blk.value.context|richtext }}</div>
         </div>
       {% endif %}
     {% endfor %}
 
     <!-- Body -->
-    <div>
+    <div class="content-typography project-typography">
       {% for block in page.body %}
         {% if block.block_type == 'image' %}
           {% image block.value width-1920 class="w-full h-auto shadow-lg my-8" loading="lazy" %}
@@ -89,6 +94,10 @@
             <div class="text-accent font-semibold">{{ block.value.title }}</div>
             <div class="prose prose-invert max-w-none mt-2">{% include_block block.value.body %}</div>
           </div>
+        {% elif block.block_type == 'subheading' %}
+          <h2 class="text-white">{{ block.value }}</h2>
+        {% elif block.block_type == 'muted_subheading' %}
+          <h3 class="text-gray-300">{{ block.value }}</h3>
         {% else %}
           {% include_block block %}
         {% endif %}
@@ -96,4 +105,36 @@
     </div>
   </div>
 </section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const navbar = document.getElementById('site-navbar');
+    if (!navbar) return;
+    let lastScrollY = window.scrollY;
+    const threshold = 8; // small threshold to avoid jitter
+
+    function onScroll() {
+      const current = window.scrollY;
+      if (current <= 0) {
+        navbar.style.transform = 'translateY(0)';
+        navbar.style.transition = 'transform 200ms ease';
+        return;
+      }
+      if (current > lastScrollY + threshold) {
+        // scrolling down -> hide
+        navbar.style.transform = 'translateY(-100%)';
+        navbar.style.transition = 'transform 200ms ease';
+      } else if (current < lastScrollY - threshold) {
+        // scrolling up or near top -> show
+        navbar.style.transform = 'translateY(0)';
+        navbar.style.transition = 'transform 200ms ease';
+      }
+      lastScrollY = current;
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+  });
+</script>
 {% endblock %}

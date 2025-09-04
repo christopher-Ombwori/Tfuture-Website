@@ -32,11 +32,13 @@
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
                     },
+                    plugins: [tailwind.typography], // ✅ Add typography plugin here
+                    
                 }
             }
         }
     </script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/typography@0.5.9"></script>
     <!-- Font Awesome (for social icons) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2Pkf6M3Ea9HqZ8cwYVbVQxN0Pp1jFK/T5dFIF8Da1j7H3F6lW3W9zXf2Nw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     
@@ -56,6 +58,22 @@
             -webkit-text-fill-color: transparent;
             color: transparent;
         }
+        /* Scoped typography for Wagtail rich text/StreamField output */
+        .content-typography {
+            color: #fafbff;
+            line-height: 1.7;
+        }
+        .content-typography h2 { font-size: 1.875rem; line-height: 2.25rem; font-weight: 700; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+        .content-typography h3 { font-size: 1.5rem; line-height: 2rem; font-weight: 700; margin-top: 1.25rem; margin-bottom: 0.5rem; }
+        .content-typography h4 { font-size: 1.25rem; line-height: 1.75rem; font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem; }
+        .content-typography p { margin-top: 0.75rem; margin-bottom: 0.75rem; }
+        .content-typography blockquote { border-left: 4px solid #64FFDA55; padding-left: 1rem; font-style: italic; color: #A8B2D1; margin: 1rem 0; }
+        .content-typography code { background: rgba(255,255,255,0.06); padding: 0.125rem 0.375rem; border-radius: 0.25rem; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 0.95em; }
+        .content-typography pre { background: rgba(255,255,255,0.06); padding: 1rem; border-radius: 0.5rem; overflow: auto; }
+        .content-typography pre code { background: transparent; padding: 0; }
+        .content-typography ul { list-style-type: disc; padding-left: 1.5rem; margin: 0.75rem 0; }
+        .content-typography ol { list-style-type: decimal; padding-left: 1.5rem; margin: 0.75rem 0; }
+        .content-typography li { margin: 0.25rem 0; }
     </style>
     
     
@@ -76,7 +94,8 @@
 </head>
 <body class="min-h-screen">
     <!-- Navigation -->
-    <nav class="fixed w-full bg-primary/90 backdrop-blur-sm z-50">
+    {% block navbar %}
+    <nav id="site-navbar" class="fixed w-full bg-primary/90 backdrop-blur-sm z-50">
         <div class="container mx-auto px-4 py-4">
             <div class="flex justify-between items-center">
                 <a href="/" class="flex items-center">
@@ -131,6 +150,7 @@
             </div>
         </div>
     </nav>
+    {% endblock %}
 
     <!-- Main Content -->
     <main class="pt-16">
