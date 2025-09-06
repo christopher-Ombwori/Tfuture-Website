@@ -74,6 +74,10 @@ MIDDLEWARE = [
 ]
 
 WAGTAIL_SITE_NAME = "TFuture"  # ← add this
+WAGTAILADMIN_BASE_URL = os.environ.get(
+    "WAGTAILADMIN_BASE_URL",
+    "http://localhost:8000" if DEBUG else "https://tfuturedesigns.studio"
+)
 
 ROOT_URLCONF = 'TFuture.urls'
 
@@ -89,7 +93,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'core.context_processors.global_pages',
-
+                'core.context_processors.general_inquiry',
             ],
         },
     },

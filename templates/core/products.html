@@ -112,34 +112,5 @@
         handleFadeIn();
     });
 
-    function openServiceModal(service) {
-        const modal = document.getElementById('serviceModal');
-        modal.classList.remove('hidden');
-        modal.classList.add('opacity-100');
-        document.getElementById('selectedService').value = service;
-        document.getElementById('serviceDisplay').value = service;
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeServiceModal() {
-        const modal = document.getElementById('serviceModal');
-        modal.classList.add('opacity-0');
-        setTimeout(() => {
-            modal.classList.add('hidden');
-            modal.classList.remove('opacity-0');
-        }, 300);
-        document.body.style.overflow = 'auto';
-    }
-
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            closeServiceModal();
-        }
-    });
-
-    document.getElementById('serviceForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        closeServiceModal();
-    });
 </script>
 {% endblock %}

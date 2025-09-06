@@ -49,7 +49,7 @@
           {% image block.value width-1920 class="w-full h-auto shadow-lg my-8" loading="lazy" %}
         {% elif block.block_type == 'image_with_caption' %}
           <figure class="my-8">
-            {% image block.value.image width-1920 class="w-full h-auto shadow-lg" loading="lazy" %}
+            {% image block.value.image width-1920 class="w-full h-auto shadow-lg" loading="lazy" %}loading="lazy"
             {% if block.value.caption %}<figcaption class="text-sm text-gray-400 mt-2">{{ block.value.caption }}</figcaption>{% endif %}
           </figure>
         {% elif block.block_type == 'image_grid' %}

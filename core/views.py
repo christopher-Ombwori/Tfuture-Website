@@ -8,12 +8,16 @@ from .models import Service, ServiceRequest
 from .email_utils import send_service_request_emails
 
 # Wagtail imports
+from wagtail.snippets.views.snippets import SnippetViewSet
+from wagtail.snippets.models import register_snippet
+from django.core.exceptions import ValidationError
+from django import forms
 from wagtail.models import Page
 from cms.models import ProjectPage
 
 
 def home(request):
-    services = Service.objects.filter(is_active=True).order_by('order')
+    services = Service.objects.filter(is_visible=True).order_by('order')
 
     # Fetch featured projects from Wagtail (latest 4)
     featured_projects = (
@@ -40,7 +44,9 @@ def blog(request):
 
 def products(request):
     return render(request, 'core/products.html')
-
+    
+def get_general_inquiry_service():
+    return Service.objects.filter(slug="general-inquiry").first()
 
 @csrf_exempt
 @require_http_methods(["POST"])
@@ -65,7 +71,7 @@ def submit_service_request(request):
 
         # Get the service
         try:
-            service = Service.objects.get(id=service_id, is_active=True)
+            service = Service.objects.get(id=service_id)
         except Service.DoesNotExist:
             return JsonResponse({
                 'success': False,
@@ -108,3 +114,4 @@ def submit_service_request(request):
             'success': False,
             'message': 'An error occurred. Please try again.'
         }, status=500)
+
