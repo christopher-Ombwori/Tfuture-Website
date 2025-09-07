@@ -94,6 +94,14 @@
                     </button>
                 </div>
 
+                <!-- Mobile Active Filters Summary -->
+                <div class="sm:hidden w-full px-4 mb-6" id="mobileActiveFilters" aria-live="polite">
+                    <div class="text-xs text-gray-300 mb-2">Active filters</div>
+                    <div class="flex flex-wrap gap-2" id="mobileActiveFiltersChips">
+                        <!-- Chips rendered by JS -->
+                    </div>
+                </div>
+
                 <!-- Mobile Filter Panel -->
                 <div id="mobileFilterPanel" class="fixed inset-0 bg-primary/95 z-50 transform translate-x-full transition-transform duration-300 ease-in-out sm:hidden">
                     <div class="h-full flex flex-col">
@@ -173,25 +181,28 @@
   <div class="portfolio-item fade-in-up" data-category-id="" data-subcategory-id="">
   {% endif %}
   {% endwith %}
-      <a href="{{ project.url }}" class="block group rounded-2xl overflow-hidden bg-white/5 border border-white/10 hover:border-accent/40 transition-all">
-        <div class="relative h-[384px] bg-black flex items-center justify-center">
+      <a href="{{ project.url }}" class="block group rounded-l overflow-hidden bg-white/5 border border-white/10 hover:border-accent/40 transition-all">
+        <div class="relative aspect-[16/9] bg-black flex items-center justify-center">
             {% with hero_block=project.hero|first %}
             {% if hero_block.block_type == 'hero' and hero_block.value.hero_image %}
-                {% image hero_block.value.hero_image  fill-800x600 class="w-full h-full object-cover" %}
+                {% image hero_block.value.hero_image width-800 class="w-full h-full object-cover" %}
             {% else %}
-               <img src="{% static 'images/hero-about.jpg' %}" alt="{{ project.title }}" class="w-full h-full object-contain">
+                <img src="{% static 'images/hero-about.jpg' %}" alt="{{ project.title }}" class="w-full h-full object-cover">
             {% endif %}
-        {% endwith %}
+            {% endwith %}
+        
 
               <!-- Accent tint on hover -->
               <div class="absolute inset-0 bg-accent/0 group-hover:bg-accent/10 transition-colors duration-300"></div>
               <!-- Dark gradient reveal -->
-              <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300"></div>
               <!-- Text reveal on hover -->
-              <div class="pointer-events-none absolute inset-0 flex flex-col justify-end p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <h3 class="text-2xl font-display font-semibold text-white">{{ project.title }}</h3>
+              <div class="pointer-events-none absolute inset-0 flex flex-col justify-end p-6 
+            opacity-100 sm:opacity-0 sm:group-hover:opacity-100 
+            transition-opacity duration-300">
+                  <h3 class="text-2xl font-display font-semibold text-white drop-shadow-lg">{{ project.title }}</h3>
                   {% if project.excerpt %}
-                      <p class="mt-1 text-white/80 text-sm">{{ project.excerpt }}</p>
+                      <p class="mt-1 text-white/80 text-sm drop-shadow-lg">{{ project.excerpt }}</p>
                   {% endif %}
                   <span class="mt-3 inline-flex items-center text-white/90">
                       <span class="relative after:content-[''] after:inline-block after:w-0 after:h-px after:bg-white/60 after:align-middle after:transition-all after:duration-300 group-hover:after:w-6 mr-2">View project</span>
@@ -581,6 +592,29 @@
         const filterButtons = document.querySelectorAll('.filter-btn');
         const portfolioItems = document.querySelectorAll('.portfolio-item');
         const subFilterButtons = document.querySelectorAll('.sub-filter-btn');
+        const mobileActiveFiltersChips = document.getElementById('mobileActiveFiltersChips');
+
+        function renderActiveFiltersSummary() {
+            if (!mobileActiveFiltersChips) return;
+            mobileActiveFiltersChips.innerHTML = '';
+
+            // Active main category
+            const activeMain = document.querySelector('.filter-btn.active');
+            const mainLabel = activeMain ? activeMain.textContent.trim() : 'All';
+            const mainChip = document.createElement('span');
+            mainChip.className = 'inline-flex items-center px-2.5 py-1 rounded-full bg-accent/10 text-accent text-xs';
+            mainChip.textContent = mainLabel || 'All';
+            mobileActiveFiltersChips.appendChild(mainChip);
+
+            // Active subcategories
+            const activeSubs = Array.from(document.querySelectorAll('.sub-filter-btn.active'));
+            activeSubs.forEach(btn => {
+                const chip = document.createElement('span');
+                chip.className = 'inline-flex items-center px-2 py-0.5 rounded-full bg-accent/5 text-accent/90 text-[11px]';
+                chip.textContent = btn.textContent.trim();
+                mobileActiveFiltersChips.appendChild(chip);
+            });
+        }
 
         // Function to update active button styles
         function updateActiveButton(button, isSubFilter = false) {
@@ -661,6 +695,7 @@
                 }
 
                 // Do not persist active main filter; default should always be Brand & Visual Identity on load
+                renderActiveFiltersSummary();
             });
         });
 
@@ -685,6 +720,7 @@
                         item.style.display = 'none';
                     }
                 });
+                renderActiveFiltersSummary();
             });
         });
 
@@ -702,6 +738,9 @@
             });
             toggleSubcategoryGroups(firstId);
         }
+
+        // Initial render of active filters summary
+        renderActiveFiltersSummary();
 
         // Intersection Observer for scroll animations
         const observer = new IntersectionObserver((entries) => {

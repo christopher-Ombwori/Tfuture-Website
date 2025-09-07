@@ -211,7 +211,7 @@
                 </div>
                 <div>
                     <h4 class="font-semibold mb-4">Quick Links</h4>
-                    <ul class="space-y-2">
+                    <ul class="grid grid-cols-2 md:grid-cols-1 gap-2 text-gray-400">
                         <li><a href="{% url 'core:about' %}" class="text-gray-400 hover:text-accent">About</a></li>
                         {% if our_work_page %}
                         <li><a href="{% pageurl our_work_page %}" class="text-gray-400 hover:text-accent">Our Work</a></li>
@@ -230,7 +230,7 @@
                 </div>
                 <div>
                     <h4 class="font-semibold mb-4">Follow Us</h4>
-                    <ul class="space-y-2">
+                    <ul class="grid grid-cols-2 md:grid-cols-1 gap-2 text-gray-400">
                         <li>
                             <a href="https://www.linkedin.com/company/tfuture-designs/" class="text-gray-400 hover:text-accent">
                                 LinkedIn
@@ -319,7 +319,13 @@
                     </div>
 
                     <!-- Submit Button -->
-                    <button type="submit" class="w-full bg-accent hover:bg-accent/80 text-primary rounded-lg px-4 md:px-6 py-2 md:py-3 text-sm md:text-base font-medium transition-all hover:scale-105">Send Request</button>
+                    <button type="submit" id="serviceSubmitBtn" class="w-full bg-accent hover:bg-accent/80 text-primary rounded-lg px-4 md:px-6 py-2 md:py-3 text-sm md:text-base font-medium transition-all hover:scale-105 flex items-center justify-center gap-2">
+                        <svg id="serviceSubmitSpinner" class="w-4 h-4 md:w-5 md:h-5 animate-spin hidden" viewBox="0 0 24 24" fill="none">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                        </svg>
+                        <span id="serviceSubmitText">Send Request</span>
+                    </button>
 
                     <!-- Divider -->
                     <div class="relative my-4 md:my-6">
@@ -389,6 +395,17 @@
             document.getElementById('selectedServiceId').value = serviceId;
             document.getElementById('serviceDisplay').value = serviceName;
             document.body.style.overflow = 'hidden';
+
+            // Reset loading state on open
+            const submitBtn = document.getElementById('serviceSubmitBtn');
+            const spinner = document.getElementById('serviceSubmitSpinner');
+            const submitText = document.getElementById('serviceSubmitText');
+            if (submitBtn && spinner && submitText) {
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+                spinner.classList.add('hidden');
+                submitText.textContent = 'Send Request';
+            }
         }
 
         function closeServiceModal() {
@@ -412,8 +429,11 @@
         document.addEventListener('DOMContentLoaded', function() {
             const serviceForm = document.getElementById('serviceForm');
             if (serviceForm) {
+                let isSubmitting = false;
                 serviceForm.addEventListener('submit', function(e) {
                     e.preventDefault();
+                    if (isSubmitting) return;
+                    isSubmitting = true;
                     
                     const formData = new FormData(e.target);
                     const data = {
@@ -424,6 +444,16 @@
                         service_id: formData.get('service_id'),
                         message: formData.get('message')
                     };
+
+                    const submitBtn = document.getElementById('serviceSubmitBtn');
+                    const spinner = document.getElementById('serviceSubmitSpinner');
+                    const submitText = document.getElementById('serviceSubmitText');
+                    if (submitBtn && spinner && submitText) {
+                        submitBtn.disabled = true;
+                        submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
+                        spinner.classList.remove('hidden');
+                        submitText.textContent = 'Sending...';
+                    }
                     
                     fetch('/submit-service-request/', {
                         method: 'POST',
@@ -445,6 +475,18 @@
                     .catch(error => {
                         console.error('Error:', error);
                         alert('An error occurred. Please try again.');
+                    })
+                    .finally(() => {
+                        const submitBtn = document.getElementById('serviceSubmitBtn');
+                        const spinner = document.getElementById('serviceSubmitSpinner');
+                        const submitText = document.getElementById('serviceSubmitText');
+                        if (submitBtn && spinner && submitText) {
+                            submitBtn.disabled = false;
+                            submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+                            spinner.classList.add('hidden');
+                            submitText.textContent = 'Send Request';
+                        }
+                        isSubmitting = false;
                     });
                 });
             }
