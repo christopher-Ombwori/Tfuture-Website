@@ -13,20 +13,24 @@ from wagtail.snippets.models import register_snippet
 from django.core.exceptions import ValidationError
 from django import forms
 from wagtail.models import Page
-from cms.models import ProjectPage
+from cms.models import ProjectPage, BlogPage
 
 
 def home(request):
     services = Service.objects.filter(is_visible=True).order_by('order')
 
-    # Fetch featured projects from Wagtail (latest 4)
+    # Fetch featured items from Wagtail (latest 4)
     featured_projects = (
-        ProjectPage.objects.live().public().order_by('-first_published_at')[:4]
+        ProjectPage.objects.live().public().filter(is_featured=True).order_by('-first_published_at')[:4]
+    )
+    featured_blogs = (
+        BlogPage.objects.live().public().filter(is_featured=True).order_by('-first_published_at')[:4]
     )
 
     return render(request, 'core/home.html', {
         'services': services,
         'featured_projects': featured_projects,
+        'featured_blogs': featured_blogs,
     })
 
 

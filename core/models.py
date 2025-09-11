@@ -7,6 +7,10 @@ from wagtail.admin.panels import FieldPanel, MultiFieldPanel, HelpPanel
 from django.core.exceptions import ValidationError
 from django.db.models.signals import pre_delete
 from django.dispatch import receiver
+from wagtail.models import Page
+from wagtail.fields import StreamField
+from wagtail import blocks
+from wagtail.images.blocks import ImageChooserBlock
 
 @register_snippet
 class Service(models.Model):
@@ -121,3 +125,26 @@ class ServiceRequest(models.Model):
     def __str__(self):
         return f"{self.first_name} {self.last_name} - {self.service.name} ({self.get_status_display()})"
 
+
+class TestimonialBlock(blocks.StructBlock):
+    name = blocks.CharBlock(required=True, help_text="Person's name")
+    role = blocks.CharBlock(required=True, help_text="Job title and company")
+    initials = blocks.CharBlock(required=True, max_length=3, help_text="Short initials for avatar circle")
+    quote = blocks.TextBlock(required=True, help_text="Testimonial text")
+    image = ImageChooserBlock(required=False, help_text="Optional profile image")
+
+    class Meta:
+        icon = "user"
+        label = "Testimonial"
+
+
+class HomePage(Page):
+    testimonials = StreamField(
+        [("testimonial", TestimonialBlock())],
+        blank=True,
+        use_json_field=True,
+    )
+
+    content_panels = Page.content_panels + [
+        FieldPanel("testimonials"),
+    ]

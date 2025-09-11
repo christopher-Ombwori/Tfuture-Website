@@ -122,7 +122,11 @@
                 {% endif %}
 
                     <a href="{% url 'core:products' %}" class="transition-colors font-medium hover:text-accent {% if current == 'products' %}text-accent{% endif %}">Products</a>
+                    {% if blog_index_page %}
+                    <a href="{% pageurl blog_index_page %}" class="transition-colors font-medium hover:text-accent">Information Hub</a>
+                    {% else %}
                     <a href="{% url 'core:blog' %}" class="transition-colors font-medium hover:text-accent {% if current == 'blog' %}text-accent{% endif %}">Information Hub</a>
+                    {% endif %}
                     <a href="{% url 'core:about' %}" class="transition-colors font-medium hover:text-accent {% if current == 'about' %}text-accent{% endif %}">About Us</a>
                 </div>
                 {% endwith %}
@@ -141,7 +145,11 @@
                     <a href="{% pageurl our_work_page %}" class="block px-3 py-2 text-base font-medium hover:text-accent transition-colors">Our Work</a>
                     {% endif %}
                     <a href="{% url 'core:products' %}" class="block px-3 py-2 text-base font-medium hover:text-accent transition-colors">Products</a>
+                    {% if blog_index_page %}
+                    <a href="{% pageurl blog_index_page %}" class="block px-3 py-2 text-base font-medium hover:text-accent transition-colors">Information Hub</a>
+                    {% else %}
                     <a href="{% url 'core:blog' %}" class="block px-3 py-2 text-base font-medium hover:text-accent transition-colors">Information Hub</a>
+                    {% endif %}
                     <a href="{% url 'core:about' %}" class="block px-3 py-2 text-base font-medium hover:text-accent transition-colors">About Us</a>
                     <div class="px-3 pt-2">
                         <button onclick="openServiceModal('General Inquiry')" class="block w-full bg-accent hover:bg-accent/80 text-primary rounded-full px-6 py-2 text-sm font-medium text-center transition-all hover:scale-105">Contact Us</button>
