@@ -321,3 +321,21 @@ class BlogPage(Page, index.Indexed):
 
     parent_page_types = ["cms.BlogIndexPage"]
     subpage_types = []
+
+
+# ==========================
+# Products page
+# ==========================
+
+
+class ProductsPage(Page):
+    """Products landing page managed in Wagtail."""
+
+    intro = RichTextField(blank=True)
+
+    content_panels = Page.content_panels + [
+        FieldPanel("intro"),
+    ]
+
+    parent_page_types = ["wagtailcore.Page"]
+    subpage_types = []

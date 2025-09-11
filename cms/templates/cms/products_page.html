@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags static %}
+
+{% block title %}Products — TFuture{% endblock %}
+
+{% block content %}
+<section class="relative min-h-screen pt-16 bg-gradient-to-b from-futuristic-dark to-black overflow-hidden">
+    <div class="container mx-auto px-4 relative z-10">
+        <div class="coming-soon-container min-h-[80vh] flex items-center justify-center">
+            <div class="coming-soon-content text-center max-w-[600px] p-8">
+                <div class="coming-soon-icon w-[120px] h-[120px] mx-auto mb-8 rounded-full border-2 border-accent/30 flex items-center justify-center bg-accent/10">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-16 h-16 text-accent">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    </svg>
+                </div>
+
+                <h1 class="font-display text-5xl md:text-7xl font-bold mb-6">
+                    Coming <span class="text-gradient">Soon</span>
+                </h1>
+
+                <div class="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed content-typography">
+                    {% if page.intro %}{{ page.intro|richtext }}{% else %}
+                    We're crafting something extraordinary. Our products page is under construction, bringing you a curated collection of design assets, templates, and brand solutions.
+                    {% endif %}
+                </div>
+
+                <p class="text-gray-400 mb-12 text-lg">
+                    Stay tuned for brand identity kits, digital assets, templates, and merchandise packages that will transform your brand experience.
+                </p>
+
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button onclick="openServiceModal('{{ general_inquiry.id }}', '{{ general_inquiry.name }}')" class="get-notified-btn bg-accent hover:bg-accent/80 text-primary rounded-full px-8 py-4 text-base font-medium transition-all hover:scale-105">Get Notified</button>
+                    {% if our_work_page %}
+                    <a href="{% pageurl our_work_page %}" class="block px-3 py-2 text-base font-medium hover:text-accent transition-colors">Our Work</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+

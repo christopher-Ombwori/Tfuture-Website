@@ -4,54 +4,68 @@
 {% block title %}{{ page.seo_title|default:page.title }} — TFuture{% endblock %}
 
 {% block content %}
-<article class="bg-primary py-16">
-  <div class="container mx-auto px-4 max-w-4xl">
-    <header class="mb-8">
-      <div class="flex items-center gap-3 text-sm text-gray-400 mb-3">
-        {% if page.category %}<a href="{% pageurl page.get_parent %}?category={{ page.category.slug }}" class="px-3 py-1 rounded-full bg-white/5 border border-white/10 hover:border-accent transition">{{ page.category.name }}</a>{% endif %}
+<section class="py-16">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-[90rem]">
+
+    <!-- Hero -->
+    <header class="mb-12">
+      {% if page.category %}
+        <div class="uppercase tracking-widest text-sm text-accent mb-4">
+          {{ page.category.name }}
+        </div>
+      {% endif %}
+
+      <h1 class="font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight">
+        {{ page.title }}
+      </h1>
+
+      <div class="flex items-center gap-4 text-sm text-gray-400 mt-4">
         <span>{{ page.first_published_at|date:"M d, Y" }}</span>
       </div>
-      <h1 class="text-4xl md:text-5xl font-bold gradient-text">{{ page.title }}</h1>
+
       {% if page.excerpt %}
-      <p class="text-gray-300 mt-3">{{ page.excerpt }}</p>
+        <p class="mt-6 text-lg text-gray-300 leading-relaxed max-w-3xl">
+          {{ page.excerpt }}
+        </p>
       {% endif %}
     </header>
 
     {% if page.featured_image %}
-      <div class="rounded-2xl overflow-hidden border border-white/10 shadow-lg shadow-accent/10 mb-10">
-        {% image page.featured_image fill-1200x630 class="w-full h-auto" %}
+      <div class="mb-12  overflow-hidden border border-white/10 shadow-lg shadow-accent/10">
+        {% image page.featured_image width-1920 class="w-full h-auto" %}
       </div>
     {% endif %}
 
-    <div class="prose prose-invert content-typography max-w-none">
+    <!-- Body -->
+    <div class="content-typography project-typography">
       {% for block in page.body %}
         {% if block.block_type == 'image' %}
           {% image block.value width-1920 class="w-full h-auto shadow-lg my-8" loading="lazy" %}
         {% elif block.block_type == 'image_with_caption' %}
           <figure class="my-8">
             {% image block.value.image width-1920 class="w-full h-auto shadow-lg" loading="lazy" %}
-            {% if block.value.caption %}<figcaption class="text-sm text-gray-400 mt-2">{{ block.value.caption }}</figcaption>{% endif %}
+            {% if block.value.caption %}
+              <figcaption class="text-sm text-gray-400 mt-2">{{ block.value.caption }}</figcaption>
+            {% endif %}
           </figure>
         {% elif block.block_type == 'image_grid' %}
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 my-8">
             {% for item in block.value %}
               <div>
                 {% image item.image width-1200 class="w-full h-auto shadow" loading="lazy" %}
-                {% if item.caption %}<div class="text-sm text-gray-400 mt-1">{{ item.caption }}</div>{% endif %}
+                {% if item.caption %}
+                  <div class="text-sm text-gray-400 mt-1">{{ item.caption }}</div>
+                {% endif %}
               </div>
             {% endfor %}
           </div>
         {% elif block.block_type == 'two_column' %}
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8 my-8">
             <div>
-              {% for b in block.value.left %}
-                {% include_block b %}
-              {% endfor %}
+              {% for b in block.value.left %}{% include_block b %}{% endfor %}
             </div>
             <div>
-              {% for b in block.value.right %}
-                {% include_block b %}
-              {% endfor %}
+              {% for b in block.value.right %}{% include_block b %}{% endfor %}
             </div>
           </div>
         {% elif block.block_type == 'stats_grid' %}
@@ -84,15 +98,17 @@
       {% endfor %}
     </div>
 
+    <!-- Tags -->
     {% if page.tags.all %}
-      <div class="mt-10 flex flex-wrap gap-2">
+      <div class="mt-12 flex flex-wrap gap-2">
         {% for tag in page.tags.all %}
-          <a href="{% pageurl page.get_parent %}?tag={{ tag }}" class="px-3 py-1 rounded-full bg-white/5 border border-white/10 hover:border-accent transition text-sm">#{{ tag }}</a>
+          <a href="{% pageurl page.get_parent %}?tag={{ tag }}"
+             class="px-3 py-1 rounded-full bg-white/5 border border-white/10 hover:border-accent transition text-sm">
+             #{{ tag }}
+          </a>
         {% endfor %}
       </div>
     {% endif %}
   </div>
-</article>
+</section>
 {% endblock %}
-
-

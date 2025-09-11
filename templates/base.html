@@ -121,7 +121,9 @@
                 </a>
                 {% endif %}
 
-                    <a href="{% url 'core:products' %}" class="transition-colors font-medium hover:text-accent {% if current == 'products' %}text-accent{% endif %}">Products</a>
+                    {% if products_page %}
+                    <a href="{% pageurl products_page %}" class="transition-colors font-medium hover:text-accent">Products</a>
+                    {% endif %}
                     {% if blog_index_page %}
                     <a href="{% pageurl blog_index_page %}" class="transition-colors font-medium hover:text-accent">Information Hub</a>
                     {% else %}
@@ -144,7 +146,9 @@
                     {% if our_work_page %}
                     <a href="{% pageurl our_work_page %}" class="block px-3 py-2 text-base font-medium hover:text-accent transition-colors">Our Work</a>
                     {% endif %}
-                    <a href="{% url 'core:products' %}" class="block px-3 py-2 text-base font-medium hover:text-accent transition-colors">Products</a>
+                    {% if products_page %}
+                    <a href="{% pageurl products_page %}" class="block px-3 py-2 text-base font-medium hover:text-accent transition-colors">Products</a>
+                    {% endif %}
                     {% if blog_index_page %}
                     <a href="{% pageurl blog_index_page %}" class="block px-3 py-2 text-base font-medium hover:text-accent transition-colors">Information Hub</a>
                     {% else %}
@@ -224,7 +228,9 @@
                         {% if our_work_page %}
                         <li><a href="{% pageurl our_work_page %}" class="text-gray-400 hover:text-accent">Our Work</a></li>
                         {% endif %}
-                        <li><a href="{% url 'core:products' %}" class="text-gray-400 hover:text-accent">Products</a></li>
+                        {% if products_page %}
+                        <li><a href="{% pageurl products_page %}" class="text-gray-400 hover:text-accent">Products</a></li>
+                        {% endif %}
                         <li><a href="#services" class="text-gray-400 hover:text-accent">Services</a></li>
                         <li><a href="{% url 'core:terms' %}" class="text-gray-400 hover:text-accent">Terms of Service</a></li>
                     </ul>
@@ -366,6 +372,26 @@
             </div>
         </div>
     </div>
+
+    <!-- Swiper CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+  const swiper = new Swiper('.featured-swiper', {
+    slidesPerView: 1.2,
+    spaceBetween: 16,
+    pagination: { el: '.swiper-pagination', clickable: true },
+    navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+    breakpoints: {
+      640: { slidesPerView: 1.5 },
+      1024: { slidesPerView: 2.5 },
+    },
+  });
+</script>
+
 
     <!-- Scripts -->
     <script src="https://unpkg.com/alpinejs" defer></script>
