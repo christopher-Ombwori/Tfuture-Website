@@ -1020,6 +1020,7 @@
       </div>
     </div>
   
+    {% if blog_index_page %}
     <div class="mt-10 text-center relative z-10">
       <a href="{% pageurl blog_index_page %}" 
          class="group inline-flex items-center text-white/80 hover:text-white transition-all text-sm md:text-base">
@@ -1035,6 +1036,8 @@
         </svg>
       </a>
     </div>
+  {% endif %}
+  
   </section>
   
 {% endblock %}
