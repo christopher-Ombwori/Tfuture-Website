@@ -1,3 +1,5 @@
+{% load wagtailcore_tags %}
+
 <div class="p-6 rounded-lg my-8 relative overflow-hidden {% if value.style == 'info' %}bg-blue-900/20 border border-blue-500/30{% elif value.style == 'warning' %}bg-orange-900/20 border border-orange-500/30{% elif value.style == 'success' %}bg-green-900/20 border border-green-500/30{% else %}bg-accent/10 border border-accent/30{% endif %}">
   <!-- Decorative icon -->
   <div class="absolute right-0 top-0 opacity-10 transform translate-x-1/4 -translate-y-1/4">
