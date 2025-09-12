@@ -21,7 +21,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.views.generic import TemplateView
-from wagtail.contrib.sitemaps import views as wagtail_sitemaps_views
+from django.contrib.sitemaps.views import index as sitemap_index_view
+from django.contrib.sitemaps.views import sitemap as sitemap_view
+from core.sitemaps import ServiceSitemap, StaticViewSitemap, WagtailPageSitemap
 
 
 urlpatterns = [
@@ -33,7 +35,23 @@ urlpatterns = [
     # Wagtail admin + docs
     path('admin/', include('wagtail.admin.urls')),
     path('documents/', include('wagtail.documents.urls')),
-    path("sitemap.xml", wagtail_sitemaps_views.sitemap),
+    
+    # Sitemaps - All handled by Django's sitemap framework
+    path('sitemap.xml', sitemap_index_view, {
+        'sitemaps': {
+            'wagtail': WagtailPageSitemap,
+            'services': ServiceSitemap,
+            'static': StaticViewSitemap,
+        },
+        'sitemap_url_name': 'django.contrib.sitemaps.views.sitemap'
+    }),
+    path('sitemap-<section>.xml', sitemap_view, {
+        'sitemaps': {
+            'wagtail': WagtailPageSitemap,
+            'services': ServiceSitemap,
+            'static': StaticViewSitemap,
+        }
+    }, name='django.contrib.sitemaps.views.sitemap'),
 
     # Wagtail page routing (keep last)
     path('', include('wagtail.urls')),
