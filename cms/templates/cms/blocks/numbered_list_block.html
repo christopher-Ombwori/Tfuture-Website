@@ -1,0 +1,12 @@
+<div class="my-6 bg-white/5 rounded-lg p-4 border border-white/10">
+  <ol class="space-y-3 list-none">
+    {% for item in value %}
+      <li class="flex items-start">
+        <div class="text-accent font-mono font-bold mr-3 mt-0.5 flex items-center justify-center w-6 h-6 rounded-full bg-accent/10 border border-accent/20">
+          {{ forloop.counter }}
+        </div>
+        <div class="text-gray-200">{{ item }}</div>
+      </li>
+    {% endfor %}
+  </ol>
+</div>

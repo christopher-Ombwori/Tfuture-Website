@@ -1,0 +1,8 @@
+<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 my-8">
+  {% for stat in value %}
+    <div class="p-5 rounded-lg bg-gradient-to-br from-white/5 to-transparent border border-white/10 hover:border-accent/30 transition-all shadow-lg shadow-accent/5">
+      <div class="text-sm font-medium text-accent/80 uppercase tracking-wider">{{ stat.label }}</div>
+      <div class="text-3xl font-bold mt-2 text-white">{{ stat.value }}</div>
+    </div>
+  {% endfor %}
+</div>

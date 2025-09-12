@@ -5,7 +5,7 @@ from django.views.decorators.http import require_http_methods
 import json
 
 from .models import Service, ServiceRequest, Testimonial
-from .email_utils import send_service_request_emails
+from .brevo_api import send_service_request_emails
 
 # Wagtail imports
 from wagtail.snippets.views.snippets import SnippetViewSet

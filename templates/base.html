@@ -68,12 +68,21 @@
         .content-typography h4 { font-size: 1.25rem; line-height: 1.75rem; font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem; }
         .content-typography p { margin-top: 0.75rem; margin-bottom: 0.75rem; }
         .content-typography blockquote { border-left: 4px solid #64FFDA55; padding-left: 1rem; font-style: italic; color: #A8B2D1; margin: 1rem 0; }
-        .content-typography code { background: rgba(255,255,255,0.06); padding: 0.125rem 0.375rem; border-radius: 0.25rem; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 0.95em; }
-        .content-typography pre { background: rgba(255,255,255,0.06); padding: 1rem; border-radius: 0.5rem; overflow: auto; }
+        .content-typography code { background: rgba(100,255,218,0.1); padding: 0.125rem 0.375rem; border-radius: 0.25rem; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 0.95em; color: #64FFDA; }
+        .content-typography pre { background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 0.5rem; overflow: auto; border: 1px solid rgba(100,255,218,0.2); }
         .content-typography pre code { background: transparent; padding: 0; }
         .content-typography ul { list-style-type: disc; padding-left: 1.5rem; margin: 0.75rem 0; }
         .content-typography ol { list-style-type: decimal; padding-left: 1.5rem; margin: 0.75rem 0; }
         .content-typography li { margin: 0.25rem 0; }
+        
+        /* Enhanced RichText styling */
+        .rich-text-content strong { color: #fff; font-weight: 600; }
+        .rich-text-content em { color: #64FFDA; font-style: italic; }
+        .rich-text-content a { color: #64FFDA; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
+        .rich-text-content a:hover { text-decoration-thickness: 2px; }
+        .rich-text-content h2 { color: #fff; font-weight: 700; }
+        .rich-text-content h3 { color: #CCD6F6; font-weight: 600; }
+        .rich-text-content h4 { color: #A8B2D1; font-weight: 500; }
     </style>
     
     
@@ -528,4 +537,4 @@
     </script>
     {% block extra_js %}{% endblock %}
 </body>
-</html> 
+</html>

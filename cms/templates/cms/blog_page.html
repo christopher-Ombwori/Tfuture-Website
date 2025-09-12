@@ -39,62 +39,7 @@
     <!-- Body -->
     <div class="content-typography project-typography">
       {% for block in page.body %}
-        {% if block.block_type == 'image' %}
-          {% image block.value width-1920 class="w-full h-auto shadow-lg my-8" loading="lazy" %}
-        {% elif block.block_type == 'image_with_caption' %}
-          <figure class="my-8">
-            {% image block.value.image width-1920 class="w-full h-auto shadow-lg" loading="lazy" %}
-            {% if block.value.caption %}
-              <figcaption class="text-sm text-gray-400 mt-2">{{ block.value.caption }}</figcaption>
-            {% endif %}
-          </figure>
-        {% elif block.block_type == 'image_grid' %}
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 my-8">
-            {% for item in block.value %}
-              <div>
-                {% image item.image width-1200 class="w-full h-auto shadow" loading="lazy" %}
-                {% if item.caption %}
-                  <div class="text-sm text-gray-400 mt-1">{{ item.caption }}</div>
-                {% endif %}
-              </div>
-            {% endfor %}
-          </div>
-        {% elif block.block_type == 'two_column' %}
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 my-8">
-            <div>
-              {% for b in block.value.left %}{% include_block b %}{% endfor %}
-            </div>
-            <div>
-              {% for b in block.value.right %}{% include_block b %}{% endfor %}
-            </div>
-          </div>
-        {% elif block.block_type == 'stats_grid' %}
-          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 my-8">
-            {% for stat in block.value %}
-              <div class="p-4 rounded-lg bg-white/5 border border-white/10">
-                <div class="text-sm text-gray-400">{{ stat.label }}</div>
-                <div class="text-2xl font-semibold mt-1">{{ stat.value }}</div>
-              </div>
-            {% endfor %}
-          </div>
-        {% elif block.block_type == 'bulleted_list' %}
-          <ul class="list-disc pl-6 my-6">
-            {% for item in block.value %}
-              <li class="mb-1">{{ item }}</li>
-            {% endfor %}
-          </ul>
-        {% elif block.block_type == 'callout' %}
-          <div class="p-6 rounded-lg bg-accent/10 border border-accent/20 my-8">
-            <div class="text-accent font-semibold">{{ block.value.title }}</div>
-            <div class="prose prose-invert max-w-none mt-2">{% include_block block.value.body %}</div>
-          </div>
-        {% elif block.block_type == 'subheading' %}
-          <h2 class="text-white">{{ block.value }}</h2>
-        {% elif block.block_type == 'muted_subheading' %}
-          <h3 class="text-gray-300">{{ block.value }}</h3>
-        {% else %}
-          {% include_block block %}
-        {% endif %}
+        {% include_block block %}
       {% endfor %}
     </div>
 

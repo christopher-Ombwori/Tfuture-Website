@@ -1,0 +1,13 @@
+<div class="my-12 relative">
+  <div class="absolute -left-4 top-0 text-accent opacity-20 text-6xl font-serif">&ldquo;</div>
+  <div class="absolute -right-4 bottom-0 text-accent opacity-20 text-6xl font-serif">&rdquo;</div>
+  <div class="px-8 py-10 bg-gradient-to-br from-accent/20 to-transparent rounded-lg border border-accent/30 shadow-lg shadow-accent/5">
+    <p class="text-xl md:text-2xl font-medium text-white">{{ value.quote }}</p>
+    {% if value.attribution %}
+      <div class="mt-6 flex items-center">
+        <div class="h-px w-12 bg-accent/50 mr-4"></div>
+        <p class="text-sm font-medium text-accent">{{ value.attribution }}</p>
+      </div>
+    {% endif %}
+  </div>
+</div>

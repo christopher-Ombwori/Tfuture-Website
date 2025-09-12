@@ -172,21 +172,23 @@ FILE_UPLOAD_MAX_MEMORY_SIZE = 100 * 1024 * 1024  # 100 MB
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Email Configuration (Brevo SMTP)
+# Email Configuration (Brevo API)
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='contact@tfuturedesigns.studio')
 DEFAULT_FROM_NAME = config('DEFAULT_FROM_NAME', default='TFuture')
 ADMIN_EMAIL = config('ADMIN_EMAIL', default='contact@tfuturedesigns.studio')
 CONTACT_EMAIL = config('CONTACT_EMAIL', default='contact@tfuturedesigns.studio')
 SITE_URL = config('SITE_URL', default='http://localhost:8000')
 
-# Brevo SMTP Settings
-EMAIL_BACKEND = config('EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
-EMAIL_HOST = config('EMAIL_HOST', default='smtp-relay.brevo.com')
-EMAIL_PORT = config('EMAIL_PORT', default=2525, cast=int)
-EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
-EMAIL_USE_SSL = config('EMAIL_USE_SSL', default=False, cast=bool)
-EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
+# Brevo API Settings
+from decouple import config
+
+# Brevo API
+BREVO_API_KEY = config("BREVO_API_KEY")
+DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL", default="no-reply@tfuturedesigns.studio")
+
+# Admin emails (split into list)
+ADMIN_EMAILS = [email.strip() for email in config("ADMIN_EMAILS", default="").split(",")]
+
 
 # Security settings
 if not DEBUG:

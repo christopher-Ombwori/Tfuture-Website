@@ -1,0 +1,11 @@
+{% load wagtailimages_tags %}
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 my-8">
+  {% for item in value %}
+    <div>
+      {% image item.image width-1200 class="w-full h-auto rounded-lg shadow" loading="lazy" %}
+      {% if item.caption %}
+        <div class="text-sm text-gray-400 mt-1 opacity-80 italic">{{ item.caption }}</div>
+      {% endif %}
+    </div>
+  {% endfor %}
+</div>

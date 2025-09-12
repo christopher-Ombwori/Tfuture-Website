@@ -1,245 +1,241 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Service Request Confirmation - TFuture</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f8f9fa;
-        }
-        .email-container {
-            background-color: #ffffff;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #8B5CF6;
-        }
-        .logo {
-            font-size: 28px;
-            font-weight: bold;
-            color: #8B5CF6;
-            margin-bottom: 10px;
-        }
-        .subtitle {
-            color: #6B7280;
-            font-size: 16px;
-        }
-        .success-alert {
-            background: linear-gradient(135deg, #10B981, #059669);
-            color: white;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-            text-align: center;
-        }
-        .success-icon {
-            font-size: 48px;
-            margin-bottom: 10px;
-        }
-        .success-title {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .success-subtitle {
-            font-size: 16px;
-            opacity: 0.9;
-        }
-        .info-section {
-            background-color: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-        .info-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #e5e7eb;
-        }
-        .info-item:last-child {
-            border-bottom: none;
-        }
-        .info-label {
-            font-weight: bold;
-            color: #374151;
-        }
-        .info-value {
-            color: #1F2937;
-        }
-        .next-steps {
-            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
-            padding: 20px;
-            border-radius: 8px;
-            border-left: 4px solid #3B82F6;
-            margin-bottom: 20px;
-        }
-        .next-steps h3 {
-            color: #1e40af;
-            margin-top: 0;
-            margin-bottom: 15px;
-        }
-        .step {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 12px;
-        }
-        .step-number {
-            background: #3B82F6;
-            color: white;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: bold;
-            margin-right: 12px;
-            flex-shrink: 0;
-        }
-        .step-text {
-            color: #1F2937;
-            line-height: 1.5;
-        }
-        .contact-info {
-            background-color: #fef3c7;
-            padding: 20px;
-            border-radius: 8px;
-            border-left: 4px solid #f59e0b;
-            margin-bottom: 20px;
-        }
-        .contact-info h3 {
-            color: #92400e;
-            margin-top: 0;
-            margin-bottom: 15px;
-        }
-        .contact-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-        .contact-icon {
-            margin-right: 10px;
-            color: #f59e0b;
-        }
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #e5e7eb;
-            color: #6B7280;
-            font-size: 14px;
-        }
-        .social-links {
-            margin-top: 15px;
-        }
-        .social-link {
-            display: inline-block;
-            margin: 0 10px;
-            color: #8B5CF6;
-            text-decoration: none;
-        }
-        @media (max-width: 600px) {
-            .info-item {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .info-value {
-                margin-top: 5px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Request Confirmation - TFuture</title>
+  <!--[if mso]>
+  <style type="text/css">
+    body, table, td {font-family: Arial, Helvetica, sans-serif !important;}
+  </style>
+  <![endif]-->
 </head>
-<body>
-    <div class="email-container">
-        <div class="header">
-            <div class="logo">TFuture</div>
-            <div class="subtitle">Brand & Design Studio</div>
-        </div>
-
-        <div class="success-alert">
-            <div class="success-icon">✅</div>
-            <div class="success-title">Request Received!</div>
-            <div class="success-subtitle">Thank you for choosing TFuture</div>
-        </div>
-
-        <div class="info-section">
-            <h3 style="margin-top: 0; color: #1F2937;">Request Details</h3>
-            <div class="info-item">
-                <span class="info-label">Name:</span>
-                <span class="info-value">{{ first_name }} {{ last_name }}</span>
-            </div>
-            <div class="info-item">
-                <span class="info-label">Service:</span>
-                <span class="info-value">{{ service_name }}</span>
-            </div>
-            <div class="info-item">
-                <span class="info-label">Request ID:</span>
-                <span class="info-value">#{{ request_id }}</span>
-            </div>
-            <div class="info-item">
-                <span class="info-label">Submitted:</span>
-                <span class="info-value">{{ created_at|date:"F j, Y" }} at {{ created_at|time:"g:i A" }}</span>
-            </div>
-        </div>
-
-        <div class="next-steps">
-            <h3>What Happens Next?</h3>
-            <div class="step">
-                <div class="step-number">1</div>
-                <div class="step-text">Our team will review your request within the next few hours</div>
-            </div>
-            <div class="step">
-                <div class="step-number">2</div>
-                <div class="step-text">We'll contact you within 24 hours to discuss your project details</div>
-            </div>
-            <div class="step">
-                <div class="step-number">3</div>
-                <div class="step-text">We'll provide a customized proposal and timeline for your project</div>
-            </div>
-        </div>
-
-        <div class="contact-info">
-            <h3>Need to reach us?</h3>
-            <div class="contact-item">
-                <span class="contact-icon">📧</span>
-                <span>Email: hello@tfuture.com</span>
-            </div>
-            <div class="contact-item">
-                <span class="contact-icon">📱</span>
-                <span>Phone: +1 (555) 123-4567</span>
-            </div>
-            <div class="contact-item">
-                <span class="contact-icon">🌐</span>
-                <span>Website: www.tfuture.com</span>
-            </div>
-        </div>
-
-        <div class="footer">
-            <p>Thank you for choosing TFuture for your brand and design needs!</p>
-            <div class="social-links">
-                <a href="#" class="social-link">Instagram</a>
-                <a href="#" class="social-link">LinkedIn</a>
-                <a href="#" class="social-link">Twitter</a>
-            </div>
-            <p style="margin-top: 15px; font-size: 12px;">
-                This is an automated confirmation. Please do not reply to this email.
-            </p>
-        </div>
+<body style="margin: 0; font-family: Arial, Helvetica, sans-serif; background: #f8f9fa; color: #333333; -webkit-font-smoothing: antialiased;">
+  <div style="max-width: 650px; margin: 0 auto; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 12px 35px rgba(0,0,0,0.1);">
+    <!-- Header with Background Image -->
+    <div style="position: relative; overflow: hidden; height: 240px; background-color: #000;">
+      <img style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.7;" src="https://tfuturedesigns.studio/static/images/hero.jpg" alt="">
+      <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 100%); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 20px;">
+        <img style="width: 120px; margin-bottom: 20px;" src="https://tfuturedesigns.studio/static/images/primarylogo.png" alt="TFuture Logo">
+        <h1 style="font-size: 32px; font-weight: 700; margin: 0 0 10px 0; color: #fff; letter-spacing: 1px; text-transform: uppercase;">Request Confirmed</h1>
+        <p style="font-size: 16px; color: rgba(255,255,255,0.9); margin: 0; font-weight: 300; letter-spacing: 0.5px;">Thank you for choosing TFuture</p>
+      </div>
     </div>
+
+    <div style="padding: 40px;">
+      <!-- Confirmation Badge -->
+      <div style="display: flex; align-items: center; justify-content: center; margin: -80px auto 30px; position: relative; z-index: 10; width: 80px; height: 80px; background: #fff; border-radius: 50%; box-shadow: 0 4px 15px rgba(0,0,0,0.15);">
+        <img src="https://tfuturedesigns.studio/static/images/email-icons/check.png" alt="Confirmation Check" width="40" height="40" style="border: none;">
+      </div>
+      
+      <!-- Welcome Message -->
+      <div style="text-align: center; margin-bottom: 40px;">
+        <h2 style="font-size: 24px; font-weight: 600; color: #333333; margin: 0 0 15px 0;">Hello, {{ first_name }}!</h2>
+        <p style="font-size: 16px; color: #4b5563; line-height: 1.6; margin: 0;">Thank you for choosing TFuture! Your service request has been successfully received. We're excited to work with you and bring your vision to life.</p>
+      </div>
+      
+      <!-- Request Details Section -->
+      <div style="margin-bottom: 35px;">
+        <div style="font-size: 18px; font-weight: 600; margin-bottom: 20px; color: #333333; display: flex; align-items: center;">
+          <img src="https://tfuturedesigns.studio/static/images/email-icons/document.png" alt="Document Icon" width="20" height="20" style="margin-right: 10px; border: none;">
+          Request Details
+        </div>
+        <div style="background: #f9fafb; border-radius: 8px; padding: 25px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+          <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.06); font-size: 15px;">
+            <span style="font-weight: 600; color: #4b5563;">Client</span>
+            <span style="color: #333333; font-weight: 500;">{{ first_name }} {{ last_name }}</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.06); font-size: 15px;">
+            <span style="font-weight: 600; color: #4b5563;">Service</span>
+            <span style="color: #333333; font-weight: 500;">{{ service_name }}</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.06); font-size: 15px;">
+            <span style="font-weight: 600; color: #4b5563;">Reference ID</span>
+            <span style="color: #333333; font-weight: 500;">#{{ request_id }}</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding: 12px 0; font-size: 15px;">
+            <span style="font-weight: 600; color: #4b5563;">Submitted</span>
+            <span style="color: #333333; font-weight: 500;">{{ created_at|date:"F j, Y" }} at {{ created_at|time:"g:i A" }}</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Journey Visualization -->
+      <div style="margin-bottom: 35px;">
+        <div style="font-size: 18px; font-weight: 600; margin-bottom: 20px; color: #333333; display: flex; align-items: center;">
+          <img src="https://tfuturedesigns.studio/static/images/email-icons/journey.png" alt="Journey Icon" width="20" height="20" style="margin-right: 10px; border: none;">
+          Your Journey With Us
+        </div>
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="table-layout: fixed;">
+          <tr>
+            <td align="center" width="25%" style="position: relative; text-align: center;">
+              <div style="width: 50px; height: 50px; border-radius: 50%; background: #5558dd; display: inline-flex; align-items: center; justify-content: center; margin: 0 auto 15px; position: relative; z-index: 2;">
+                <img src="https://tfuturedesigns.studio/static/images/email-icons/small-check.png" alt="Check Icon" width="24" height="24" style="border: none;">
+              </div>
+              <div style="font-size: 14px; font-weight: 600; color: #4b5563; margin-bottom: 5px;">Request Received</div>
+              <div style="font-size: 12px; color: #6b7280;">We've got your details</div>
+            </td>
+            <td align="center" width="25%" style="position: relative; text-align: center;">
+              <div style="width: 50px; height: 50px; border-radius: 50%; background: #f3f4f6; display: inline-flex; align-items: center; justify-content: center; margin: 0 auto 15px; position: relative; z-index: 2;">
+                <img src="https://tfuturedesigns.studio/static/images/email-icons/consultation.png" alt="Consultation Icon" width="24" height="24" style="border: none;">
+              </div>
+              <div style="font-size: 14px; font-weight: 600; color: #4b5563; margin-bottom: 5px;">Consultation</div>
+              <div style="font-size: 12px; color: #6b7280;">Discussing your needs</div>
+            </td>
+            <td align="center" width="25%" style="position: relative; text-align: center;">
+              <div style="width: 50px; height: 50px; border-radius: 50%; background: #f3f4f6; display: inline-flex; align-items: center; justify-content: center; margin: 0 auto 15px; position: relative; z-index: 2;">
+                <img src="https://tfuturedesigns.studio/static/images/email-icons/proposal.png" alt="Proposal Icon" width="24" height="24" style="border: none;">
+              </div>
+              <div style="font-size: 14px; font-weight: 600; color: #4b5563; margin-bottom: 5px;">Proposal</div>
+              <div style="font-size: 12px; color: #6b7280;">Custom solution</div>
+            </td>
+            <td align="center" width="25%" style="position: relative; text-align: center;">
+              <div style="width: 50px; height: 50px; border-radius: 50%; background: #f3f4f6; display: inline-flex; align-items: center; justify-content: center; margin: 0 auto 15px; position: relative; z-index: 2;">
+                <img src="https://tfuturedesigns.studio/static/images/email-icons/delivery.png" alt="Delivery Icon" width="24" height="24" style="border: none;">
+              </div>
+              <div style="font-size: 14px; font-weight: 600; color: #4b5563; margin-bottom: 5px;">Delivery</div>
+              <div style="font-size: 12px; color: #6b7280;">Project completion</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      
+      <!-- Next Steps Section -->
+      <div style="margin-bottom: 35px;">
+        <div style="font-size: 18px; font-weight: 600; margin-bottom: 20px; color: #333333; display: flex; align-items: center;">
+          <img src="https://tfuturedesigns.studio/static/images/email-icons/next-steps.png" alt="Next Steps Icon" width="20" height="20" style="margin-right: 10px; border: none;">
+          What Happens Next
+        </div>
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="border-collapse: collapse;">
+          <tr>
+            <td style="padding-bottom: 15px;">
+              <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <td width="40" valign="top">
+                    <div style="width: 30px; height: 30px; border-radius: 50%; background: #5558dd; color: white; font-weight: bold; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-size: 14px; text-align: center; line-height: 30px;">
+                      <img src="https://tfuturedesigns.studio/static/images/email-icons/small-check.png" alt="Check Icon" width="16" height="16" style="border: none;">
+                    </div>
+                  </td>
+                  <td valign="top">
+                    <div style="font-size: 16px; font-weight: 600; color: #333333; margin-bottom: 5px;">Initial Review</div>
+                    <div style="font-size: 14px; color: #4b5563;">Our team is carefully reviewing your request to understand your specific needs and goals.</div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding-bottom: 15px;">
+              <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <td width="40" valign="top">
+                    <div style="width: 30px; height: 30px; border-radius: 50%; background: #5558dd; color: white; font-weight: bold; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-size: 14px; text-align: center; line-height: 30px;">
+                      <img src="https://tfuturedesigns.studio/static/images/email-icons/small-check.png" alt="Check Icon" width="16" height="16" style="border: none;">
+                    </div>
+                  </td>
+                  <td valign="top">
+                    <div style="font-size: 16px; font-weight: 600; color: #333333; margin-bottom: 5px;">Personal Contact</div>
+                    <div style="font-size: 14px; color: #4b5563;">Within 24 hours, a dedicated project manager will reach out to discuss your project in detail.</div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <td width="40" valign="top">
+                    <div style="width: 30px; height: 30px; border-radius: 50%; background: #5558dd; color: white; font-weight: bold; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-size: 14px; text-align: center; line-height: 30px;">
+                      <img src="https://tfuturedesigns.studio/static/images/email-icons/small-check.png" alt="Check Icon" width="16" height="16" style="border: none;">
+                    </div>
+                  </td>
+                  <td valign="top">
+                    <div style="font-size: 16px; font-weight: 600; color: #333333; margin-bottom: 5px;">Custom Proposal</div>
+                    <div style="font-size: 14px; color: #4b5563;">We'll create a tailored proposal designed specifically for your needs, including timeline and investment details.</div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </div>
+      
+      <!-- No Call to Action button as requested -->
+      
+      <!-- Support Section -->
+      <div style="margin-bottom: 35px; background-color: #f5f5f5; border-radius: 8px; padding: 25px; border: 1px solid #dddddd;">
+        <div style="font-size: 18px; font-weight: 600; margin-bottom: 20px; color: #333333; display: flex; align-items: center;">
+          <img src="https://tfuturedesigns.studio/static/images/email-icons/support.png" alt="Support Icon" width="20" height="20" style="margin-right: 10px; border: none;">
+          Need Immediate Assistance?
+        </div>
+        <p style="margin-top: 0; margin-bottom: 20px; font-size: 14px; color: #4b5563; line-height: 1.6;">
+          Our team is ready to help with any questions you might have about your request.
+        </p>
+        <a href="mailto:contact@tfuturedesigns.studio" style="display: inline-block; color: #5558dd; text-decoration: none; font-size: 14px; font-weight: 500;">Contact Support</a>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div style="background-color: #333333; padding: 30px 20px; border-radius: 0 0 8px 8px; text-align: center;">
+      <table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-bottom: 20px;">
+        <tr>
+          <td align="center">
+            <img src="https://tfuturedesigns.studio/static/images/primarylogo.png" alt="TFuture Logo" width="120" style="border: none; margin-bottom: 10px;" />
+            <div style="color: #ccccff; font-size: 14px; font-style: italic; margin-bottom: 20px;">Envision it; we make it happen.</div>
+          </td>
+        </tr>
+      </table>
+      
+      <table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-bottom: 20px;">
+        <tr>
+          <td align="center">
+            <table cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td style="padding: 0 10px;">
+                  <a href="https://www.instagram.com/t.tfuture/" style="display: inline-block;">
+                    <img src="https://tfuturedesigns.studio/static/images/social/instagram.png" alt="Instagram" width="24" height="24" style="border: none;" />
+                  </a>
+                </td>
+                <td style="padding: 0 10px;">
+                  <a href="https://www.linkedin.com/company/tfuture-designs/" style="display: inline-block;">
+                    <img src="https://tfuturedesigns.studio/static/images/social/linkedin.png" alt="LinkedIn" width="24" height="24" style="border: none;" />
+                  </a>
+                </td>
+                <td style="padding: 0 10px;">
+                  <a href="https://www.facebook.com/profile.php?id=61574848637945" style="display: inline-block;">
+                    <img src="https://tfuturedesigns.studio/static/images/social/facebook.png" alt="Facebook" width="24" height="24" style="border: none;" />
+                  </a>
+                </td>
+                <td style="padding: 0 10px;">
+                  <a href="https://www.tiktok.com/@tfuturedesigns" style="display: inline-block;">
+                    <img src="https://tfuturedesigns.studio/static/images/social/tiktok.png" alt="TikTok" width="24" height="24" style="border: none;" />
+                  </a>
+                </td>
+                <td style="padding: 0 10px;">
+                  <a href="https://wa.me/?text=Hello%20TFuture%20Designs%2C%20I%20would%20like%20to%20inquire%20about%20my%20service%20request." style="display: inline-block;">
+                    <img src="https://tfuturedesigns.studio/static/images/social/whatsapp.png" alt="WhatsApp" width="24" height="24" style="border: none;" />
+                  </a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      
+      <div style="color: #ccccff; font-size: 12px; margin-bottom: 20px;">This is an automated confirmation. Please do not reply to this email. For any inquiries, please use the contact support link above.</div>
+      
+      <table cellpadding="0" cellspacing="0" border="0" width="100%">
+        <tr>
+          <td align="center">
+            <a href="https://www.tfuturedesigns.studio/privacy" style="color: #ccccff; text-decoration: none; font-size: 12px; margin: 0 10px;">Privacy Policy</a>
+            <a href="https://www.tfuturedesigns.studio/terms" style="color: #ccccff; text-decoration: none; font-size: 12px; margin: 0 10px;">Terms of Service</a>
+            <a href="https://www.tfuturedesigns.studio/contact" style="color: #ccccff; text-decoration: none; font-size: 12px; margin: 0 10px;">Contact Us</a>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
 </body>
-</html> 
+</html>
