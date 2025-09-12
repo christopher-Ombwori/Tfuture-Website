@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ServiceRequest
+from .models import ServiceRequest, Service, Testimonial
 
 
 @admin.register(ServiceRequest)
@@ -95,4 +95,95 @@ class ServiceRequestAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         # Allow deletion for cleanup purposes
         return True
+
+
+@admin.register(Service)
+class ServiceAdmin(admin.ModelAdmin):
+    list_display = (
+        "name",
+        "slug",
+        "is_featured",
+        "is_visible",
+        "order",
+        "created_at",
+        "updated_at",
+    )
+    list_filter = ("is_featured", "is_visible")
+    search_fields = ("name", "slug", "description", "short_description")
+    list_editable = ("is_featured", "is_visible", "order")
+    prepopulated_fields = {"slug": ("name",)}
+    
+    fieldsets = (
+        (
+            "Service Information",
+            {
+                "fields": (
+                    "name",
+                    "slug",
+                    "description",
+                    "short_description",
+                    "icon_svg",
+                ),
+            },
+        ),
+        (
+            "Display Options",
+            {
+                "fields": ("is_visible", "is_featured", "order"),
+            },
+        ),
+        (
+            "Timestamps",
+            {
+                "fields": ("created_at", "updated_at"),
+                "classes": ("collapse",),
+            },
+        ),
+    )
+    
+    readonly_fields = ("created_at", "updated_at")
+
+
+@admin.register(Testimonial)
+class TestimonialAdmin(admin.ModelAdmin):
+    list_display = (
+        "name",
+        "role",
+        "featured",
+        "order",
+        "created_at",
+    )
+    list_filter = ("featured",)
+    search_fields = ("name", "role", "quote")
+    list_editable = ("featured", "order")
+    
+    fieldsets = (
+        (
+            "Testimonial Information",
+            {
+                "fields": (
+                    "name",
+                    "role",
+                    "initials",
+                    "quote",
+                    "image",
+                ),
+            },
+        ),
+        (
+            "Display Options",
+            {
+                "fields": ("featured", "order"),
+            },
+        ),
+        (
+            "Timestamps",
+            {
+                "fields": ("created_at", "updated_at"),
+                "classes": ("collapse",),
+            },
+        ),
+    )
+    
+    readonly_fields = ("created_at", "updated_at")
 

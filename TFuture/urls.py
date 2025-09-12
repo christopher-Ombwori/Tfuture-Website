@@ -23,6 +23,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.views.generic import TemplateView
 from wagtail.contrib.sitemaps import views as wagtail_sitemaps_views
 
+
 urlpatterns = [
     path('my-admin-futuristic', admin.site.urls),
     path('', include('core.urls')),
@@ -32,7 +33,7 @@ urlpatterns = [
     # Wagtail admin + docs
     path('admin/', include('wagtail.admin.urls')),
     path('documents/', include('wagtail.documents.urls')),
-    path('sitemap.xml', wagtail_sitemaps_views.sitemap),
+    path("sitemap.xml", wagtail_sitemaps_views.sitemap),
 
     # Wagtail page routing (keep last)
     path('', include('wagtail.urls')),

@@ -11,6 +11,9 @@ from wagtail.search import index
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from taggit.models import TaggedItemBase
 
+# Import the Testimonial model from core app
+from core.models import Testimonial
+
 
 class HeroBlock(blocks.StructBlock):
     label = blocks.CharBlock(required=True, help_text="Small label above the headline")

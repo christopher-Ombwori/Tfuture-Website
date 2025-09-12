@@ -12,7 +12,7 @@ from wagtail.fields import StreamField
 from wagtail import blocks
 from wagtail.images.blocks import ImageChooserBlock
 
-@register_snippet
+
 class Service(models.Model):
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True , help_text="⚠️ For General Inquiry: slug MUST be 'general-inquiry'")
@@ -55,11 +55,6 @@ class Service(models.Model):
     def __str__(self):
         return self.name
 
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.name)
-        super().save(*args, **kwargs)
-
     def get_absolute_url(self):
         return reverse("service_detail", kwargs={"slug": self.slug})
     
@@ -72,6 +67,8 @@ class Service(models.Model):
         super().clean()
 
     def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
         self.full_clean()  # ensures clean() is run
         super().save(*args, **kwargs)
 
@@ -80,7 +77,7 @@ def prevent_general_inquiry_deletion(sender, instance, **kwargs):
     if instance.slug == "general-inquiry":
         raise ValidationError("The 'General Inquiry' service cannot be deleted.")
 
-@register_snippet
+
 class ServiceRequest(models.Model):
     STATUS_CHOICES = [
         ("new", "New"),
@@ -143,8 +140,49 @@ class HomePage(Page):
         [("testimonial", TestimonialBlock())],
         blank=True,
         use_json_field=True,
+        null=True,
+        help_text="Testimonials to display on the homepage"
     )
-
+    
     content_panels = Page.content_panels + [
         FieldPanel("testimonials"),
     ]
+    
+    def __str__(self):
+        return self.title
+
+
+class Testimonial(models.Model):
+    name = models.CharField(max_length=100)
+    role = models.CharField(max_length=100)
+    initials = models.CharField(max_length=3, help_text="Short initials for avatar circle")
+    quote = models.TextField()
+    image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+    featured = models.BooleanField(default=False, help_text="If selected, this testimonial will appear on the homepage")
+    order = models.PositiveIntegerField(default=0, help_text="Order of appearance")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    panels = [
+        FieldPanel("name"),
+        FieldPanel("role"),
+        FieldPanel("initials"),
+        FieldPanel("quote"),
+        FieldPanel("image"),
+        FieldPanel("featured"),
+        FieldPanel("order"),
+    ]
+    
+    class Meta:
+        ordering = ["order", "name"]
+        verbose_name = "Testimonial"
+        verbose_name_plural = "Testimonials"
+    
+    def __str__(self):
+        return f"{self.name} - {self.role}"

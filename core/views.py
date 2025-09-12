@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 import json
 
-from .models import Service, ServiceRequest
+from .models import Service, ServiceRequest, Testimonial
 from .email_utils import send_service_request_emails
 
 # Wagtail imports
@@ -26,11 +26,15 @@ def home(request):
     featured_blogs = (
         BlogPage.objects.live().public().filter(is_featured=True).order_by('-first_published_at')[:4]
     )
+    
+    # Fetch featured testimonials
+    featured_testimonials = Testimonial.objects.filter(featured=True).order_by('order')
 
     return render(request, 'core/home.html', {
         'services': services,
         'featured_projects': featured_projects,
         'featured_blogs': featured_blogs,
+        'testimonials': featured_testimonials,
     })
 
 
