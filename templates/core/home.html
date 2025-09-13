@@ -1176,7 +1176,7 @@
       </button>
       
       <!-- Collapsible FAQ Content -->
-      <div id="faq-section-content" class="hidden overflow-hidden max-h-0 transition-all duration-500">
+      <div id="faq-section-content" class="hidden overflow-y-auto max-h-0 transition-all duration-500" style="max-height: 0; overflow-y: auto;">
         <div class="p-5 md:p-8 space-y-4">
           <!-- FAQ Item 1 -->
           <div class="mb-4">
@@ -1459,7 +1459,8 @@
             faqContent.classList.remove('hidden');
             // Use setTimeout to ensure the transition works properly
             setTimeout(() => {
-                faqContent.style.maxHeight = faqContent.scrollHeight + 'px';
+                // Set a fixed max height to enable scrolling when content is too large
+                faqContent.style.maxHeight = '70vh'; // 70% of viewport height
             }, 10);
         } else {
             faqContent.style.maxHeight = '0';

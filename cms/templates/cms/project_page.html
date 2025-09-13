@@ -6,16 +6,16 @@
 {% block title %}{{ page.seo_title|default:page.title }} | TFuture Designs - Kenya based Premier Design Agency{% endblock %}
 
 {% block meta_description %}
-  {{ page.search_description|default:"TFuture Designs - Kenya based premier design agency specializing in providing Design and Branding solutions for businesses across Africa. View our portfolio of exceptional branding projects." }}
+  {{ page.search_description|default:"TFuture Designs - Kenya's leading brand design agency specializing in brand identity systems, corporate branding, and strategic brand architecture. View our portfolio of exceptional branding projects by top brand designers in Kenya and Africa." }}
 {% endblock %}
 
 {% block extra_meta %}
-  <meta name="keywords" content="TFuture Designs, Kenya Design Agency, African Design, {{ page.title }}, {% for blk in page.hero %}{% if blk.block_type == 'hero' and blk.value.tags %}{% for tag in blk.value.tags %}{{ tag }}{% if not forloop.last %}, {% endif %}{% endfor %}{% endif %}{% endfor %}">
+  <meta name="keywords" content="TFuture Designs, Kenya Design Agency, African Design, best brand designers in Kenya, top branding agency in Kenya, professional logo design Kenya, brand identity design Africa, corporate branding Kenya, brand strategy East Africa, visual identity design Nairobi, {{ page.title }}, {% for blk in page.hero %}{% if blk.block_type == 'hero' and blk.value.tags %}{% for tag in blk.value.tags %}{{ tag }}{% if not forloop.last %}, {% endif %}{% endfor %}{% endif %}{% endfor %}">
   <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{% pageurl page %}">
   
   {# Social Media Meta Tags for Brand Differentiation #}
   <meta property="og:title" content="{{ page.seo_title|default:page.title }} | TFuture Designs">
-  <meta property="og:description" content="{{ page.search_description|default:"TFuture Designs - Kenya based premier design agency specializing in providing Design and Branding solutions for businesses across Africa." }}">
+  <meta property="og:description" content="{{ page.search_description|default:"TFuture Designs - Kenya's leading brand design agency specializing in brand identity systems, corporate branding, and strategic brand architecture for businesses across Africa." }}">
   <meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{% pageurl page %}">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="TFuture Designs">
@@ -28,7 +28,7 @@
   
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{ page.seo_title|default:page.title }} | TFuture Designs">
-  <meta name="twitter:description" content="{{ page.search_description|default:"TFuture Designs - Kenya based premier design agency specializing in providing Design and Branding solutions for businesses across Africa." }}">
+  <meta name="twitter:description" content="{{ page.search_description|default:"TFuture Designs - Kenya's leading brand design agency specializing in brand identity systems, corporate branding, and strategic brand architecture for businesses across Africa." }}">
   {% for blk in page.hero %}{% if blk.block_type == 'hero' and blk.value.hero_image %}
     {% image blk.value.hero_image width-1200 as twitter_image %}
     <meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{{ twitter_image.url }}">
@@ -162,20 +162,20 @@
     <div class="flex flex-col md:flex-row items-center justify-between gap-8">
       <div class="max-w-xl">
         <h2 class="font-display text-2xl font-bold mb-3 text-gradient">TFuture Designs</h2>
-        <p class="text-gray-300 mb-6 text-sm md:text-base">Kenya based premier design agency specializing in providing Design and Branding solutions for businesses across Africa. We have devoted ourselves, to make sure your business is at its best when it comes to branding.</p>
+        <p class="text-gray-300 mb-6 text-sm md:text-base">Kenya's leading brand design agency specializing in brand identity systems, corporate branding, and strategic brand architecture for businesses across Africa. Our professional brand designers create visual identities that elevate your business.</p>
         <a href="{% url 'core:home' %}#services" class="inline-flex items-center px-5 py-2.5 rounded-lg bg-primary text-accent font-medium hover:bg-primary/90 transition-all border border-accent/30">
           Select Service
         </a>
       </div>
       <div class="flex flex-wrap gap-3 justify-center">
         <span class="px-3 py-1.5 bg-white/5 border border-white/10 rounded-lg text-sm text-gray-300">
-          Brand Strategies & Identity
+          Brand Strategies & Identity Systems
         </span>
         <span class="px-3 py-1.5 bg-white/5 border border-white/10 rounded-lg text-sm text-gray-300">
-          Company Profiles
+          Corporate Branding
         </span>
         <span class="px-3 py-1.5 bg-white/5 border border-white/10 rounded-lg text-sm text-gray-300">
-          Social Media Visuals
+          Strategic Brand Architecture
         </span>
         <span class="px-3 py-1.5 bg-white/5 border border-white/10 rounded-lg text-sm text-gray-300">
           Event Branding

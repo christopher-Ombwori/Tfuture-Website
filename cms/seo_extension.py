@@ -12,22 +12,22 @@ class ProjectSEOExtension(models.Model):
     seo_brand_keywords = models.CharField(
         max_length=255,
         blank=True,
-        help_text="Comma-separated keywords for TFuture Designs brand differentiation"
+        help_text="Comma-separated keywords for TFuture Designs brand differentiation and services (e.g., brand architecture, identity systems, corporate branding)"
     )
     seo_kenya_focus = models.CharField(
         max_length=255,
         blank=True,
-        help_text="Kenya-specific keywords or phrases for local SEO"
+        help_text="Kenya-specific keywords or phrases for local SEO (e.g., best brand designers in Kenya, top branding agency in Kenya)"
     )
     seo_africa_focus = models.CharField(
         max_length=255,
         blank=True,
-        help_text="Africa-specific keywords or phrases for regional SEO"
+        help_text="Africa-specific keywords or phrases for regional SEO (e.g., brand identity design Africa, brand development Africa)"
     )
     seo_industry_differentiator = models.CharField(
         max_length=255,
         blank=True,
-        help_text="Industry-specific terms that differentiate TFuture Designs"
+        help_text="Industry-specific terms that differentiate TFuture Designs as brand architects (e.g., strategic brand architecture, professional brand identity systems)"
     )
     
     # Panels for the admin interface
