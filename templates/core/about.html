@@ -1,9 +1,16 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}About Us - TFuture Designs{% endblock %}
+{% block title %}About TFuture Designs - Our Story & Mission{% endblock %}
+
+{% block meta_description %}Learn about TFuture Designs, our mission, values, and the team behind our professional web design and digital marketing services. Discover how we help businesses succeed online.{% endblock %}
+
+{% block meta_keywords %}about TFuture, web design company, digital marketing team, company mission, professional services, design agency{% endblock %}
 
 {% block content %}
+<!-- Include breadcrumbs -->
+{% include 'includes/breadcrumbs.html' %}
+
 <!-- Brevo Tracker -->
 <script src="https://cdn.brevo.com/js/sdk-loader.js" async></script>
 <script>
@@ -622,4 +629,4 @@
         }
     });
 </script>
-{% endblock %} 
+{% endblock %}

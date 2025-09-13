@@ -1,9 +1,47 @@
 {% extends "base.html" %}
 {% load wagtailcore_tags wagtailimages_tags %}
 
-{% block title %}{{ page.seo_title|default:page.title }}{% endblock %}
+{# Enhanced SEO for TFuture Designs brand differentiation #}
+
+{% block title %}{{ page.seo_title|default:page.title }} | TFuture Designs - Kenya based Premier Design Agency{% endblock %}
+
+{% block meta_description %}
+  {{ page.search_description|default:"TFuture Designs - Kenya based premier design agency specializing in providing Design and Branding solutions for businesses across Africa. View our portfolio of exceptional branding projects." }}
+{% endblock %}
+
+{% block extra_meta %}
+  <meta name="keywords" content="TFuture Designs, Kenya Design Agency, African Design, {{ page.title }}, {% for blk in page.hero %}{% if blk.block_type == 'hero' and blk.value.tags %}{% for tag in blk.value.tags %}{{ tag }}{% if not forloop.last %}, {% endif %}{% endfor %}{% endif %}{% endfor %}">
+  <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{% pageurl page %}">
+  
+  {# Social Media Meta Tags for Brand Differentiation #}
+  <meta property="og:title" content="{{ page.seo_title|default:page.title }} | TFuture Designs">
+  <meta property="og:description" content="{{ page.search_description|default:"TFuture Designs - Kenya based premier design agency specializing in providing Design and Branding solutions for businesses across Africa." }}">
+  <meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{% pageurl page %}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="TFuture Designs">
+  {% for blk in page.hero %}{% if blk.block_type == 'hero' and blk.value.hero_image %}
+    {% image blk.value.hero_image width-1200 as og_image %}
+    <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ og_image.url }}">
+    <meta property="og:image:width" content="{{ og_image.width }}">
+    <meta property="og:image:height" content="{{ og_image.height }}">
+  {% endif %}{% endfor %}
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ page.seo_title|default:page.title }} | TFuture Designs">
+  <meta name="twitter:description" content="{{ page.search_description|default:"TFuture Designs - Kenya based premier design agency specializing in providing Design and Branding solutions for businesses across Africa." }}">
+  {% for blk in page.hero %}{% if blk.block_type == 'hero' and blk.value.hero_image %}
+    {% image blk.value.hero_image width-1200 as twitter_image %}
+    <meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{{ twitter_image.url }}">
+  {% endif %}{% endfor %}
+{% endblock %}
 
 {% block content %}
+{# Include structured data for brand differentiation #}
+{% include "includes/project_structured_data.html" %}
+
+{# Include breadcrumbs with TFuture Designs branding #}
+{% include "includes/breadcrumbs.html" %}
+
 <section class="py-16">
   <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-[90rem]">
 
@@ -21,7 +59,7 @@
           </div>
           {% endif %}
           <div class="mt-8">
-            {% image blk.value.hero_image width-1920 class="w-full h-auto shadow-lg" loading="lazy" %}
+            {% image blk.value.hero_image width-1920 class="w-full h-auto shadow-lg" loading="lazy" alt="TFuture Designs - {{ blk.value.headline }} | Kenya based Premier Design Agency" %}
           </div>
         </div>
       {% endif %}
@@ -46,17 +84,17 @@
     <div class="content-typography project-typography">
       {% for block in page.body %}
         {% if block.block_type == 'image' %}
-          {% image block.value width-1920 class="w-full h-auto shadow-lg my-8" loading="lazy" %}
+          {% image block.value width-1920 class="w-full h-auto shadow-lg my-8" loading="lazy" alt="TFuture Designs - {{ block.value.title|default:page.title }} | Kenya Design Project" %}
         {% elif block.block_type == 'image_with_caption' %}
           <figure class="my-8">
-            {% image block.value.image width-1920 class="w-full h-auto shadow-lg" loading="lazy" %}loading="lazy"
+            {% image block.value.image width-1920 class="w-full h-auto shadow-lg" loading="lazy" alt="TFuture Designs - {{ block.value.caption|default:page.title }} | Kenya based Design and Branding Agency" %}
             {% if block.value.caption %}<figcaption class="text-sm text-gray-400 mt-2">{{ block.value.caption }}</figcaption>{% endif %}
           </figure>
         {% elif block.block_type == 'image_grid' %}
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 my-8">
             {% for item in block.value %}
               <div>
-                {% image item.image width-1200 class="w-full h-auto shadow" loading="lazy" %}
+                {% image item.image width-1200 class="w-full h-auto shadow" loading="lazy" alt="TFuture Designs - {{ item.caption|default:page.title }} | Kenya Creative Agency" %}
                 {% if item.caption %}<div class="text-sm text-gray-400 mt-1">{{ item.caption }}</div>{% endif %}
               </div>
             {% endfor %}
@@ -115,6 +153,35 @@
       </a>
     </div>
     {% endif %}
+  </div>
+</section> 
+
+<!-- TFuture Designs Brand Reinforcement Section -->
+<section class="py-10 bg-secondary/20 backdrop-blur-sm">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-[90rem]">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+      <div class="max-w-xl">
+        <h2 class="font-display text-2xl font-bold mb-3 text-gradient">TFuture Designs</h2>
+        <p class="text-gray-300 mb-6 text-sm md:text-base">Kenya based premier design agency specializing in providing Design and Branding solutions for businesses across Africa. We have devoted ourselves, to make sure your business is at its best when it comes to branding.</p>
+        <a href="{% url 'core:home' %}#services" class="inline-flex items-center px-5 py-2.5 rounded-lg bg-primary text-accent font-medium hover:bg-primary/90 transition-all border border-accent/30">
+          Select Service
+        </a>
+      </div>
+      <div class="flex flex-wrap gap-3 justify-center">
+        <span class="px-3 py-1.5 bg-white/5 border border-white/10 rounded-lg text-sm text-gray-300">
+          Brand Strategies & Identity
+        </span>
+        <span class="px-3 py-1.5 bg-white/5 border border-white/10 rounded-lg text-sm text-gray-300">
+          Company Profiles
+        </span>
+        <span class="px-3 py-1.5 bg-white/5 border border-white/10 rounded-lg text-sm text-gray-300">
+          Social Media Visuals
+        </span>
+        <span class="px-3 py-1.5 bg-white/5 border border-white/10 rounded-lg text-sm text-gray-300">
+          Event Branding
+        </span>
+      </div>
+    </div>
   </div>
 </section>
 {% endblock %}

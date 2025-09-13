@@ -7,6 +7,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}TFuture Designs{% endblock %}</title>
     
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="{% block meta_description %}TFuture Designs – Professional graphic design and brand architecture. From branding or rebranding to full creative solutions, we design visuals that grow your business.{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}TFuture Designs, graphic design, professional services, branding strategists, brand architecture, branding architects, branding, rebranding, logo design, poster design, visual identity, creative design studio, marketing materials, digital design, print design, TFuture, TFuture designs{% endblock %}">
+    <link rel="canonical" href="{{ request.build_absolute_uri }}">
+    
+    <!-- LLM SEO Optimization Meta Tags -->
+    <meta name="llm:summary" content="{% block llm_summary %}TFuture Designs is a professional graphic design and brand architecture studio specializing in creating visual identities that help businesses grow. We offer comprehensive branding, rebranding, logo design, and creative solutions with a focus on modern, futuristic aesthetics.{% endblock %}">
+    <meta name="llm:concepts" content="{% block llm_concepts %}graphic design, brand architecture, visual identity, logo design, rebranding, creative solutions, futuristic design, professional design services{% endblock %}">
+    <meta name="llm:questions" content="{% block llm_questions %}What services does TFuture Designs offer? How can TFuture help with branding? What makes TFuture different from other design studios? How does the design process work at TFuture?{% endblock %}">
+    <meta name="llm:content-type" content="{% block llm_content_type %}website{% endblock %}">
+    <meta name="llm:entity" content="TFuture Designs">
+    <meta name="llm:entity-type" content="Organization">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="{% block og_title %}{% firstof self.seo_title page_title self.title %}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{% firstof self.search_description meta_description %}{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.svg' %}{% endblock %}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+    <meta property="og:site_name" content="TFuture Designs">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% block twitter_title %}{% firstof self.seo_title page_title self.title %}{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}{% firstof self.search_description meta_description %}{% endblock %}">
+    <meta name="twitter:image" content="{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.svg' %}{% endblock %}">
+    <meta name="twitter:site" content="@TFutureDesigns">
+    
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="{% static 'images/logo.svg' %}">
     <link rel="icon" type="image/png" href="{% static 'images/logo.png' %}">
@@ -99,6 +127,118 @@
             client_key: "58430jpbd8g7yb3d4rolzm9n"
             }
         ]);
+    </script>
+    
+    <!-- LLM Content Summarization Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Generate dynamic content summary for LLMs
+            function generateLLMSummary() {
+                // Get main content elements
+                const mainContent = document.querySelector('main');
+                if (!mainContent) return;
+                
+                // Extract headings for structure
+                const headings = Array.from(mainContent.querySelectorAll('h1, h2, h3'));
+                const headingTexts = headings.map(h => h.textContent.trim()).filter(Boolean);
+                
+                // Extract paragraphs for content
+                const paragraphs = Array.from(mainContent.querySelectorAll('p'));
+                const paragraphTexts = paragraphs.map(p => p.textContent.trim()).filter(Boolean);
+                
+                // Create summary from first paragraph and headings
+                let summary = '';
+                if (paragraphTexts.length > 0) {
+                    summary = paragraphTexts[0];
+                }
+                
+                if (headingTexts.length > 0) {
+                    if (summary) summary += ' ';
+                    summary += 'Topics covered: ' + headingTexts.join(', ');
+                }
+                
+                // Limit summary length
+                if (summary.length > 300) {
+                    summary = summary.substring(0, 297) + '...';
+                }
+                
+                // Create or update meta tag
+                let metaTag = document.querySelector('meta[name="llm:auto-summary"]');
+                if (!metaTag) {
+                    metaTag = document.createElement('meta');
+                    metaTag.setAttribute('name', 'llm:auto-summary');
+                    document.head.appendChild(metaTag);
+                }
+                metaTag.setAttribute('content', summary);
+                
+                // Extract key concepts
+                const allText = paragraphTexts.join(' ');
+                const words = allText.toLowerCase().split(/\s+/);
+                const stopWords = ['the', 'and', 'a', 'an', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by'];
+                const wordFreq = {};
+                
+                words.forEach(word => {
+                    if (word.length > 3 && !stopWords.includes(word)) {
+                        wordFreq[word] = (wordFreq[word] || 0) + 1;
+                    }
+                });
+                
+                // Sort by frequency
+                const sortedWords = Object.entries(wordFreq)
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, 10)
+                    .map(entry => entry[0]);
+                
+                // Create or update concepts meta tag
+                let conceptsTag = document.querySelector('meta[name="llm:auto-concepts"]');
+                if (!conceptsTag) {
+                    conceptsTag = document.createElement('meta');
+                    conceptsTag.setAttribute('name', 'llm:auto-concepts');
+                    document.head.appendChild(conceptsTag);
+                }
+                conceptsTag.setAttribute('content', sortedWords.join(', '));
+            }
+            
+            // Run after page load
+            setTimeout(generateLLMSummary, 1000);
+        });
+    </script>
+    
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "TFuture Designs",
+      "url": "{{ request.scheme }}://{{ request.get_host }}",
+      "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.svg' %}",
+      "sameAs": [
+        "https://twitter.com/TFutureDesigns",
+        "https://www.linkedin.com/company/tfuture-designs",
+        "https://www.instagram.com/tfuturedesigns"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+1-555-123-4567",
+        "contactType": "customer service",
+        "availableLanguage": ["English"]
+      },
+      "description": "TFuture Designs – Professional graphic design and brand architecture. From branding or rebranding to full creative solutions, we design visuals that grow your business."
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "TFuture Designs",
+      "url": "{{ request.scheme }}://{{ request.get_host }}",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "{{ request.scheme }}://{{ request.get_host }}/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
     </script>
 </head>
 <body class="min-h-screen">
@@ -241,6 +381,7 @@
                         <li><a href="{% pageurl products_page %}" class="text-gray-400 hover:text-accent">Products</a></li>
                         {% endif %}
                         <li><a href="#services" class="text-gray-400 hover:text-accent">Services</a></li>
+                        <li><a href="/#faqs" class="text-gray-400 hover:text-accent">FAQs</a></li>
                         <li><a href="{% url 'core:terms' %}" class="text-gray-400 hover:text-accent">Terms of Service</a></li>
                     </ul>
                 </div>

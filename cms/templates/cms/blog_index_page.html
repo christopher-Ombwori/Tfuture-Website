@@ -1,9 +1,75 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags static %}
 
 {% block title %}Information Hub — TFuture{% endblock %}
 
 {% block content %}
+<!-- Schema.org CollectionPage structured data with enhanced LLM-friendly attributes -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Information Hub - TFuture Designs",
+  "description": "{% if page.intro %}{{ page.intro|striptags }}{% else %}Browse our collection of articles, insights, and resources on design, branding, and digital marketing.{% endif %}",
+  "url": "{{ request.build_absolute_uri }}",
+  "publisher": {
+    "@type": "Organization",
+    "name": "TFuture Designs",
+    "url": "{{ request.scheme }}://{{ request.get_host }}",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.svg' %}",
+      "width": 600,
+      "height": 60
+    },
+    "description": "Professional graphic design and brand architecture studio specializing in creating visual identities that help businesses grow."
+  },
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": [
+      {% for post in posts %}
+      {
+        "@type": "ListItem",
+        "position": {{ forloop.counter }},
+        "url": "{{ request.scheme }}://{{ request.get_host }}{% pageurl post %}",
+        "item": {
+          "@type": "Article",
+          "headline": "{{ post.title }}",
+          "description": "{{ post.excerpt }}",
+          "url": "{{ request.scheme }}://{{ request.get_host }}{% pageurl post %}",
+          "datePublished": "{{ post.first_published_at|date:'c' }}"
+          {% if post.featured_image %}
+          ,"image": "{{ request.scheme }}://{{ request.get_host }}{% image post.featured_image width-800 as img %}{{ img.url }}"
+          {% endif %}
+        }
+      }{% if not forloop.last %},{% endif %}
+      {% endfor %}
+    ]
+  },
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "Graphic Design",
+      "description": "Professional graphic design services and insights"
+    },
+    {
+      "@type": "Thing",
+      "name": "Brand Architecture",
+      "description": "Strategic brand architecture and identity development"
+    },
+    {
+      "@type": "Thing",
+      "name": "Design Trends",
+      "description": "Latest trends and innovations in design and branding"
+    }
+  ],
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "{{ request.scheme }}://{{ request.get_host }}/search?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
 <section class="bg-primary py-16">
   <div class="container mx-auto px-4">
 <!-- Hero Section -->
@@ -56,7 +122,7 @@
       <div class="relative aspect-[16/9] bg-black flex items-center justify-center">
         
         {% if post.featured_image %}
-          {% image post.featured_image width-800 class="w-full h-full object-cover" %}
+          {% image post.featured_image width-800 class="w-full h-full object-cover" alt=post.title %}
         {% else %}
           <div class="w-full h-full bg-secondary"></div>
         {% endif %}

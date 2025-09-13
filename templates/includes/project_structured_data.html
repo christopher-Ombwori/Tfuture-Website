@@ -1,0 +1,94 @@
+{% load wagtailcore_tags wagtailimages_tags cms_tags %}
+
+<!-- Structured Data for Project Page - TFuture Designs Brand Differentiation -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ request.scheme }}://{{ request.get_host }}{% pageurl page %}"
+  },
+  "headline": "{{ page.title }}",
+  "description": "{{ page.specific.search_description|default:page.search_description }}",
+  "image": [
+    {% for blk in page.hero %}
+      {% if blk.block_type == 'hero' and blk.value.hero_image %}
+        "{{ request.scheme }}://{{ request.get_host }}{% image blk.value.hero_image width-1200 as hero_img %}{{ hero_img.url }}"
+      {% endif %}
+    {% endfor %}
+  ],
+  "datePublished": "{{ page.first_published_at|date:'c' }}",
+  "dateModified": "{{ page.last_published_at|date:'c' }}",
+  "author": {
+    "@type": "Organization",
+    "name": "TFuture Designs",
+    "url": "{{ request.scheme }}://{{ request.get_host }}/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "TFuture Designs",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ request.scheme }}://{{ request.get_host }}/static/images/logo.svg"
+    }
+  },
+  "keywords": [
+    "TFuture Designs",
+    "Kenya Design Agency",
+    "African Design",
+    {% if page.seo_brand_keywords and page.seo_brand_keywords != '' %}
+      {% with keywords=page.seo_brand_keywords %}
+        {% for keyword in keywords.split %}
+          "{{ keyword|strip }}",
+        {% endfor %}
+      {% endwith %}
+    {% endif %}
+    {% if page.seo_kenya_focus and page.seo_kenya_focus != '' %}
+      {% with keywords=page.seo_kenya_focus %}
+        {% for keyword in keywords.split %}
+          "{{ keyword|strip }}",
+        {% endfor %}
+      {% endwith %}
+    {% endif %}
+    {% if page.seo_africa_focus and page.seo_africa_focus != '' %}
+      {% with keywords=page.seo_africa_focus %}
+        {% for keyword in keywords.split %}
+          "{{ keyword|strip }}",
+        {% endfor %}
+      {% endwith %}
+    {% endif %}
+    {% if page.seo_industry_differentiator and page.seo_industry_differentiator != '' %}
+      {% with keywords=page.seo_industry_differentiator %}
+        {% for keyword in keywords.split %}
+          "{{ keyword|strip }}",
+        {% endfor %}
+      {% endwith %}
+    {% endif %}
+    {% if page.category %}
+      "{{ page.category.name }}",
+    {% endif %}
+    {% for blk in page.hero %}
+      {% if blk.block_type == 'hero' and blk.value.tags %}
+        {% for tag in blk.value.tags %}
+          "{{ tag }}"{% if not forloop.last %},{% endif %}
+        {% endfor %}
+      {% endif %}
+    {% endfor %}
+  ],
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "TFuture Designs - Kenya based Premier Design and Branding Agency",
+    "url": "{{ request.scheme }}://{{ request.get_host }}/"
+  },
+  "locationCreated": {
+    "@type": "Place",
+    "name": "Nairobi, Kenya",
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "Kenya",
+      "addressLocality": "Nairobi"
+    }
+  }
+}
+</script>

@@ -1,0 +1,10 @@
+# robots.txt for TFuture Designs
+User-agent: *
+Allow: /
+
+# Disallow admin areas
+Disallow: /admin/
+Disallow: /my-admin-futuristic/
+
+# Sitemap location
+Sitemap: https://tfuture.com/sitemap.xml

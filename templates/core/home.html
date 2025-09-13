@@ -3,6 +3,12 @@
 {% load wagtailcore_tags %}
 {% load wagtailimages_tags static %}
 
+{% block title %}TFuture Designs - Professional Web Design & Digital Marketing Services{% endblock %}
+
+{% block meta_description %}TFuture Designs offers professional web design, branding, and digital marketing services tailored to help your business grow online. Get a custom website that converts visitors into customers.{% endblock %}
+
+{% block meta_keywords %}web design, professional website, branding, digital marketing, TFuture, business growth, custom website{% endblock %}
+
 
 <!-- Brevo Tracker -->
 <script src="https://cdn.brevo.com/js/sdk-loader.js" async></script>
@@ -991,7 +997,7 @@
               <div class="relative aspect-[16/10] bg-black flex items-center justify-center">
                 
                 {% if post.featured_image %}
-                  {% image post.featured_image width-600 class="w-full h-full object-cover" %}
+                  {% image post.featured_image width-600 class="w-full h-full object-cover" alt=post.title %}
                 {% else %}
                   <img src="{% static 'images/hero-about.jpg' %}" alt="{{ post.title }}" class="w-full h-full object-cover">
                 {% endif %}
@@ -1040,6 +1046,271 @@
     </div>
   {% endif %}
   
+</section>
+
+<!-- FAQ Section -->
+<section id="faqs" class="py-16 relative overflow-hidden bg-gradient-to-br from-blue-900/20 via-black to-purple-900/20">
+  <!-- Schema.org FAQPage structured data for LLM parsing -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What does it mean that you're 'brand architects'?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "We don't just design logos or visuals. We build complete brand systems that includes identity, strategy, and application. This ensures your business looks consistent, professional, and trustworthy across every platform and touchpoint."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How long does a typical branding project take?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Most branding projects take 4-8 weeks from start to finish, depending on complexity and scope. We'll provide a detailed timeline during our initial consultation based on your specific needs and goals."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do you work with clients outside your local area?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Absolutely! We work with clients worldwide. Our collaborative process works seamlessly through video calls, shared digital workspaces, and regular communication regardless of location."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What makes TFuture different from other design studios?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "We combine strategic thinking with cutting-edge design. Our focus on futuristic aesthetics, deep understanding of brand architecture, and commitment to measurable business results sets us apart from traditional design agencies."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much does branding typically cost?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Our branding packages start at $2,500 for startups and scale based on business size and project complexity. We provide transparent pricing and detailed proposals after understanding your specific requirements."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do you offer website design services?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, we offer comprehensive website design and development services that align with your brand identity. Our websites are modern, responsive, and optimized for both user experience and search engines."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is your design process like?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Our process includes discovery (understanding your business and goals), strategy development, concept creation, refinement, and implementation. We maintain clear communication and collaborative feedback throughout each phase."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do you offer ongoing support after project completion?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, we offer maintenance packages and ongoing support to ensure your brand continues to evolve and perform. Many clients choose to work with us on a retainer basis for consistent brand management."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I get started with TFuture Designs?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Simply contact us through our website form or email. We'll schedule an initial consultation to discuss your needs, answer questions, and determine if we're the right fit for your project."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do you offer brand strategy services or just design?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "We offer comprehensive brand strategy services including market positioning, audience analysis, competitive research, messaging development, and long-term brand roadmapping in addition to our design services."
+        }
+      }
+    ]
+  }
+  </script>
+  
+  <!-- Background elements similar to other sections -->
+  <div class="absolute inset-0 overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-blue-900/10 via-transparent to-purple-900/10"></div>
+    <div class="absolute w-full h-full opacity-20 bg-[radial-gradient(circle_at_30%_50%,rgba(139,92,246,0.2),transparent_40%),radial-gradient(circle_at_70%_70%,rgba(14,165,233,0.2),transparent_40%)]"></div>
+    
+    <!-- Particles -->
+    <div class="particles">
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+    </div>
+    
+    <!-- Animated Grid -->
+    <div class="animated-grid"></div>
+  </div>
+  
+  <div class="container mx-auto px-4 relative z-10">
+    <div class="text-center mb-8">
+      <h2 class="text-3xl md:text-4xl font-display font-bold mb-4">
+        <span class="text-gradient">Frequently Asked Questions</span>
+      </h2>
+      <p class="text-gray-400 max-w-2xl mx-auto">Get answers to common questions about our services and process.</p>
+    </div>
+    
+    <!-- Main FAQ Toggle Button -->
+    <div class="max-w-3xl mx-auto bg-secondary/20 rounded-lg overflow-hidden shadow-lg border border-secondary/30 mb-8">
+      <button id="faq-main-toggle" class="w-full flex justify-between items-center bg-secondary/30 hover:bg-secondary/40 p-5 transition-all duration-300" onclick="toggleFAQSection()">
+        <span class="font-display font-bold text-xl md:text-2xl text-left">View All FAQs</span>
+        <svg id="faq-main-arrow" class="w-6 h-6 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+        </svg>
+      </button>
+      
+      <!-- Collapsible FAQ Content -->
+      <div id="faq-section-content" class="hidden overflow-hidden max-h-0 transition-all duration-500">
+        <div class="p-5 md:p-8 space-y-4">
+          <!-- FAQ Item 1 -->
+          <div class="mb-4">
+            <button class="faq-toggle w-full flex justify-between items-center bg-secondary/50 hover:bg-secondary/80 p-4 rounded-lg transition-all duration-300" onclick="toggleFAQ(this)">
+              <span class="font-medium text-left">What does it mean that you're "brand architects"?</span>
+              <svg class="w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            <div class="faq-content hidden overflow-hidden bg-secondary/30 rounded-b-lg px-4 pt-0 max-h-0 transition-all duration-300">
+              <p class="py-4 text-gray-300">We don't just design logos or visuals. We build complete brand systems that includes identity, strategy, and application. This ensures your business looks consistent, professional, and trustworthy across every platform and touchpoint.</p>
+            </div>
+          </div>
+          
+          <!-- FAQ Item 2 -->
+          <div class="mb-4">
+            <button class="faq-toggle w-full flex justify-between items-center bg-secondary/50 hover:bg-secondary/80 p-4 rounded-lg transition-all duration-300" onclick="toggleFAQ(this)">
+              <span class="font-medium text-left">Do I need to have a logo before working with you?</span>
+              <svg class="w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            <div class="faq-content hidden overflow-hidden bg-secondary/30 rounded-b-lg px-4 pt-0 max-h-0 transition-all duration-300">
+              <p class="py-4 text-gray-300">No. We can create your logo as part of a larger brand identity system, or refine your existing one into something that matches your vision and market position.</p>
+            </div>
+          </div>
+          
+          <!-- FAQ Item 3 -->
+          <div class="mb-4">
+            <button class="faq-toggle w-full flex justify-between items-center bg-secondary/50 hover:bg-secondary/80 p-4 rounded-lg transition-all duration-300" onclick="toggleFAQ(this)">
+              <span class="font-medium text-left">Can you help me if my business is still new or small?</span>
+              <svg class="w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            <div class="faq-content hidden overflow-hidden bg-secondary/30 rounded-b-lg px-4 pt-0 max-h-0 transition-all duration-300">
+              <p class="py-4 text-gray-300">Yes. We design scalable systems that grow with your business. Even if you're starting small, we'll give you tools that work today and adapt for tomorrow.</p>
+            </div>
+          </div>
+          
+          <!-- FAQ Item 4 -->
+          <div class="mb-4">
+            <button class="faq-toggle w-full flex justify-between items-center bg-secondary/50 hover:bg-secondary/80 p-4 rounded-lg transition-all duration-300" onclick="toggleFAQ(this)">
+              <span class="font-medium text-left">What's the difference between branding and design?</span>
+              <svg class="w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            <div class="faq-content hidden overflow-hidden bg-secondary/30 rounded-b-lg px-4 pt-0 max-h-0 transition-all duration-300">
+              <p class="py-4 text-gray-300">Design is visuals. Branding is the strategy behind those visuals — the story, values, and positioning that make your business recognizable. We do both, ensuring your visuals aren't just beautiful, but meaningful.</p>
+            </div>
+          </div>
+          
+          <!-- FAQ Item 5 -->
+          <div class="mb-4">
+            <button class="faq-toggle w-full flex justify-between items-center bg-secondary/50 hover:bg-secondary/80 p-4 rounded-lg transition-all duration-300" onclick="toggleFAQ(this)">
+              <span class="font-medium text-left">Do I have to choose a fixed package, or can I request custom solutions?</span>
+              <svg class="w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            <div class="faq-content hidden overflow-hidden bg-secondary/30 rounded-b-lg px-4 pt-0 max-h-0 transition-all duration-300">
+              <p class="py-4 text-gray-300">You're not locked into rigid packages. Every business is different, so we tailor solutions to your current needs — whether that's a single project or a full brand system. As your business grows, we adjust to match your stage and vision.</p>
+            </div>
+          </div>
+          
+          <!-- FAQ Item 6 -->
+          <div class="mb-4">
+            <button class="faq-toggle w-full flex justify-between items-center bg-secondary/50 hover:bg-secondary/80 p-4 rounded-lg transition-all duration-300" onclick="toggleFAQ(this)">
+              <span class="font-medium text-left">How long does it take to complete a branding project?</span>
+              <svg class="w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            <div class="faq-content hidden overflow-hidden bg-secondary/30 rounded-b-lg px-4 pt-0 max-h-0 transition-all duration-300">
+              <p class="py-4 text-gray-300">It depends on scope. A simple refresh might take 1–2 weeks, while a complete brand identity system can take 3–6 weeks. We'll always give you a clear timeline before starting.</p>
+            </div>
+          </div>
+          
+          <!-- FAQ Item 7 -->
+          <div class="mb-4">
+            <button class="faq-toggle w-full flex justify-between items-center bg-secondary/50 hover:bg-secondary/80 p-4 rounded-lg transition-all duration-300" onclick="toggleFAQ(this)">
+              <span class="font-medium text-left">Do you only work on digital designs, or can you also create physical brand materials?</span>
+              <svg class="w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            <div class="faq-content hidden overflow-hidden bg-secondary/30 rounded-b-lg px-4 pt-0 max-h-0 transition-all duration-300">
+              <p class="py-4 text-gray-300">We don't just stop at digital. Alongside logos, websites, and online graphics, we design physical brand assets like signage, merchandise, lanyards, and print materials—making sure your brand is consistent both online and in the real world.</p>
+            </div>
+          </div>
+          
+          <!-- FAQ Item 8 -->
+          <div class="mb-4">
+            <button class="faq-toggle w-full flex justify-between items-center bg-secondary/50 hover:bg-secondary/80 p-4 rounded-lg transition-all duration-300" onclick="toggleFAQ(this)">
+              <span class="font-medium text-left">Can you help with one-off projects like a pitch deck or event visuals?</span>
+              <svg class="w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            <div class="faq-content hidden overflow-hidden bg-secondary/30 rounded-b-lg px-4 pt-0 max-h-0 transition-all duration-300">
+              <p class="py-4 text-gray-300">Yes. While we specialize in full brand systems, we also deliver stand-alone projects like decks, press kits, posters, or campaigns that still align with your overall identity.</p>
+            </div>
+          </div>
+          
+          <!-- FAQ Item 9 -->
+          <div class="mb-4">
+            <button class="faq-toggle w-full flex justify-between items-center bg-secondary/50 hover:bg-secondary/80 p-4 rounded-lg transition-all duration-300" onclick="toggleFAQ(this)">
+              <span class="font-medium text-left">What if I don't know what my brand should look like?</span>
+              <svg class="w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            <div class="faq-content hidden overflow-hidden bg-secondary/30 rounded-b-lg px-4 pt-0 max-h-0 transition-all duration-300">
+              <p class="py-4 text-gray-300">That's exactly why we exist. We guide you through strategy, moodboards, and iterations until you have an identity that feels authentic and positions you where you want to be.</p>
+            </div>
+          </div>
+          
+          <!-- FAQ Item 10 -->
+          <div class="mb-4">
+            <button class="faq-toggle w-full flex justify-between items-center bg-secondary/50 hover:bg-secondary/80 p-4 rounded-lg transition-all duration-300" onclick="toggleFAQ(this)">
+              <span class="font-medium text-left">How do I get started with TFuture Designs?</span>
+              <svg class="w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            <div class="faq-content hidden overflow-hidden bg-secondary/30 rounded-b-lg px-4 pt-0 max-h-0 transition-all duration-300">
+              <p class="py-4 text-gray-300">Simple — hit "Request Service" on the area you need help with, or contact us directly or make an inquiry via the Call to Action at the near end of the homepage. We'll discuss your goals, create a tailored approach, and start building your brand system.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 {% endblock %}
@@ -1120,5 +1391,85 @@
     window.addEventListener('scroll', handleCompassAnimations);
     // Initial check
     handleCompassAnimations();
+    
+    // FAQ Toggle Function
+    function toggleFAQ(button) {
+        // Toggle active class on the button
+        button.classList.toggle('active');
+        
+        // Get the content element
+        const content = button.nextElementSibling;
+        
+        // Toggle the arrow icon
+        const arrow = button.querySelector('svg');
+        if (arrow) {
+            arrow.style.transform = button.classList.contains('active') ? 'rotate(180deg)' : '';
+        }
+        
+        // Toggle the content visibility
+        if (button.classList.contains('active')) {
+            content.classList.remove('hidden');
+            content.style.maxHeight = content.scrollHeight + 'px';
+            content.style.paddingTop = '1rem';
+            // Change button background
+            button.classList.add('bg-secondary/80');
+            button.classList.remove('bg-secondary/50');
+        } else {
+            content.style.maxHeight = '0';
+            content.style.paddingTop = '0';
+            // After transition completes, hide the content
+            setTimeout(() => {
+                if (!button.classList.contains('active')) {
+                    content.classList.add('hidden');
+                }
+            }, 300); // Match the transition duration
+            // Revert button background
+            button.classList.remove('bg-secondary/80');
+            button.classList.add('bg-secondary/50');
+        }
+    }
+    
+    // Toggle entire FAQ section
+    function toggleFAQSection() {
+        const mainToggle = document.getElementById('faq-main-toggle');
+        const mainArrow = document.getElementById('faq-main-arrow');
+        const faqContent = document.getElementById('faq-section-content');
+        
+        // Toggle active class on button
+        mainToggle.classList.toggle('active');
+        
+        // Toggle button background
+        if (mainToggle.classList.contains('active')) {
+            mainToggle.classList.add('bg-secondary/40');
+            mainToggle.classList.remove('bg-secondary/30');
+            mainToggle.querySelector('span').textContent = 'Hide FAQs';
+        } else {
+            mainToggle.classList.remove('bg-secondary/40');
+            mainToggle.classList.add('bg-secondary/30');
+            mainToggle.querySelector('span').textContent = 'View All FAQs';
+        }
+        
+        // Toggle arrow rotation
+        if (mainArrow) {
+            mainArrow.style.transform = mainToggle.classList.contains('active') ? 'rotate(180deg)' : '';
+        }
+        
+        // Toggle content visibility
+        if (mainToggle.classList.contains('active')) {
+            faqContent.classList.remove('hidden');
+            // Use setTimeout to ensure the transition works properly
+            setTimeout(() => {
+                faqContent.style.maxHeight = faqContent.scrollHeight + 'px';
+            }, 10);
+        } else {
+            faqContent.style.maxHeight = '0';
+            // After transition completes, hide the content
+            setTimeout(() => {
+                if (!mainToggle.classList.contains('active')) {
+                    faqContent.classList.add('hidden');
+                }
+            }, 500); // Match the transition duration
+        }
+    }
 </script>
 {% endblock %}

@@ -1,9 +1,86 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags static %}
 
 {% block title %}{{ page.seo_title|default:page.title }} — TFuture{% endblock %}
 
+{% block meta_description %}{{ page.excerpt }}{% endblock %}
+
+{% block og_title %}{{ page.title }}{% endblock %}
+{% block og_description %}{{ page.excerpt }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% if page.featured_image %}
+{% image page.featured_image width-1200 as og_img %}
+{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{{ og_img.url }}{% endblock %}
+{% endif %}
+
 {% block content %}
+<!-- Schema.org BlogPosting structured data with enhanced LLM-friendly attributes -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "{{ page.title }}",
+  "description": "{{ page.excerpt }}",
+  "datePublished": "{{ page.first_published_at|date:'c' }}",
+  "dateModified": "{{ page.last_published_at|date:'c' }}",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ request.build_absolute_uri }}"
+  },
+  {% if page.featured_image %}
+  {% image page.featured_image width-1200 as schema_img %}
+  "image": {
+    "@type": "ImageObject",
+    "url": "{{ request.scheme }}://{{ request.get_host }}{{ schema_img.url }}",
+    "width": {{ schema_img.width }},
+    "height": {{ schema_img.height }},
+    "caption": "{{ page.title }}"
+  },
+  {% endif %}
+  "author": {
+    "@type": "Organization",
+    "name": "TFuture Designs",
+    "url": "{{ request.scheme }}://{{ request.get_host }}",
+    "description": "Kenya based premier design agency specializing in providing Design and Branding solutions for businesses across Africa. We have devoted ourselves, to make sure your business is at its best when it comes to branding."
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "TFuture Designs",
+    "url": "{{ request.scheme }}://{{ request.get_host }}",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.svg' %}",
+      "width": 600,
+      "height": 60
+    }
+  },
+  {% if page.tags.all %}
+  "keywords": "{% for tag in page.tags.all %}{{ tag }}{% if not forloop.last %}, {% endif %}{% endfor %}",
+  {% endif %}
+  {% if page.category %}
+  "articleSection": "{{ page.category.name }}",
+  {% endif %}
+  "wordCount": "{{ page.body|striptags|wordcount }}",
+  "inLanguage": "en",
+  "potentialAction": [
+    {
+      "@type": "ReadAction",
+      "target": ["{{ request.build_absolute_uri }}"]
+    },
+    {
+      "@type": "CommentAction",
+      "target": ["{{ request.build_absolute_uri }}#comments"]
+    }
+  ],
+  "isAccessibleForFree": "True",
+  "discussionUrl": "{{ request.build_absolute_uri }}#comments",
+  "speakable": {
+     "@type": "SpeakableSpecification",
+     "cssSelector": ["h1", ".article-body p", ".article-summary"]
+   }
+}
+</script>
+
 <section class="py-16">
   <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-[90rem]">
 
@@ -32,7 +109,7 @@
 
     {% if page.featured_image %}
       <div class="mb-12  overflow-hidden border border-white/10 shadow-lg shadow-accent/10">
-        {% image page.featured_image width-1920 class="w-full h-auto" %}
+        {% image page.featured_image width-1920 class="w-full h-auto" alt=page.title %}
       </div>
     {% endif %}
 

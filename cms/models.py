@@ -75,8 +75,10 @@ class ProjectIndexPage(Page):
         return context
 
 
-class ProjectPage(Page):
-    """A single project detail page."""
+from .seo_extension import ProjectSEOExtension
+
+class ProjectPage(Page, ProjectSEOExtension):
+    """A single project detail page with enhanced SEO for TFuture Designs brand differentiation."""
 
     # Used only for listing-page filtering, not displayed on detail page
     category = models.ForeignKey(
@@ -151,6 +153,14 @@ class ProjectPage(Page):
         FieldPanel("hero"),
         FieldPanel("intro"),
         FieldPanel("body"),
+    ]
+    
+    # Add the SEO panels from our extension
+    promote_panels = Page.promote_panels + [
+        FieldPanel("seo_brand_keywords"),
+        FieldPanel("seo_kenya_focus"),
+        FieldPanel("seo_africa_focus"),
+        FieldPanel("seo_industry_differentiator"),
     ]
 
 
