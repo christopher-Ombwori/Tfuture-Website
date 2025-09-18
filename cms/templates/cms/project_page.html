@@ -33,6 +33,52 @@
     {% image blk.value.hero_image width-1200 as twitter_image %}
     <meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{{ twitter_image.url }}">
   {% endif %}{% endfor %}
+  
+  <style>
+    /* Restrict the vertical accent line to headings only within content/project typography blocks */
+    /* Remove pseudo accent and any left border/padding from non-heading elements */
+    .content-typography p::before,
+    .content-typography li::before,
+    .content-typography blockquote::before,
+    .content-typography .prose p::before,
+    .project-typography p::before,
+    .project-typography li::before,
+    .project-typography blockquote::before,
+    .project-typography .prose p::before {
+      content: none !important;
+      border-left: 0 !important;
+      padding-left: 0 !important;
+    }
+
+    .content-typography p,
+    .content-typography ul,
+    .content-typography ol,
+    .content-typography li,
+    .content-typography blockquote,
+    .content-typography .prose p,
+    .project-typography p,
+    .project-typography ul,
+    .project-typography ol,
+    .project-typography li,
+    .project-typography blockquote,
+    .project-typography .prose p {
+      border-left: 0 !important;
+      padding-left: 0 !important;
+    }
+
+    /* Fallback: for any direct children that aren't headings */
+    .content-typography > :not(h1):not(h2):not(h3):not(h4):not(h5):not(h6),
+    .project-typography > :not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
+      border-left: 0 !important;
+      padding-left: 0 !important;
+    }
+    .content-typography > :not(h1):not(h2):not(h3):not(h4):not(h5):not(h6)::before,
+    .project-typography > :not(h1):not(h2):not(h3):not(h4):not(h5):not(h6)::before {
+      content: none !important;
+      border-left: 0 !important;
+      padding-left: 0 !important;
+    }
+  </style>
 {% endblock %}
 
 {% block content %}
