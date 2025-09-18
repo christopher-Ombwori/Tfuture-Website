@@ -169,9 +169,7 @@
         .project-typography blockquote,
         .project-typography h2,
         .project-typography h3 {
-            max-width: 72ch; /* comfortable reading measure */
-            margin-left: auto;
-            margin-right: auto;
+            /* Remove max-width and auto margin for edge alignment */
         }
         .project-typography h2 {
             font-size: 1.5rem; /* text-2xl */
@@ -198,8 +196,6 @@
             box-shadow: 0 8px 24px rgba(0,0,0,0.35);
         }
         .project-typography figure figcaption {
-            max-width: 72ch;
-            margin: 0.5rem auto 0;
             color: #9aa7c7; /* softer caption */
         }
         .project-typography blockquote {
@@ -209,7 +205,7 @@
             font-style: italic;
         }
         .project-typography ul,
-        .project-typography ol { margin: 0.75rem auto; }
+        .project-typography ol { margin: 0.75rem 0; }
         .project-typography li { margin: 0.25rem 0; }
     </style>
     
