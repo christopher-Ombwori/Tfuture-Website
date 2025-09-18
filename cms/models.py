@@ -152,6 +152,7 @@ class CTABlock(blocks.StructBlock):
         template = "cms/blocks/cta_block.html"
         label = "CTA Panel"
 
+
 class ProjectPage(Page, ProjectSEOExtension):
     """A single project detail page with enhanced SEO for TFuture Designs brand differentiation."""
 
@@ -179,7 +180,8 @@ class ProjectPage(Page, ProjectSEOExtension):
         ("intro", IntroBlock()),
     ], use_json_field=True, blank=True, default=list)
 
-    body = StreamField([
+    # Define all allowed blocks for reuse
+    project_body_blocks = [
         ("heading", blocks.CharBlock(
             form_classname="full title",
             icon="title",
@@ -229,27 +231,12 @@ class ProjectPage(Page, ProjectSEOExtension):
             ("image", ImageChooserBlock()),
             ("caption", blocks.CharBlock(required=False)),
         ]), icon="grip", template="cms/blocks/image_grid_block.html", help_text="Add 2-6 images")),
-        # Keep existing URLBlock for backward-compat; add richer embed option too
         ("video_embed", blocks.URLBlock(help_text="YouTube/Vimeo link")),
         ("video_embed_rich", EmbedBlock(
             icon="media",
             template="cms/blocks/video_embed_block.html",
             help_text="YouTube/Vimeo link (auto-embed)"
         )),
-        ("two_column", blocks.StructBlock([
-            ("left", blocks.StreamBlock([
-                ("rich_text", blocks.RichTextBlock()),
-                ("image", ImageChooserBlock()),
-                ("quote", blocks.BlockQuoteBlock()),
-                ("code", blocks.TextBlock(help_text="Code")),
-            ], required=False)),
-            ("right", blocks.StreamBlock([
-                ("rich_text", blocks.RichTextBlock()),
-                ("image", ImageChooserBlock()),
-                ("quote", blocks.BlockQuoteBlock()),
-                ("code", blocks.TextBlock(help_text="Code")),
-            ], required=False)),
-        ], icon="grip", template="cms/blocks/two_column_block.html")),
         ("stats_grid", blocks.ListBlock(blocks.StructBlock([
             ("label", blocks.CharBlock()),
             ("value", blocks.CharBlock()),
@@ -286,13 +273,20 @@ class ProjectPage(Page, ProjectSEOExtension):
             template="cms/blocks/table_block.html",
             help_text="Add a formatted table"
         )),
-        # Premium presentation blocks (additive)
         ("section_separator", SectionSeparatorBlock()),
         ("kpi", KPIBlock()),
         ("kpi_list", blocks.ListBlock(KPIBlock(), icon="tick", template="cms/blocks/kpi_list_block.html", help_text="List of KPIs (1-6)")),
         ("before_after", BeforeAfterBlock()),
         ("timeline", TimelineBlock()),
         ("cta", CTABlock()),
+        # Do NOT include "two_column" inside itself to avoid recursion
+    ]
+
+    body = StreamField(project_body_blocks + [
+        ("two_column", blocks.StructBlock([
+            ("left", blocks.StreamBlock(project_body_blocks, required=False)),
+            ("right", blocks.StreamBlock(project_body_blocks, required=False)),
+        ], icon="grip", template="cms/blocks/two_column_block.html")),
     ], use_json_field=True, blank=True)
 
     content_panels = Page.content_panels + [
