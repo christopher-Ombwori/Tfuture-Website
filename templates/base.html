@@ -11,6 +11,7 @@
     <meta name="description" content="{% block meta_description %}TFuture Designs – Kenya's top brand design agency specializing in brand architecture, identity systems, and corporate branding. Our professional brand designers create strategic visual identities that grow your business across Kenya and Africa at Large.{% endblock %}">
     <meta name="keywords" content="{% block meta_keywords %}TFuture Designs, best brand designers in Kenya, top branding agency in Kenya, professional logo design Kenya, brand identity design Africa, corporate branding Kenya, brand strategy East Africa, visual identity design Nairobi, brand architecture Kenya, brand development Africa, branding strategists, brand architecture, branding architects, branding, rebranding, logo design, visual identity, creative design studio, TFuture, TFuture designs{% endblock %}">
     <link rel="canonical" href="{{ request.build_absolute_uri }}">
+    {% block robots_meta %}{% endblock %}
     
     <!-- LLM SEO Optimization Meta Tags -->
     <meta name="llm:summary" content="{% block llm_summary %}TFuture Designs is Kenya's premier brand design agency specializing in comprehensive brand architecture, strategic identity systems, and innovative corporate branding. As the most sought-after brand designers in Kenya with influence across Africa, we create sophisticated visual identities that transform businesses through modern, futuristic aesthetics and strategic positioning.{% endblock %}">
@@ -43,19 +44,19 @@
     <link rel="icon" type="image/png" href="{% static 'images/logo.png' %}">
     
     <!-- Enhanced Structured Data for LLM SEO -->
-    <script type="application/ld+json">
+        <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "ProfessionalService",
+            "@type": "ProfessionalService",
       "name": "TFuture Designs",
-      "description": "Kenya's premier brand design agency specializing in comprehensive brand architecture, strategic identity systems, and innovative corporate branding for businesses across Africa.",
+            "description": "Brand experience studio in Nairobi, Kenya, specializing in brand architecture, identity systems, and event-led brand campaigns for businesses across Africa.",
       "url": "{{ request.build_absolute_uri }}",
       "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.svg' %}",
       "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.png' %}",
       "address": {
         "@type": "PostalAddress",
-        "addressLocality": "Nairobi",
-        "addressRegion": "Kenya",
+                "addressLocality": "Nairobi",
+                "addressRegion": "Nairobi County",
         "addressCountry": "KE"
       },
       "geo": {
@@ -66,6 +67,14 @@
       "areaServed": ["Kenya", "East Africa", "Africa"],
       "serviceType": ["Brand Architecture", "Brand Identity Systems", "Corporate Branding", "Logo Design", "Visual Identity", "Brand Strategy"],
       "knowsAbout": ["Brand Design", "Corporate Identity", "Visual Branding", "Brand Architecture", "Strategic Brand Development"],
+            "contactPoint": {
+                "@type": "ContactPoint",
+                "telephone": "+254 720487634",
+                "email": "contact@tfuturedesigns.studio",
+                "contactType": "customer service",
+                "areaServed": "KE",
+                "availableLanguage": ["English"]
+            },
       "sameAs": [
         "https://www.instagram.com/tfuturedesigns/",
         "https://www.behance.net/tfuturedesigns",
@@ -146,6 +155,62 @@
         .rich-text-content h2 { color: #fff; font-weight: 700; }
         .rich-text-content h3 { color: #CCD6F6; font-weight: 600; }
         .rich-text-content h4 { color: #A8B2D1; font-weight: 500; }
+        /* Custom highlight used by RichText feature */
+        .rich-text-content span[data-highlight],
+        .content-typography span[data-highlight] {
+            color: #64FFDA;
+            font-weight: 700;
+        }
+
+        /* Project typography refinements for cleaner mobile layout */
+        .project-typography p,
+        .project-typography ul,
+        .project-typography ol,
+        .project-typography blockquote,
+        .project-typography h2,
+        .project-typography h3 {
+            max-width: 72ch; /* comfortable reading measure */
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .project-typography h2 {
+            font-size: 1.5rem; /* text-2xl */
+            line-height: 2rem;
+            margin-top: 2rem;
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+            color: #fff;
+        }
+        @media (min-width: 640px) {
+            .project-typography h2 { font-size: 1.875rem; line-height: 2.25rem; }
+        }
+        .project-typography h3 {
+            font-size: 1.25rem; /* text-xl */
+            line-height: 1.75rem;
+            margin-top: 1.25rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #CCD6F6;
+        }
+        .project-typography figure img {
+            border-radius: 0.75rem; /* rounded-xl */
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+        }
+        .project-typography figure figcaption {
+            max-width: 72ch;
+            margin: 0.5rem auto 0;
+            color: #9aa7c7; /* softer caption */
+        }
+        .project-typography blockquote {
+            border-left: 4px solid rgba(100,255,218,0.35);
+            padding-left: 1rem;
+            color: #A8B2D1;
+            font-style: italic;
+        }
+        .project-typography ul,
+        .project-typography ol { margin: 0.75rem auto; }
+        .project-typography li { margin: 0.25rem 0; }
     </style>
     
     
@@ -340,7 +405,7 @@
                     {% endif %}
                     <a href="{% url 'core:about' %}" class="block px-3 py-2 text-base font-medium hover:text-accent transition-colors">About Us</a>
                     <div class="px-3 pt-2">
-                        <button onclick="openServiceModal('General Inquiry')" class="block w-full bg-accent hover:bg-accent/80 text-primary rounded-full px-6 py-2 text-sm font-medium text-center transition-all hover:scale-105">Contact Us</button>
+                        <button onclick="openServiceModal('{{ general_inquiry.id }}', '{{ general_inquiry.name }}')" class="block w-full bg-accent hover:bg-accent/80 text-primary rounded-full px-6 py-2 text-sm font-medium text-center transition-all hover:scale-105">Contact Us</button>
                     </div>
                 </div>
             </div>
@@ -420,7 +485,7 @@
                         <li><a href="{% url 'core:terms' %}" class="text-gray-400 hover:text-accent">Terms of Service</a></li>
                     </ul>
                 </div>
-                <div>
+                <div data-nosnippet>
                     <h4 class="font-semibold mb-4">Contact</h4>
                     <ul class="space-y-2">
                         <li class="text-gray-400">Email: contact@tfuturedesigns.studio</li>

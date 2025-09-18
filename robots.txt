@@ -7,4 +7,4 @@ Disallow: /admin/
 Disallow: /my-admin-futuristic/
 
 # Sitemap location
-Sitemap: https://tfuture.com/sitemap.xml
+Sitemap: https://www.tfuturedesigns.studio/sitemap.xml

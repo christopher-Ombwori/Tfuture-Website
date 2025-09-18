@@ -1,0 +1,12 @@
+{% comment %} Section Separator Block Template {% endcomment %}
+{% if self.style == "line" %}
+  <hr class="my-8 border-gray-300">
+{% elif self.style == "space" %}
+  <div class="my-12"></div>
+{% elif self.style == "dots" %}
+  <div class="my-8 flex justify-center">
+    <span class="inline-block w-2 h-2 bg-gray-400 rounded-full mx-1"></span>
+    <span class="inline-block w-2 h-2 bg-gray-400 rounded-full mx-1"></span>
+    <span class="inline-block w-2 h-2 bg-gray-400 rounded-full mx-1"></span>
+  </div>
+{% endif %}

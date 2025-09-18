@@ -3,11 +3,11 @@
 {% load wagtailcore_tags %}
 {% load wagtailimages_tags static %}
 
-{% block title %}TFuture Designs - Professional Web Design & Digital Marketing Services{% endblock %}
+{% block title %}TFuture Designs – Creative Brand Design Agency in Kenya & serving Africa at large {% endblock %}
 
-{% block meta_description %}TFuture Designs offers professional web design, branding, and digital marketing services tailored to help your business grow online. Get a custom website that converts visitors into customers.{% endblock %}
+{% block meta_description %}TFuture is a Nairobi-based Africa's leading branding agency building bold identities, brand architecture, and unforgettable event-led brand moments for startups, growing companies, and established companies across Kenya and Africa.{% endblock %}
 
-{% block meta_keywords %}web design, professional website, branding, digital marketing, TFuture, business growth, custom website{% endblock %}
+{% block meta_keywords %}brand design Kenya, brand experience studio, brand architecture, identity systems, corporate branding Africa, branding agency Nairobi, rebranding, visual identity, event branding, graphic design{% endblock %}
 
 
 <!-- Brevo Tracker -->
@@ -520,7 +520,7 @@
                             <!-- First set of logos -->
                             <div class="flex space-x-12">
                                 <div class="flex items-center justify-center w-32 h-12">
-                                    <img src="https://placehold.co/200x80/1a1a1a/ffffff?text=CowebLux" alt="CowebLux" class="h-8 opacity-70 hover:opacity-100 transition-opacity">
+                                    <img src="https://placehold.co/200x80/1a1a1a/ffffff?text=Client" alt="Client brand" class="h-8 opacity-70 hover:opacity-100 transition-opacity">
                                 </div>
                                 <div class="flex items-center justify-center w-32 h-12">
                                     <img src="https://placehold.co/200x80/1a1a1a/ffffff?text=OTech" alt="OTech" class="h-8 opacity-70 hover:opacity-100 transition-opacity">
@@ -538,7 +538,7 @@
                             <!-- Duplicate set for seamless loop -->
                             <div class="flex space-x-12">
                                 <div class="flex items-center justify-center w-32 h-12">
-                                    <img src="https://placehold.co/200x80/1a1a1a/ffffff?text=CowebLux" alt="CowebLux" class="h-8 opacity-70 hover:opacity-100 transition-opacity">
+                                    <img src="https://placehold.co/200x80/1a1a1a/ffffff?text=Client" alt="Client brand" class="h-8 opacity-70 hover:opacity-100 transition-opacity">
                                 </div>
                                 <div class="flex items-center justify-center w-32 h-12">
                                     <img src="https://placehold.co/200x80/1a1a1a/ffffff?text=OTech" alt="OTech" class="h-8 opacity-70 hover:opacity-100 transition-opacity">
@@ -603,7 +603,7 @@
             {% for service in services %}
                 {% if service.is_featured %}
                 <!-- Hero Service Card -->
-                <div class="service-card border border-white/10 rounded-lg p-8 fade-in-up lg:h-full">
+                <div id="service-{{ service.slug }}" class="service-card border border-white/10 rounded-lg p-8 fade-in-up lg:h-full">
                     <div class="text-accent mb-6 service-icon">
                         {% if service.icon_svg %}
                             {{ service.icon_svg|safe }}
@@ -613,7 +613,8 @@
                             </svg>
                         {% endif %}
                     </div>
-                    <h3 class="text-2xl font-display mb-4">{{ service.name }}</h3>
+                    <h3 class="text-2xl font-display mb-2">{{ service.name }}</h3>
+                    <p class="text-accent font-medium mb-2 hidden">{{ service.summary|default:'Strategic brand solutions for ambitious businesses.' }}</p>
                     <div class="space-y-4 text-gray-400 mb-6">
                         {% if service.description %}
                             <p class="text-lg md:block hidden">{{ service.description|richtext }}</p>
@@ -621,6 +622,15 @@
                         {% if service.short_description %}
                             <p class="text-lg md:hidden">{{ service.short_description }}</p>
                         {% endif %}
+                        <!-- Mini-FAQ toggle -->
+                        <div class="mt-4 hidden">
+                            <button class="mini-faq-toggle bg-secondary/20 text-accent px-3 py-1 rounded mb-2 text-sm font-semibold" onclick="this.nextElementSibling.classList.toggle('hidden')">Service FAQ</button>
+                            <ul class="mini-faq-list text-gray-300 text-sm space-y-2 pl-4">
+                                <li>What does this service include? <span class="text-gray-400">Comprehensive strategy, design, and rollout.</span></li>
+                                <li>Who is it for? <span class="text-gray-400">Startups, events, and established brands in Kenya & Africa.</span></li>
+                                <li>How do I get started? <span class="text-gray-400">Request a free consult or proposal.</span></li>
+                            </ul>
+                        </div>
                     </div>
                     <button onclick="openServiceModal('{{ service.id }}', '{{ service.name }}')" class="w-full bg-accent/20 hover:bg-accent/30 text-accent rounded-lg px-6 py-3 text-base font-medium transition-all hover:scale-105">Request Service</button>
                 </div>
@@ -631,7 +641,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 lg:col-span-2">
                 {% for service in services %}
                     {% if not service.is_featured %}
-                    <div class="service-card border border-white/10 rounded-lg p-6 fade-in-up h-full">
+                    <div id="service-{{ service.slug }}" class="service-card border border-white/10 rounded-lg p-6 fade-in-up h-full">
                         <div class="text-accent mb-4 service-icon">
                             {% if service.icon_svg %}
                                 {{ service.icon_svg|safe }}
@@ -642,7 +652,17 @@
                             {% endif %}
                         </div>
                         <h3 class="text-xl font-display mb-2">{{ service.name }}</h3>
+                        <p class="text-accent font-medium mb-2 hidden">{{ service.summary|default:'Strategic brand solutions for ambitious businesses.' }}</p>
                         <p class="text-gray-400 mb-4">{{ service.short_description }}</p>
+                        <!-- Mini-FAQ toggle -->
+                        <div class="mt-2 hidden">
+                            <button class="mini-faq-toggle bg-secondary/20 text-accent px-3 py-1 rounded mb-2 text-xs font-semibold" onclick="this.nextElementSibling.classList.toggle('hidden')">Service FAQ</button>
+                            <ul class="mini-faq-list text-gray-300 text-xs space-y-1 pl-4">
+                                <li>What does this service include? <span class="text-gray-400">Comprehensive strategy, design, and rollout.</span></li>
+                                <li>Who is it for? <span class="text-gray-400">Startups, events, and established brands in Kenya & Africa.</span></li>
+                                <li>How do I get started? <span class="text-gray-400">Request a free consult or proposal.</span></li>
+                            </ul>
+                        </div>
                         <button onclick="openServiceModal('{{ service.id }}', '{{ service.name }}')" class="w-full bg-accent/20 hover:bg-accent/30 text-accent rounded-lg px-4 py-2 text-sm font-medium transition-all hover:scale-105">Request Service</button>
                     </div>
                     {% endif %}
@@ -652,7 +672,72 @@
     </div>
 </section>
 
+<!-- Capabilities Index Block -->
+<section id="capabilities-index" class="py-12 bg-gradient-to-b from-black/80 to-futuristic-dark/80 hidden">
+    <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto text-center mb-8">
+            <h2 class="text-2xl md:text-3xl font-bold mb-4 text-gradient">Capabilities Index</h2>
+            <p class="text-gray-400 mb-4">Explore our core services, industries, and regions served. Click to jump to each service.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+                <h3 class="text-lg font-semibold text-accent mb-2">Services</h3>
+                <ul class="space-y-2">
+                    {% for service in services %}
+                    <li><a href="#service-{{ service.slug }}" class="text-gray-300 hover:text-accent transition">{{ service.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold text-accent mb-2">Industries</h3>
+                <ul class="space-y-2">
+                    <li class="text-gray-300">Startups</li>
+                    <li class="text-gray-300">Events & Summits</li>
+                    <li class="text-gray-300">Corporate Brands</li>
+                    <li class="text-gray-300">Nonprofits</li>
+                    <li class="text-gray-300">SMEs</li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold text-accent mb-2">Regions</h3>
+                <ul class="space-y-2">
+                    <li class="text-gray-300">Kenya</li>
+                    <li class="text-gray-300">East Africa</li>
+                    <li class="text-gray-300">Africa</li>
+                    <li class="text-gray-300">Global (remote)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- Featured Projects Section -->
+<!-- Services ItemList Structured Data -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "TFuture Services",
+    "itemListElement": [
+        {% for service in services %}
+        {
+            "@type": "Service",
+            "name": "{{ service.name|escapejs }}",
+            {% if service.short_description %}
+            "description": "{{ service.short_description|striptags|truncatechars:180|escapejs }}",
+            {% endif %}
+            "areaServed": ["Kenya", "East Africa", "Africa"],
+            "provider": {
+                "@type": "Organization",
+                "name": "TFuture Designs"
+            },
+            "url": "{{ request.scheme }}://{{ request.get_host }}/#service-{{ service.slug }}"
+        }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ]
+}
+</script>
+
 <section class="relative py-16 md:py-24 bg-gradient-to-b from-black to-futuristic-dark overflow-hidden animated-bg">
     <div class="container mx-auto px-4 relative z-10">
         <h2 class="font-display text-3xl md:text-5xl font-bold mb-8 md:mb-12">Featured <span class="text-gradient">projects</span></h2>
@@ -1096,14 +1181,14 @@
           "text": "Our branding packages start at $2,500 for startups and scale based on business size and project complexity. We provide transparent pricing and detailed proposals after understanding your specific requirements."
         }
       },
-      {
-        "@type": "Question",
-        "name": "Do you offer website design services?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes, we offer comprehensive website design and development services that align with your brand identity. Our websites are modern, responsive, and optimized for both user experience and search engines."
-        }
-      },
+            {
+                "@type": "Question",
+                "name": "Do you handle event branding and summit rollouts?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. We plan and design full event brand systems—from identity, stage design, motion graphics and collateral to on-site experience and digital assets—so your summit or corporate milestone looks and feels world‑class."
+                }
+            },
       {
         "@type": "Question",
         "name": "What is your design process like?",

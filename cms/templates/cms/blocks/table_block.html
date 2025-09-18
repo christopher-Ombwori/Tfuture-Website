@@ -1,9 +1,9 @@
 <div class="my-8 overflow-x-auto">
   <table class="min-w-full border border-white/10 rounded-lg overflow-hidden">
-    {% if value.first_row_is_table_header %}
+    {% if value.first_row_is_table_header and value.data and value.data|length > 0 %}
       <thead class="bg-white/10 border-b border-white/10">
         <tr>
-          {% for cell in value.first_row_is_table_header %}
+          {% for cell in value.data.0 %}
             <th class="px-4 py-3 text-left text-sm font-medium text-accent">{{ cell }}</th>
           {% endfor %}
         </tr>
@@ -11,6 +11,10 @@
     {% endif %}
     <tbody>
       {% for row in value.data %}
+        {% if forloop.first and value.first_row_is_table_header %}
+          {# skip header row from body #}
+          {% continue %}
+        {% endif %}
         <tr class="{% cycle 'bg-transparent' 'bg-white/5' %}">
           {% for cell in row %}
             <td class="px-4 py-3 text-sm text-gray-200 border-t border-white/5">{{ cell }}</td>

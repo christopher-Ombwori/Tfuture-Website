@@ -16,12 +16,8 @@ class ServiceSitemap(Sitemap):
         return obj.updated_at
     
     def location(self, obj):
-        # Since we don't have a direct URL for services in the current setup,
-        # we'll use a URL pattern that makes sense for the site structure
-        # This should be updated to match your actual URL structure
-        return f'/services/{obj.slug}/'
-        # Alternatively, if services are shown on the home page with anchors:
-        # return f'/#service-{obj.slug}'
+        # Services live on the homepage; point to anchored sections
+        return f'/#service-{obj.slug}'
 
 class StaticViewSitemap(Sitemap):
     priority = 0.6
@@ -29,7 +25,8 @@ class StaticViewSitemap(Sitemap):
 
     def items(self):
         # Return list of url names for views that don't use models
-        return ['core:home', 'core:about', 'core:terms']
+        # Exclude terms page from sitemap (noindex)
+        return ['core:home', 'core:about']
 
     def location(self, item):
         return reverse(item)

@@ -1,0 +1,11 @@
+<div class="my-6">
+  <div class="inline-flex items-baseline gap-3 px-4 py-3 rounded-lg bg-white/5 border border-white/10 shadow">
+    <div class="text-3xl sm:text-4xl font-extrabold text-accent">{{ value.value }}</div>
+    <div>
+      <div class="text-sm sm:text-base font-semibold text-white">{{ value.label }}</div>
+      {% if value.description %}
+      <div class="text-xs sm:text-sm text-gray-300">{{ value.description }}</div>
+      {% endif %}
+    </div>
+  </div>
+</div>

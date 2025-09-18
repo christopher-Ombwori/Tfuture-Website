@@ -75,7 +75,82 @@ class ProjectIndexPage(Page):
         return context
 
 
+
 from .seo_extension import ProjectSEOExtension
+
+# Premium presentation blocks (move outside ProjectPage for import order)
+class KPIBlock(blocks.StructBlock):
+    value = blocks.CharBlock(help_text="e.g., 32% or 2.4x")
+    label = blocks.CharBlock(help_text="Short label: Conversion lift, Time-to-approve, etc.")
+    description = blocks.TextBlock(required=False, help_text="Optional supporting line")
+
+    class Meta:
+        icon = "tick"
+        template = "cms/blocks/kpi_block.html"
+        label = "KPI"
+
+# Lightweight section separator block
+class SectionSeparatorBlock(blocks.StructBlock):
+    style = blocks.ChoiceBlock(
+        choices=[
+            ("line", "Line Divider"),
+            ("space", "Whitespace"),
+            ("dots", "Dotted Divider"),
+        ],
+        default="line",
+        help_text="Choose separator style"
+    )
+
+    class Meta:
+        icon = "horizontalrule"
+        template = "cms/blocks/section_separator_block.html"
+        label = "Section Separator"
+
+class TimelineItemBlock(blocks.StructBlock):
+    title = blocks.CharBlock()
+    description = blocks.RichTextBlock(required=False)
+    date = blocks.CharBlock(required=False, help_text="Optional date or phase label")
+
+    class Meta:
+        icon = "time"
+        label = "Timeline Item"
+
+class TimelineBlock(blocks.StructBlock):
+    heading = blocks.CharBlock(required=False)
+    items = blocks.ListBlock(TimelineItemBlock(), min_num=2)
+
+    class Meta:
+        icon = "date"
+        template = "cms/blocks/timeline_block.html"
+        label = "Timeline"
+
+class BeforeAfterBlock(blocks.StructBlock):
+    before = ImageChooserBlock()
+    after = ImageChooserBlock()
+    caption = blocks.CharBlock(required=False)
+    start_position = blocks.IntegerBlock(default=50, help_text="Start position (0-100)")
+
+    class Meta:
+        icon = "image"
+        template = "cms/blocks/before_after_block.html"
+        label = "Before / After"
+
+class CTABlock(blocks.StructBlock):
+    title = blocks.CharBlock()
+    body = blocks.RichTextBlock(required=False)
+    button_label = blocks.CharBlock(default="Contact Us")
+    button_url = blocks.URLBlock(required=False, help_text="If blank, opens contact modal")
+    style = blocks.ChoiceBlock(choices=[
+        ("accent", "Accent"),
+        ("info", "Information"),
+        ("success", "Success"),
+        ("warning", "Warning"),
+    ], default="accent")
+
+    class Meta:
+        icon = "site"
+        template = "cms/blocks/cta_block.html"
+        label = "CTA Panel"
 
 class ProjectPage(Page, ProjectSEOExtension):
     """A single project detail page with enhanced SEO for TFuture Designs brand differentiation."""
@@ -105,21 +180,62 @@ class ProjectPage(Page, ProjectSEOExtension):
     ], use_json_field=True, blank=True, default=list)
 
     body = StreamField([
-        ("heading", blocks.CharBlock(form_classname="full title")),
-        ("subheading", blocks.CharBlock(help_text="Normal subheading (H2 size)")),
-        ("muted_subheading", blocks.CharBlock(help_text="Muted subheading")),
-        ("rich_text", blocks.RichTextBlock()),
-        ("quote", blocks.BlockQuoteBlock()),
-        ("image", ImageChooserBlock()),
+        ("heading", blocks.CharBlock(
+            form_classname="full title",
+            icon="title",
+            template="cms/blocks/heading_block.html",
+            help_text="Main heading (H1 size) - use sparingly for major section breaks"
+        )),
+        ("subheading", blocks.CharBlock(
+            icon="title",
+            template="cms/blocks/subheading_block.html",
+            help_text="Normal subheading (H2 size) - use for section headings"
+        )),
+        ("muted_subheading", blocks.CharBlock(
+            icon="title",
+            template="cms/blocks/muted_subheading_block.html",
+            help_text="Muted subheading (H3 size) - use for subsection headings"
+        )),
+        ("caption", blocks.CharBlock(
+            icon="form",
+            template="cms/blocks/caption_block.html",
+            help_text="Small caption text - use for image captions or small supporting text",
+            required=False
+        )),
+        ("rich_text", blocks.RichTextBlock(
+            icon="doc-full",
+            template="cms/blocks/rich_text_block.html",
+            help_text="Main paragraph text - use for regular content"
+        )),
+        ("quote", blocks.BlockQuoteBlock(
+            icon="openquote",
+            template="cms/blocks/quote_block.html",
+            help_text="Blockquote - use for testimonials or highlighting important statements"
+        )),
+        ("pullquote", blocks.StructBlock([
+            ("quote", blocks.TextBlock(help_text="The main quote text")),
+            ("attribution", blocks.CharBlock(required=False, help_text="Who said or wrote this quote")),
+        ], icon="openquote", template="cms/blocks/pullquote_block.html", help_text="Styled pullquote with attribution")),
+        ("image", ImageChooserBlock(
+            icon="image",
+            template="cms/blocks/image_block.html",
+            help_text="Full width image"
+        )),
         ("image_with_caption", blocks.StructBlock([
             ("image", ImageChooserBlock()),
             ("caption", blocks.CharBlock(required=False)),
-        ])),
+        ], icon="image", template="cms/blocks/image_with_caption_block.html")),
         ("image_grid", blocks.ListBlock(blocks.StructBlock([
             ("image", ImageChooserBlock()),
             ("caption", blocks.CharBlock(required=False)),
-        ]), help_text="Add 2-6 images")),
+        ]), icon="grip", template="cms/blocks/image_grid_block.html", help_text="Add 2-6 images")),
+        # Keep existing URLBlock for backward-compat; add richer embed option too
         ("video_embed", blocks.URLBlock(help_text="YouTube/Vimeo link")),
+        ("video_embed_rich", EmbedBlock(
+            icon="media",
+            template="cms/blocks/video_embed_block.html",
+            help_text="YouTube/Vimeo link (auto-embed)"
+        )),
         ("two_column", blocks.StructBlock([
             ("left", blocks.StreamBlock([
                 ("rich_text", blocks.RichTextBlock()),
@@ -133,17 +249,50 @@ class ProjectPage(Page, ProjectSEOExtension):
                 ("quote", blocks.BlockQuoteBlock()),
                 ("code", blocks.TextBlock(help_text="Code")),
             ], required=False)),
-        ])),
+        ], icon="grip", template="cms/blocks/two_column_block.html")),
         ("stats_grid", blocks.ListBlock(blocks.StructBlock([
             ("label", blocks.CharBlock()),
             ("value", blocks.CharBlock()),
-        ]), help_text="Small set of key stats")),
-        ("bulleted_list", blocks.ListBlock(blocks.CharBlock())),
+        ]), icon="list-ul", template="cms/blocks/stats_grid_block.html", help_text="Small set of key stats")),
+        ("bulleted_list", blocks.ListBlock(
+            blocks.CharBlock(),
+            icon="list-ul",
+            template="cms/blocks/bulleted_list_block.html",
+            help_text="Use for unordered list items"
+        )),
+        ("numbered_list", blocks.ListBlock(
+            blocks.CharBlock(),
+            icon="list-ol",
+            template="cms/blocks/numbered_list_block.html",
+            help_text="Use for ordered list items"
+        )),
         ("callout", blocks.StructBlock([
             ("title", blocks.CharBlock()),
             ("body", blocks.RichTextBlock()),
-        ])),
-        ("code", blocks.TextBlock(help_text="Paste code snippet")),
+            ("style", blocks.ChoiceBlock(choices=[
+                ("info", "Information (Blue)"),
+                ("warning", "Warning (Orange)"),
+                ("success", "Success (Green)"),
+                ("accent", "Accent (Cyan)"),
+            ], default="accent")),
+        ], icon="warning", template="cms/blocks/callout_block.html")),
+        ("code", blocks.TextBlock(
+            icon="code",
+            template="cms/blocks/code_block.html",
+            help_text="Paste code snippet"
+        )),
+        ("table", TableBlock(
+            icon="table",
+            template="cms/blocks/table_block.html",
+            help_text="Add a formatted table"
+        )),
+        # Premium presentation blocks (additive)
+        ("section_separator", SectionSeparatorBlock()),
+        ("kpi", KPIBlock()),
+        ("kpi_list", blocks.ListBlock(KPIBlock(), icon="tick", template="cms/blocks/kpi_list_block.html", help_text="List of KPIs (1-6)")),
+        ("before_after", BeforeAfterBlock()),
+        ("timeline", TimelineBlock()),
+        ("cta", CTABlock()),
     ], use_json_field=True, blank=True)
 
     content_panels = Page.content_panels + [

@@ -1,0 +1,11 @@
+<div class="my-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+  {% for item in value %}
+    <div class="px-5 py-4 rounded-xl bg-white/5 border border-white/10 shadow">
+      <div class="text-3xl font-extrabold text-accent">{{ item.value }}</div>
+      <div class="mt-1 text-sm font-semibold text-white">{{ item.label }}</div>
+      {% if item.description %}
+      <div class="text-xs text-gray-300 mt-1">{{ item.description }}</div>
+      {% endif %}
+    </div>
+  {% endfor %}
+</div>

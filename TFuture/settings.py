@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'cms',
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
+    'wagtail.contrib.table_block',  # Needed for BlogPage TableBlock editor UI
     'wagtail.embeds',
     'wagtail.sites',
     'wagtail.users',

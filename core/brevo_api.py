@@ -81,6 +81,7 @@ def send_service_request_confirmation(service_request):
             'last_name': service_request.last_name,
             'email': service_request.email,
             'service_name': service_request.service.name,
+            'message': service_request.message,
             'request_id': service_request.id,
             'created_at': service_request.created_at,
         }
@@ -123,6 +124,7 @@ def send_admin_notification(service_request):
             'service_name': service_request.service.name,
             'message': service_request.message,
             'created_at': service_request.created_at,
+            'request_id': service_request.id,
             'admin_url': f"{settings.SITE_URL}/admin/core/servicerequest/{service_request.id}/"
         }
         
