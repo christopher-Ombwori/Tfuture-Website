@@ -89,7 +89,7 @@
 {% include "includes/breadcrumbs.html" %}
 
 <section class="py-12 sm:py-16">
-  <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-[90rem]">
+  <div class="container mx-auto px-6 sm:px-8 lg:px-12 max-w-[90rem]">
 
     <!-- Hero -->
     {% for blk in page.hero %}
@@ -105,7 +105,7 @@
           </div>
           {% endif %}
           <div class="mt-8">
-            {% image blk.value.hero_image width-1920 class="w-full h-auto shadow-lg" loading="lazy" alt="TFuture Designs - {{ blk.value.headline }} | Kenya based Premier Design Agency" %}
+            {% image blk.value.hero_image width-1920 class="w-full h-auto" loading="lazy" alt="TFuture Designs - {{ blk.value.headline }} | Kenya based Premier Design Agency" %}
           </div>
         </div>
       {% endif %}
@@ -130,17 +130,17 @@
   <div class="content-typography project-typography">
       {% for block in page.body %}
         {% if block.block_type == 'image' %}
-          {% image block.value width-1920 class="w-full h-auto shadow-lg my-8" loading="lazy" alt="TFuture Designs - {{ block.value.title|default:page.title }} | Kenya Design Project" %}
+          {% image block.value width-1920 class="w-full h-auto my-8" loading="lazy" alt="TFuture Designs - {{ block.value.title|default:page.title }} | Kenya Design Project" %}
         {% elif block.block_type == 'image_with_caption' %}
           <figure class="my-8">
-            {% image block.value.image width-1920 class="w-full h-auto shadow-lg" loading="lazy" alt="TFuture Designs - {{ block.value.caption|default:page.title }} | Kenya based Design and Branding Agency" %}
+            {% image block.value.image width-1920 class="w-full h-auto" loading="lazy" alt="TFuture Designs - {{ block.value.caption|default:page.title }} | Kenya based Design and Branding Agency" %}
             {% if block.value.caption %}<figcaption class="text-sm text-gray-400 mt-2">{{ block.value.caption }}</figcaption>{% endif %}
           </figure>
         {% elif block.block_type == 'image_grid' %}
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 my-8">
             {% for item in block.value %}
               <div>
-                {% image item.image width-1200 class="w-full h-auto shadow" loading="lazy" alt="TFuture Designs - {{ item.caption|default:page.title }} | Kenya Creative Agency" %}
+                {% image item.image width-1200 class="w-full h-auto" loading="lazy" alt="TFuture Designs - {{ item.caption|default:page.title }} | Kenya Creative Agency" %}
                 {% if item.caption %}<div class="text-sm text-gray-400 mt-1">{{ item.caption }}</div>{% endif %}
               </div>
             {% endfor %}
@@ -213,7 +213,7 @@
 
 <!-- TFuture Designs Brand Reinforcement Section -->
 <section class="py-10 bg-secondary/20 backdrop-blur-sm">
-  <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-[90rem]">
+  <div class="container mx-auto px-6 sm:px-8 lg:px-12 max-w-[90rem]">
     <div class="flex flex-col md:flex-row items-center justify-between gap-8">
       <div class="max-w-xl">
         <h2 class="font-display text-2xl font-bold mb-3 text-gradient">TFuture Designs</h2>
