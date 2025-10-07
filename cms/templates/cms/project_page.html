@@ -130,36 +130,25 @@
   <div class="content-typography project-typography">
       {% for block in page.body %}
         {% if block.block_type == 'image' %}
-          {% image block.value width-1920 class="w-full h-auto my-8 rounded-l" loading="lazy" alt="TFuture Designs - {{ block.value.title|default:page.title }} | Kenya Design Project" %}
+          {% image block.value width-1920 class="w-full h-auto my-4 md:my-8 rounded" loading="lazy" alt="TFuture Designs - {{ block.value.title|default:page.title }} | Kenya Design Project" %}
         {% elif block.block_type == 'image_with_caption' %}
-          <figure class="my-8">
-            {% image block.value.image width-1920 class="w-full h-auto rounded-l" loading="lazy" alt="TFuture Designs - {{ block.value.caption|default:page.title }} | Kenya based Design and Branding Agency" %}
+          <figure class="my-4 md:my-8">
+            {% image block.value.image width-1920 class="w-full h-auto rounded" loading="lazy" alt="TFuture Designs - {{ block.value.caption|default:page.title }} | Kenya based Design and Branding Agency" %}
             {% if block.value.caption %}<figcaption class="text-sm text-gray-400 mt-2">{{ block.value.caption }}</figcaption>{% endif %}
           </figure>
         {% elif block.block_type == 'image_grid' %}
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 my-8">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 my-8">
             {% for item in block.value %}
               <div>
-                {% image item.image width-1200 class="w-full h-auto rounded-l" loading="lazy" alt="TFuture Designs - {{ item.caption|default:page.title }} | Kenya Creative Agency" %}
+                {% image item.image width-1200 class="w-full h-auto rounded" loading="lazy" alt="TFuture Designs - {{ item.caption|default:page.title }} | Kenya Creative Agency" %}
                 {% if item.caption %}<div class="text-sm text-gray-400 mt-1">{{ item.caption }}</div>{% endif %}
               </div>
             {% endfor %}
           </div>
         {% elif block.block_type == 'two_column' %}
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 my-8">
-            <div>
-              {% for b in block.value.left %}
-                {% include_block b %}
-              {% endfor %}
-            </div>
-            <div>
-              {% for b in block.value.right %}
-                {% include_block b %}
-              {% endfor %}
-            </div>
-          </div>
+          {% include_block block %}
         {% elif block.block_type == 'stats_grid' %}
-          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 my-8">
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-6 my-8">
             {% for stat in block.value %}
               <div class="p-4 rounded-lg bg-white/5 border border-white/10">
                 <div class="text-sm text-gray-400">{{ stat.label }}</div>
