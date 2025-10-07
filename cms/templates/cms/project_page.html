@@ -130,17 +130,17 @@
   <div class="content-typography project-typography">
       {% for block in page.body %}
         {% if block.block_type == 'image' %}
-          {% image block.value width-1920 class="w-full h-auto my-8" loading="lazy" alt="TFuture Designs - {{ block.value.title|default:page.title }} | Kenya Design Project" %}
+          {% image block.value width-1920 class="w-full h-auto my-8 rounded-l" loading="lazy" alt="TFuture Designs - {{ block.value.title|default:page.title }} | Kenya Design Project" %}
         {% elif block.block_type == 'image_with_caption' %}
           <figure class="my-8">
-            {% image block.value.image width-1920 class="w-full h-auto" loading="lazy" alt="TFuture Designs - {{ block.value.caption|default:page.title }} | Kenya based Design and Branding Agency" %}
+            {% image block.value.image width-1920 class="w-full h-auto rounded-l" loading="lazy" alt="TFuture Designs - {{ block.value.caption|default:page.title }} | Kenya based Design and Branding Agency" %}
             {% if block.value.caption %}<figcaption class="text-sm text-gray-400 mt-2">{{ block.value.caption }}</figcaption>{% endif %}
           </figure>
         {% elif block.block_type == 'image_grid' %}
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 my-8">
             {% for item in block.value %}
               <div>
-                {% image item.image width-1200 class="w-full h-auto" loading="lazy" alt="TFuture Designs - {{ item.caption|default:page.title }} | Kenya Creative Agency" %}
+                {% image item.image width-1200 class="w-full h-auto rounded-l" loading="lazy" alt="TFuture Designs - {{ item.caption|default:page.title }} | Kenya Creative Agency" %}
                 {% if item.caption %}<div class="text-sm text-gray-400 mt-1">{{ item.caption }}</div>{% endif %}
               </div>
             {% endfor %}
