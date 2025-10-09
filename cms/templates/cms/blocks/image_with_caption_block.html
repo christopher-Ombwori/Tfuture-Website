@@ -1,6 +1,9 @@
 {% load wagtailimages_tags %}
-<figure class="my-8">
+<figure class="my-8" style="border-radius:0!important;">
   {% image value.image width-1920 class="w-full h-auto" loading="lazy" alt=value.caption|default:value.image.title %}
+  <style>
+    figure img { border-radius: 0 !important; }
+  </style>
   {% if value.caption %}
     <figcaption class="text-sm text-gray-400 mt-2 opacity-80 italic">{{ value.caption }}</figcaption>
   {% endif %}
