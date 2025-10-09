@@ -78,6 +78,68 @@
       border-left: 0 !important;
       padding-left: 0 !important;
     }
+
+    /* Remove border radius from ALL images in project content - comprehensive override */
+    .content-typography img,
+    .project-typography img,
+    .prose img,
+    .content-typography .prose img,
+    .project-typography .prose img,
+    .content-typography figure img,
+    .project-typography figure img,
+    .content-typography div img,
+    .project-typography div img,
+    .grid img,
+    .grid figure img,
+    .grid div img,
+    img {
+      border-radius: 0 !important;
+    }
+    
+    /* Specific targeting for two-column blocks */
+    .two-column-container img,
+    .two-column-container figure img,
+    .two-column-container div img,
+    .two-column-left img,
+    .two-column-right img,
+    .two-column-left figure img,
+    .two-column-right figure img,
+    .two-column-left div img,
+    .two-column-right div img {
+      border-radius: 0 !important;
+    }
+    
+    /* Target any possible Tailwind rounded classes that might be applied */
+    .content-typography .rounded,
+    .project-typography .rounded,
+    .content-typography .rounded-sm,
+    .project-typography .rounded-sm,
+    .content-typography .rounded-md,
+    .project-typography .rounded-md,
+    .content-typography .rounded-lg,
+    .project-typography .rounded-lg,
+    .content-typography .rounded-xl,
+    .project-typography .rounded-xl,
+    .content-typography .rounded-2xl,
+    .project-typography .rounded-2xl,
+    .content-typography .rounded-full,
+    .project-typography .rounded-full,
+    .grid .rounded,
+    .grid .rounded-sm,
+    .grid .rounded-md,
+    .grid .rounded-lg,
+    .grid .rounded-xl,
+    .grid .rounded-2xl,
+    .grid .rounded-full,
+    .two-column-container .rounded,
+    .two-column-container .rounded-sm,
+    .two-column-container .rounded-md,
+    .two-column-container .rounded-lg,
+    .two-column-container .rounded-xl,
+    .two-column-container .rounded-2xl,
+    .two-column-container .rounded-full {
+      border-radius: 0 !important;
+    }
   </style>
 {% endblock %}
 
@@ -130,17 +192,17 @@
   <div class="content-typography project-typography">
       {% for block in page.body %}
         {% if block.block_type == 'image' %}
-          {% image block.value width-1920 class="w-full h-auto my-4 md:my-8 rounded" loading="lazy" alt="TFuture Designs - {{ block.value.title|default:page.title }} | Kenya Design Project" %}
+          {% image block.value width-1920 class="w-full h-auto my-4 md:my-8" loading="lazy" alt="TFuture Designs - {{ block.value.title|default:page.title }} | Kenya Design Project" %}
         {% elif block.block_type == 'image_with_caption' %}
           <figure class="my-4 md:my-8">
-            {% image block.value.image width-1920 class="w-full h-auto rounded" loading="lazy" alt="TFuture Designs - {{ block.value.caption|default:page.title }} | Kenya based Design and Branding Agency" %}
+            {% image block.value.image width-1920 class="w-full h-auto" loading="lazy" alt="TFuture Designs - {{ block.value.caption|default:page.title }} | Kenya based Design and Branding Agency" %}
             {% if block.value.caption %}<figcaption class="text-sm text-gray-400 mt-2">{{ block.value.caption }}</figcaption>{% endif %}
           </figure>
         {% elif block.block_type == 'image_grid' %}
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 my-8">
             {% for item in block.value %}
               <div>
-                {% image item.image width-1200 class="w-full h-auto rounded" loading="lazy" alt="TFuture Designs - {{ item.caption|default:page.title }} | Kenya Creative Agency" %}
+                {% image item.image width-1200 class="w-full h-auto" loading="lazy" alt="TFuture Designs - {{ item.caption|default:page.title }} | Kenya Creative Agency" %}
                 {% if item.caption %}<div class="text-sm text-gray-400 mt-1">{{ item.caption }}</div>{% endif %}
               </div>
             {% endfor %}

@@ -1,9 +1,19 @@
 {% load wagtailcore_tags %}
-<div class="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-8 my-8">
-  <div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-8 my-8 two-column-container">
+  <div class="two-column-left">
     {% for b in value.left %}{% include_block b %}{% endfor %}
   </div>
-  <div>
+  <div class="two-column-right">
     {% for b in value.right %}{% include_block b %}{% endfor %}
   </div>
 </div>
+
+<style>
+  /* Nuclear option - remove border radius from images in two column blocks */
+  .two-column-container img,
+  .two-column-container figure img,
+  .two-column-left img,
+  .two-column-right img {
+    border-radius: 0 !important;
+  }
+</style>
