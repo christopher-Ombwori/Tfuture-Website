@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import BrandDiscoverySubmission
+from .models import BrandDiscoverySubmission, BrandDiscoveryPage
 
 @admin.register(BrandDiscoverySubmission)
 class BrandDiscoverySubmissionAdmin(admin.ModelAdmin):
@@ -31,11 +31,38 @@ class BrandDiscoverySubmissionAdmin(admin.ModelAdmin):
         if not obj.additional_responses:
             return "No additional responses"
         
+        # Build a mapping from field keys (e.g., question_1_1) to readable labels
+        label_map = {}
+        try:
+            page = BrandDiscoveryPage.objects.live().first() or BrandDiscoveryPage.objects.first()
+            if page and page.form_sections:
+                for s_idx, section_block in enumerate(page.form_sections, start=1):
+                    section = section_block.value
+                    section_title = section.get('section_title') or f'Section {s_idx}'
+                    questions = section.get('questions') or []
+                    for q_idx, question in enumerate(questions, start=1):
+                        key = f"question_{s_idx}_{q_idx}"
+                        label = question.get('label') if hasattr(question, 'get') else getattr(question, 'label', None)
+                        if not label and hasattr(question, 'value'):
+                            # In case of StructValue
+                            label = question.value.get('label')
+                        label_map[key] = {
+                            'label': label or f'Question {s_idx}.{q_idx}',
+                            'section': section_title,
+                        }
+        except Exception:
+            # If any issue, fall back to raw keys
+            label_map = {}
+
         html = '<div style="padding: 15px; border-radius: 8px;">'
         
         for key, value in obj.additional_responses.items():
-            # Format the key (e.g., "question_1_1" -> "Question 1.1")
-            formatted_key = key.replace('_', ' ').title()
+            # Prefer mapped label from page definition
+            if key in label_map:
+                formatted_key = f"{label_map[key]['section']} — {label_map[key]['label']}"
+            else:
+                # Fallback: prettify the raw key
+                formatted_key = key.replace('_', ' ').title()
             
             # Format the value
             if isinstance(value, list):
