@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brand Discovery Inquiry Confirmation - TFuture</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: #f3f4f6;
+      color: #111827;
+    }
+    .container {
+      max-width: 650px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    }
+    .header {
+      text-align: center;
+      background: linear-gradient(135deg, #8B5CF6, #3B82F6);
+      color: white;
+      padding: 40px 20px;
+    }
+    .header h1 {
+      font-size: 28px;
+      margin: 0;
+      font-weight: 700;
+    }
+    .success-icon {
+      font-size: 45px;
+      margin: 18px auto;
+    }
+    .content {
+      padding: 30px;
+    }
+    .section-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #1f2937;
+    }
+    .details {
+      background: #f9fafb;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+    .detail-row {
+      display: flex;
+      padding: 12px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .detail-row:last-child {
+      border-bottom: none;
+    }
+    .detail-label {
+      font-weight: 600;
+      color: #6b7280;
+      width: 140px;
+      flex-shrink: 0;
+    }
+    .detail-value {
+      color: #111827;
+      word-break: break-word;
+      flex: 1;
+    }
+    .footer {
+      background: #1d2840;
+      padding: 25px;
+      text-align: center;
+      font-size: 13px;
+      color: #9CA3AF;
+    }
+    .footer p {
+      margin: 8px 0;
+    }
+    .cta-button {
+      display: inline-block;
+      background: linear-gradient(135deg, #8B5CF6, #3B82F6);
+      color: white;
+      padding: 12px 30px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      margin: 20px 0;
+    }
+    .note {
+      background: #dbeafe;
+      border-left: 4px solid #3b82f6;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+      color: #1e40af;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="success-icon">✓</div>
+      <h1>Thank You!</h1>
+      <p style="margin: 8px 0 0 0; font-size: 16px; opacity: 0.9;">Your Brand Discovery inquiry has been received</p>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+      <p style="font-size: 16px; line-height: 1.6;">
+          <strong> Hello {{ first_name }} {{ last_name }}</strong>, Thank you for choosing <strong>Tfuture.</strong> 
+      </p>
+
+      <p style="font-size: 15px; line-height: 1.6; color: #374151;">
+        We've successfully received your brand discovery inquiry for <strong>{{ business_name }}</strong>. 
+        Our team is excited to learn more about your project!
+      </p>
+
+      <!-- Submission Details -->
+      <div class="section-title">Your Information</div>
+      <div class="details">
+        <div class="detail-row">
+          <div class="detail-label">Representative</div>
+          <div class="detail-value">{{ rep_name }}</div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Business</div>
+          <div class="detail-value">{{ business_name }}</div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Email</div>
+          <div class="detail-value">{{ email }}</div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Phone</div>
+          <div class="detail-value">{{ phone }}</div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Submitted</div>
+          <div class="detail-value">{{ created_at|date:"M d, Y H:i" }}</div>
+        </div>
+      </div>
+
+      <!-- Next Steps -->
+      <div class="note">
+        <strong>What Happens Next?</strong><br>
+        Our team will review your inquiry and reach out to you within 24-48 hours to discuss your project details and how we can help bring your vision to life.
+      </div>
+
+      <p style="font-size: 15px; line-height: 1.6; color: #374151;">
+        If you have any additional information to share or questions in the meantime, 
+        feel free to reach out to us directly at <strong>contact@tfuturedesigns.studio</strong>
+      </p>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p><strong>TFuture Designs</strong></p>
+      <p>Your Partner in Digital Innovation & Brand Transformation</p>
+      <div class="footer-content" style="margin-top: 15px;">
+        <p>Contact: <a href="tel:+254720487678" style="color:#3B82F6; text-decoration:none;">+254 7204 87678</a> &nbsp;&nbsp;&nbsp;
+        Email: <a href="mailto:contact@tfuturedesigns.studio" style="color:#3B82F6; text-decoration:none;">contact@tfuturedesigns.studio</a><br>
+        Website: <a href="https://www.tfuturedesigns.studio" style="color:#3B82F6; text-decoration:none;">www.tfuturedesigns.studio</a></p>
+      </div>
+      <p style="margin-top: 15px; font-size: 12px;">
+        This is an automated confirmation email. Please do not reply to this message.
+      </p>
+    </div>
+  </div>
+</body>
+</html>

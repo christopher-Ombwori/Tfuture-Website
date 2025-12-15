@@ -27,7 +27,8 @@ Wagtail is used exclusively for content-related models and pages:
 Django Admin is used for business-related models and operations:
 
 - **Service Requests**: Managing client inquiries and service requests
-- **Services**: Managing available services (currently implemented as Wagtail snippets but should be moved to Django Admin)
+- **Services**: Managing available services
+- **Testimonials**: Managing customer testimonials
 
 ## Model Registration
 
@@ -41,13 +42,13 @@ Django Admin is used for business-related models and operations:
 - Business models are registered in `core/admin.py`
 - Custom admin classes provide specialized interfaces for business operations
 
-## Implementation Plan
+## Current Implementation Status
 
-To maintain a clear separation without changing the logic and design:
+The architecture has been implemented with the following structure:
 
-1. **Move and Rename HomePage to CMS App**: The HomePage model has been moved to the CMS app and renamed to TestimonialsPage to better reflect its purpose since it only manages testimonials
-2. **Create Service API**: Implement an API for frontend to consume service data
-3. **Update Admin Registration**: Ensure proper model registration in respective admin interfaces
+1. **HomePage**: Remains in the `core` app. Contains testimonials displayed on the homepage. (Note: A migration to move it to `cms` as TestimonialsPage was attempted but rolled back - see migrations 0008 & 0009)
+2. **Service API**: Implemented in `core/api.py` with endpoints for service data consumption
+3. **Admin Registration**: Models properly registered in their respective admin interfaces (Django Admin for business logic, Wagtail for content)
 
 ## Data Flow
 

@@ -611,6 +611,33 @@
         </div>
     </div>
 
+    <!-- Service Request Success Modal -->
+    <div id="serviceSuccessModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden transition-all duration-300">
+        <div class="min-h-screen px-4 flex items-center justify-center">
+            <div class="bg-dark-secondary border border-accent/30 rounded-2xl p-8 md:p-12 max-w-md w-full text-center relative">
+                <!-- Close Button -->
+                <button 
+                    onclick="closeServiceSuccessModal()" 
+                    class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+                    aria-label="Close"
+                >
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+                
+                <div class="text-5xl mb-4 text-green-500">✓</div>
+                <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">Request Received!</h2>
+                <p class="text-gray-300 mb-6">
+                    Thank you for reaching out to us. We've received your service request and will get back to you within 24 hours.
+                </p>
+                <p class="text-sm text-gray-400">
+                    Please check your email for confirmation.
+                </p>
+            </div>
+        </div>
+    </div>
+
     <!-- Swiper CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
 
@@ -690,6 +717,11 @@
             document.body.style.overflow = 'auto';
         }
 
+        function closeServiceSuccessModal() {
+            const modal = document.getElementById('serviceSuccessModal');
+            modal.classList.add('hidden');
+        }
+
         // Close modal when pressing Escape key
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
@@ -737,9 +769,10 @@
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            alert(data.message);
                             closeServiceModal();
                             e.target.reset();
+                            // Show success modal
+                            document.getElementById('serviceSuccessModal').classList.remove('hidden');
                         } else {
                             alert('Error: ' + data.message);
                         }

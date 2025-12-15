@@ -3,9 +3,11 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 import json
+import threading
 
 from .models import Service, ServiceRequest, Testimonial
 from .brevo_api import send_service_request_emails
+from .brand_discovery_emails import send_brand_discovery_emails
 
 # Wagtail imports
 from wagtail.snippets.views.snippets import SnippetViewSet
@@ -13,7 +15,7 @@ from wagtail.snippets.models import register_snippet
 from django.core.exceptions import ValidationError
 from django import forms
 from wagtail.models import Page
-from cms.models import ProjectPage, BlogPage
+from cms.models import ProjectPage, BlogPage, FAQItem, BrandDiscoverySubmission
 
 
 def home(request):
@@ -35,6 +37,7 @@ def home(request):
         'featured_projects': featured_projects,
         'featured_blogs': featured_blogs,
         'testimonials': featured_testimonials,
+        'faq_items': FAQItem.objects.all().order_by('order'),
     })
 
 
@@ -96,20 +99,21 @@ def submit_service_request(request):
             message=message
         )
 
-        # Send email notifications
-        try:
-            email_results = send_service_request_emails(service_request)
-            if email_results['all_sent']:
-                email_status = 'Emails sent successfully'
-            else:
-                email_status = 'Some emails failed to send'
-        except Exception as e:
-            email_status = f'Email error: {str(e)}'
+        # Send email notifications asynchronously (non-blocking)
+        def send_emails_async():
+            try:
+                send_service_request_emails(service_request)
+            except Exception as e:
+                print(f"Email sending error: {str(e)}")
+        
+        # Start email sending in background thread
+        email_thread = threading.Thread(target=send_emails_async)
+        email_thread.daemon = True
+        email_thread.start()
 
         return JsonResponse({
             'success': True,
-            'message': "Thank you! We'll get back to you within 24 hours.",
-            'email_status': email_status
+            'message': "Thank you! We'll get back to you within 24 hours."
         })
 
     except json.JSONDecodeError:
@@ -123,3 +127,70 @@ def submit_service_request(request):
             'message': 'An error occurred. Please try again.'
         }, status=500)
 
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def submit_brand_discovery(request):
+    """
+    Handle Brand Discovery form submissions
+    """
+    try:
+        data = json.loads(request.body)
+
+        # Extract core required fields
+        rep_name = data.get('rep_name')
+        business_name = data.get('business_name')
+        email = data.get('email')
+        phone = data.get('phone')
+
+        # Validate required fields
+        if not all([rep_name, business_name, email, phone]):
+            return JsonResponse({
+                'success': False,
+                'message': 'All required fields must be filled'
+            }, status=400)
+
+        # Extract additional responses (all other fields)
+        additional_responses = {}
+        required_fields = {'rep_name', 'business_name', 'email', 'phone'}
+        for key, value in data.items():
+            if key not in required_fields:
+                additional_responses[key] = value
+
+        # Save the brand discovery submission
+        submission = BrandDiscoverySubmission.objects.create(
+            rep_name=rep_name,
+            business_name=business_name,
+            email=email,
+            phone=phone,
+            additional_responses=additional_responses
+        )
+
+        # Send email notifications asynchronously (non-blocking)
+        def send_emails_async():
+            try:
+                send_brand_discovery_emails(submission)
+            except Exception as e:
+                print(f"Email sending error: {str(e)}")
+        
+        # Start email sending in background thread
+        email_thread = threading.Thread(target=send_emails_async)
+        email_thread.daemon = True
+        email_thread.start()
+
+        return JsonResponse({
+            'success': True,
+            'message': "Thank you! We'll review your information and get back to you shortly.",
+            'submission_id': submission.id
+        })
+
+    except json.JSONDecodeError:
+        return JsonResponse({
+            'success': False,
+            'message': 'Invalid request data'
+        }, status=400)
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'message': 'An error occurred. Please try again.'
+        }, status=500)

@@ -15,6 +15,30 @@ from wagtail.contrib.table_block.blocks import TableBlock
 # Import the Testimonial model from core app
 from core.models import Testimonial
 
+from wagtail.snippets.models import register_snippet
+
+
+@register_snippet
+class FAQItem(models.Model):
+    """Frequently Asked Question item editable in Wagtail."""
+    question = models.CharField(max_length=255)
+    answer = RichTextField()
+    order = models.PositiveIntegerField(default=0)
+
+    panels = [
+        FieldPanel("question"),
+        FieldPanel("answer"),
+        FieldPanel("order"),
+    ]
+
+    class Meta:
+        ordering = ["order", "question"]
+        verbose_name = "FAQ Item"
+        verbose_name_plural = "FAQ Items"
+
+    def __str__(self):
+        return self.question
+
 
 class HeroBlock(blocks.StructBlock):
     label = blocks.CharBlock(required=True, help_text="Small label above the headline")
@@ -564,3 +588,166 @@ class ProductsPage(Page):
 
     parent_page_types = ["wagtailcore.Page"]
     subpage_types = []
+
+# ==========================
+# Brand Discovery Form
+# ==========================
+
+class FormQuestionBlock(blocks.StructBlock):
+    """Base structure for form questions with type-specific rendering"""
+    label = blocks.CharBlock(
+        required=True,
+        help_text="Question label (e.g., 'What is your company size?')"
+    )
+    field_type = blocks.ChoiceBlock(
+        choices=[
+            ("text", "Short Text"),
+            ("textarea", "Long Text"),
+            ("email", "Email"),
+            ("phone", "Phone Number"),
+            ("number", "Number"),
+            ("dropdown", "Dropdown"),
+            ("checkbox", "Checkbox"),
+        ],
+        help_text="Select the input type for this question"
+    )
+    required = blocks.BooleanBlock(
+        required=False,
+        default=True,
+        help_text="Is this field required?"
+    )
+    help_text = blocks.CharBlock(
+        required=False,
+        blank=True,
+        help_text="Optional helper text below the label"
+    )
+    # For dropdown and checkbox: comma-separated options
+    options = blocks.CharBlock(
+        required=False,
+        blank=True,
+        help_text="For dropdown/checkbox: comma-separated options (e.g., 'Option 1, Option 2, Option 3')"
+    )
+
+    class Meta:
+        icon = "form"
+        label = "Form Question"
+
+
+class FormSectionBlock(blocks.StructBlock):
+    """A section containing multiple form questions"""
+    section_title = blocks.CharBlock(
+        required=True,
+        help_text="Title for this section (e.g., 'Detailed Overview')"
+    )
+    section_description = blocks.CharBlock(
+        required=False,
+        blank=True,
+        help_text="Optional description text for the section"
+    )
+    questions = blocks.ListBlock(
+        FormQuestionBlock(),
+        help_text="Add questions for this section"
+    )
+
+    class Meta:
+        icon = "folder-open-1"
+        label = "Form Section"
+
+
+class BrandDiscoveryPage(Page):
+    """
+    Dynamic brand discovery form page managed in Wagtail.
+    Allows adding custom form sections with questions that users can fill out.
+    """
+    
+    intro = RichTextField(
+        blank=True,
+        help_text="Introduction text to display at the top of the form"
+    )
+    
+    # Dynamic form sections
+    form_sections = StreamField(
+        [("section", FormSectionBlock())],
+        blank=True,
+        use_json_field=True,
+        help_text="Add form sections with questions. Reorder as needed."
+    )
+    
+    # Post-submission message
+    thank_you_message = RichTextField(
+        blank=True,
+        default="<p>Thank you for your inquiry! We'll review your information and get back to you shortly.</p>",
+        help_text="Message shown after successful form submission"
+    )
+    
+    content_panels = Page.content_panels + [
+        FieldPanel("intro"),
+        FieldPanel("form_sections"),
+        FieldPanel("thank_you_message"),
+    ]
+    
+    parent_page_types = ["wagtailcore.Page"]
+    subpage_types = []
+    
+    template = "cms/brand_discovery_page.html"
+    
+    def get_form_sections_list(self):
+        """Return form sections as a list for easy access"""
+        return [block.value for block in self.form_sections]
+
+
+class BrandDiscoverySubmission(models.Model):
+    """
+    Stores submissions from the Brand Discovery form.
+    Flexible to handle any combination of questions.
+    """
+    
+    # Core required fields
+    rep_name = models.CharField(max_length=200, help_text="Name of business representative")
+    business_name = models.CharField(max_length=200, help_text="Name of the business")
+    email = models.EmailField(help_text="Email for confirmation")
+    phone = models.CharField(max_length=30, help_text="Phone number")
+    
+    # Flexible field for additional responses (stored as JSON)
+    additional_responses = models.JSONField(
+        default=dict,
+        blank=True,
+        help_text="Additional form responses stored as JSON"
+    )
+    
+    # Meta
+    status = models.CharField(
+        max_length=20,
+        choices=[
+            ("new", "New"),
+            ("reviewed", "Reviewed"),
+            ("in_progress", "In Progress"),
+            ("completed", "Completed"),
+        ],
+        default="new",
+        help_text="Status of this inquiry"
+    )
+    admin_notes = models.TextField(
+        blank=True,
+        help_text="Internal notes for this submission"
+    )
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    panels = [
+        FieldPanel("rep_name", read_only=True),
+        FieldPanel("business_name", read_only=True),
+        FieldPanel("email", read_only=True),
+        FieldPanel("phone", read_only=True),
+        FieldPanel("status"),
+        FieldPanel("admin_notes"),
+    ]
+    
+    class Meta:
+        ordering = ["-created_at"]
+        verbose_name = "Brand Discovery Submission"
+        verbose_name_plural = "Brand Discovery Submissions"
+    
+    def __str__(self):
+        return f"{self.business_name} - {self.rep_name} ({self.get_status_display()})"

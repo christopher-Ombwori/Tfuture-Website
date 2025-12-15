@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Brand Discovery Inquiry - TFuture</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: #f3f4f6;
+      color: #111827;
+    }
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    }
+    .header {
+      text-align: center;
+      background: linear-gradient(135deg, #8B5CF6, #3B82F6);
+      color: white;
+      padding: 30px 20px;
+    }
+    .header h1 {
+      font-size: 26px;
+      margin: 0;
+      font-weight: 700;
+    }
+    .alert-icon {
+      font-size: 40px;
+      margin: 15px auto;
+    }
+    .content {
+      padding: 30px;
+    }
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin: 25px 0 15px 0;
+      color: #1f2937;
+      border-bottom: 2px solid #e5e7eb;
+      padding-bottom: 10px;
+    }
+    .details {
+      background: #f9fafb;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 15px 0;
+    }
+    .detail-row {
+      display: flex;
+      padding: 10px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .detail-row:last-child {
+      border-bottom: none;
+    }
+    .detail-label {
+      font-weight: 700;
+      color: #374151;
+      width: 150px;
+      flex-shrink: 0;
+    }
+    .detail-value {
+      color: #111827;
+      word-break: break-word;
+      flex: 1;
+    }
+    .action-button {
+      display: inline-block;
+      background: #3b82f6;
+      color: white;
+      padding: 12px 25px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      margin: 15px 0;
+    }
+    .additional-info {
+      background: #f3f4f6;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 15px 0;
+      font-size: 14px;
+    }
+    .additional-info p {
+      margin: 8px 0;
+    }
+    .footer {
+      background: #1d2840;
+      padding: 25px;
+      text-align: center;
+      font-size: 13px;
+      color: #9CA3AF;
+    }
+    .footer p {
+      margin: 6px 0;
+    }
+    .highlight {
+      background: #fef3c7;
+      padding: 15px;
+      border-radius: 8px;
+      border-left: 4px solid #f59e0b;
+      margin: 15px 0;
+      color: #92400e;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="alert-icon">🎯</div>
+      <h1>New Brand Discovery Inquiry</h1>
+      <p style="margin: 8px 0 0 0; font-size: 14px; opacity: 0.9;">A new inquiry has been submitted</p>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+      <p style="font-size: 15px; line-height: 1.6;">
+        A new brand discovery inquiry has been submitted. Here are the details:
+      </p>
+
+      <!-- Contact Details -->
+      <div class="section-title">📋 Contact Information</div>
+      <div class="details">
+        <div class="detail-row">
+          <div class="detail-label">Business Name</div>
+          <div class="detail-value"><strong>{{ business_name }}</strong></div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Representative</div>
+          <div class="detail-value">{{ rep_name }}</div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Email</div>
+          <div class="detail-value"><a href="mailto:{{ email }}" style="color: #3b82f6; text-decoration: none;">{{ email }}</a></div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Phone</div>
+          <div class="detail-value"><a href="tel:{{ phone }}" style="color: #3b82f6; text-decoration: none;">{{ phone }}</a></div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Submission Date</div>
+          <div class="detail-value">{{ created_at|date:"M d, Y H:i" }}</div>
+        </div>
+      </div>
+
+      <!-- Additional Responses -->
+      {% if additional_responses %}
+      <div class="section-title">📝 Additional Information</div>
+      <div class="details">
+        {% for key, value in additional_responses.items %}
+        <div class="detail-row">
+          <div class="detail-label">{{ key|title }}</div>
+          <div class="detail-value">
+            {% if value|length > 100 %}
+              {{ value|truncatewords:20 }}...
+            {% else %}
+              {{ value }}
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <!-- Action Section -->
+      <div class="highlight">
+        <strong>⏰ Action Required:</strong><br>
+        Please review this inquiry and follow up with the potential client within 24-48 hours.
+      </div>
+
+      <!-- Admin Link -->
+      <div style="text-align: center;">
+        <a href="{{ admin_url }}" class="action-button">View Full Details in Admin</a>
+      </div>
+
+      <!-- Information Note -->
+      <div class="additional-info">
+        <p><strong>Submission ID:</strong> {{ submission_id }}</p>
+        <p>Use this ID to track and manage this inquiry.</p>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p><strong>TFuture Designs - Admin Notification</strong></p>
+      <div class="footer-content" style="margin-top: 15px;">
+        <p>Contact: <a href="tel:+254720487678" style="color:#3B82F6; text-decoration:none;">+254 7204 87678</a> &nbsp;&nbsp;&nbsp;
+        Email: <a href="mailto:contact@tfuturedesigns.studio" style="color:#3B82F6; text-decoration:none;">contact@tfuturedesigns.studio</a><br>
+        Website: <a href="https://www.tfuturedesigns.studio" style="color:#3B82F6; text-decoration:none;">www.tfuturedesigns.studio</a></p>
+      </div>
+      <p style="margin-top: 15px;">This is an automated notification email. Do not reply to this message.</p>
+    </div>
+  </div>
+</body>
+</html>

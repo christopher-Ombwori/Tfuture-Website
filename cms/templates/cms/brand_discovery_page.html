@@ -1,0 +1,430 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags static cms_tags %}
+
+{% block title %}Brand Discovery - TFuture{% endblock %}
+
+{% block content %}
+<section class="relative min-h-screen pt-20 pb-20 bg-gradient-to-b from-futuristic-dark to-black overflow-hidden">
+    <div class="container mx-auto px-4 md:px-8 max-w-4xl relative z-10">
+        
+        <!-- Page Header -->
+        <div class="mb-12 text-center">
+            <h1 class="font-display text-4xl md:text-5xl font-bold mb-4">Brand Discovery Form</h1>
+            {% if page.intro %}
+            <div class="text-lg md:text-xl text-gray-300 leading-relaxed content-typography prose prose-invert max-w-none inline-block text-left">
+                {{ page.intro|richtext }}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Form Container -->
+        <div class="bg-dark-secondary/40 backdrop-blur-sm border border-accent/20 rounded-2xl p-8 md:p-12">
+            <form id="brandDiscoveryForm" class="space-y-8">
+                {% csrf_token %}
+
+                <!-- Core Required Fields (Brand Essentials) -->
+                <div>
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold text-gray-100">Brand Essentials</h3>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <!-- Business Representative Name -->
+                        <div class="form-group">
+                            <label for="rep_name" class="block text-sm font-semibold text-gray-200 mb-2">
+                                Business Representative Name <span class="text-accent">*</span>
+                            </label>
+                            <input 
+                                type="text" 
+                                id="rep_name" 
+                                name="rep_name" 
+                                required
+                                placeholder="Your full name"
+                                class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent/50 transition-all"
+                            />
+                        </div>
+
+                        <!-- Business Name -->
+                        <div class="form-group">
+                            <label for="business_name" class="block text-sm font-semibold text-gray-200 mb-2">
+                                Business Name <span class="text-accent">*</span>
+                            </label>
+                            <input 
+                                type="text" 
+                                id="business_name" 
+                                name="business_name" 
+                                required
+                                placeholder="Your company name"
+                                class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent/50 transition-all"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6 mt-6">
+                        <!-- Email -->
+                        <div class="form-group">
+                            <label for="email" class="block text-sm font-semibold text-gray-200 mb-2">
+                                Email Address <span class="text-accent">*</span>
+                            </label>
+                            <input 
+                                type="email" 
+                                id="email" 
+                                name="email" 
+                                required
+                                placeholder="your@email.com"
+                                class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent/50 transition-all"
+                            />
+                            <p class="text-xs text-gray-400 mt-2 italic">This is the email where you'll receive the confirmation email.</p>
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="form-group">
+                            <label for="phone" class="block text-sm font-semibold text-gray-200 mb-2">
+                                Phone Number <span class="text-accent">*</span>
+                            </label>
+                            <input 
+                                type="tel" 
+                                id="phone" 
+                                name="phone" 
+                                required
+                                placeholder="(+254) 000-0000"
+                                class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent/50 transition-all"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dynamic Sections -->
+                {% if page.form_sections %}
+                    {% for section_block in page.form_sections %}
+                        {% with section_block.value as section %}
+                        <div class="border-t border-accent/20 pt-8">
+                            <div class="mb-6">
+                                <h3 class="text-lg font-semibold text-gray-100">{{ section.section_title }}</h3>
+                                {% if section.section_description %}
+                                <p class="text-sm text-gray-400 mt-2">{{ section.section_description }}</p>
+                                {% endif %}
+                            </div>
+
+                            {% for question in section.questions %}
+                                <div class="form-group mb-6">
+                                    <label for="question_{{ forloop.parentloop.counter }}_{{ forloop.counter }}" class="block text-sm font-semibold text-gray-200 mb-2">
+                                        {{ question.label }}
+                                        {% if question.required %}<span class="text-accent">*</span>{% endif %}
+                                    </label>
+                                    
+                                    {% if question.help_text %}
+                                    <p class="text-xs text-gray-400 mb-2">{{ question.help_text }}</p>
+                                    {% endif %}
+
+                                    <!-- Text Input -->
+                                    {% if question.field_type == "text" %}
+                                    <input 
+                                        type="text" 
+                                        id="question_{{ forloop.parentloop.counter }}_{{ forloop.counter }}" 
+                                        name="question_{{ forloop.parentloop.counter }}_{{ forloop.counter }}" 
+                                        {% if question.required %}required{% endif %}
+                                        class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent/50 transition-all"
+                                    />
+
+                                    <!-- Long Text (Textarea) -->
+                                    {% elif question.field_type == "textarea" %}
+                                    <textarea 
+                                        id="question_{{ forloop.parentloop.counter }}_{{ forloop.counter }}" 
+                                        name="question_{{ forloop.parentloop.counter }}_{{ forloop.counter }}" 
+                                        rows="4"
+                                        {% if question.required %}required{% endif %}
+                                        class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent/50 transition-all resize-vertical"
+                                    ></textarea>
+
+                                    <!-- Email Input -->
+                                    {% elif question.field_type == "email" %}
+                                    <input 
+                                        type="email" 
+                                        id="question_{{ forloop.parentloop.counter }}_{{ forloop.counter }}" 
+                                        name="question_{{ forloop.parentloop.counter }}_{{ forloop.counter }}" 
+                                        {% if question.required %}required{% endif %}
+                                        class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent/50 transition-all"
+                                    />
+
+                                    <!-- Phone Input -->
+                                    {% elif question.field_type == "phone" %}
+                                    <input 
+                                        type="tel" 
+                                        id="question_{{ forloop.parentloop.counter }}_{{ forloop.counter }}" 
+                                        name="question_{{ forloop.parentloop.counter }}_{{ forloop.counter }}" 
+                                        {% if question.required %}required{% endif %}
+                                        class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent/50 transition-all"
+                                    />
+
+                                    <!-- Number Input -->
+                                    {% elif question.field_type == "number" %}
+                                    <input 
+                                        type="number" 
+                                        id="question_{{ forloop.parentloop.counter }}_{{ forloop.counter }}" 
+                                        name="question_{{ forloop.parentloop.counter }}_{{ forloop.counter }}" 
+                                        {% if question.required %}required{% endif %}
+                                        class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent/50 transition-all"
+                                    />
+
+                                    <!-- Dropdown -->
+                                    {% elif question.field_type == "dropdown" %}
+                                    <select 
+                                        id="question_{{ forloop.parentloop.counter }}_{{ forloop.counter }}" 
+                                        name="question_{{ forloop.parentloop.counter }}_{{ forloop.counter }}" 
+                                        {% if question.required %}required{% endif %}
+                                        class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent/50 transition-all"
+                                    >
+                                        <option value="">Select an option</option>
+                                        {% for option in question.options|split:"," %}
+                                        <option value="{{ option|strip }}">{{ option|strip }}</option>
+                                        {% endfor %}
+                                    </select>
+
+                                    <!-- Checkbox -->
+                                    {% elif question.field_type == "checkbox" %}
+                                    <div class="space-y-2">
+                                        {% for option in question.options|split:"," %}
+                                        <label class="flex items-center cursor-pointer group">
+                                            <input 
+                                                type="checkbox" 
+                                                name="question_{{ forloop.parentloop.parentloop.counter }}_{{ forloop.parentloop.counter }}" 
+                                                value="{{ option|strip }}"
+                                                class="w-4 h-4 bg-gray-900 border border-gray-700 rounded accent-accent focus:ring-2 focus:ring-accent/50"
+                                            />
+                                            <span class="ml-3 text-gray-300 group-hover:text-gray-100 transition-colors">
+                                                {{ option|strip }}
+                                            </span>
+                                        </label>
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {% endwith %}
+                    {% endfor %}
+                {% endif %}
+
+                <!-- Submit Button -->
+                <div class="pt-4">
+                    <button 
+                        type="submit" 
+                        id="submitBtn"
+                        class="w-full bg-gradient-to-r from-accent to-blue-600 hover:from-accent/90 hover:to-blue-700 text-white font-semibold py-4 px-6 rounded-lg transition-all hover:scale-105 duration-300 shadow-lg hover:shadow-xl"
+                    >
+                        <span id="submitText">Submit Inquiry</span>
+                        <span id="submitSpinner" class="hidden">Submitting...</span>
+                    </button>
+                </div>
+
+                <!-- Terms Note -->
+                <p class="text-xs text-gray-400 text-center">
+                    By submitting this form, you agree that we may contact you to discuss your inquiry.
+                </p>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Thank You Modal -->
+<div id="thankYouModal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
+    <div class="bg-dark-secondary border border-accent/30 rounded-2xl p-8 md:p-12 max-w-md w-full text-center relative">
+        <!-- Close Button -->
+        <button 
+            onclick="closeThankYouModal()" 
+            class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+            aria-label="Close"
+        >
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+        <!-- Confirmation State -->
+        <div id="modalConfirmState">
+            <div class="text-5xl mb-4">✓</div>
+            <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">Review Your Submission</h2>
+            <p class="text-gray-300 mb-6">
+                Please review your information and click "Confirm submission" to submit your brand discovery inquiry.
+            </p>
+            <p class="text-sm text-gray-400 mb-8">
+                You'll receive a confirmation email shortly after submitting.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                <button 
+                    id="confirmSubmitBtn"
+                    onclick="confirmSubmission(event)" 
+                    class="bg-accent hover:bg-accent/80 text-white font-semibold py-2 px-6 rounded-lg transition-all"
+                >
+                    Confirm submission
+                </button>
+                <button 
+                    onclick="editResponses(event)" 
+                    class="border border-accent/60 text-white font-semibold py-2 px-6 rounded-lg transition-all hover:border-accent hover:bg-accent/10"
+                >
+                    Edit responses
+                </button>
+            </div>
+        </div>
+        
+        <!-- Loading State -->
+        <div id="modalLoadingState" class="hidden">
+            <div class="inline-block animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-accent mb-4"></div>
+            <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">Submitting...</h2>
+            <p class="text-gray-300">
+                Please wait while we process your submission.
+            </p>
+        </div>
+        
+        <!-- Success State -->
+        <div id="modalSuccessState" class="hidden">
+            <div class="text-5xl mb-4 text-green-500">✓</div>
+            <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">Successfully Submitted!</h2>
+            <p class="text-gray-300 mb-6">
+                {{ page.thank_you_message|richtext|striptags|truncatewords:30 }}
+            </p>
+            <p class="text-sm text-gray-400">
+                We'll review your information and get back to you within 24-48 hours. Please check your email for confirmation.
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+let pendingData = null;
+
+// Intercept submit to open confirmation modal instead of immediately posting
+const brandDiscoveryForm = document.getElementById('brandDiscoveryForm');
+brandDiscoveryForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const submitBtn = document.getElementById('submitBtn');
+    const submitText = document.getElementById('submitText');
+    const submitSpinner = document.getElementById('submitSpinner');
+
+    // Disable button and show loading while preparing confirmation
+    submitBtn.disabled = true;
+    submitText.classList.add('hidden');
+    submitSpinner.classList.remove('hidden');
+
+    // Collect form data
+    const formData = new FormData(this);
+    const data = {
+        rep_name: formData.get('rep_name'),
+        business_name: formData.get('business_name'),
+        email: formData.get('email'),
+        phone: formData.get('phone'),
+        csrfmiddlewaretoken: formData.get('csrfmiddlewaretoken'),
+    };
+
+    // Add dynamic questions
+    for (let [key, value] of formData.entries()) {
+        if (key.startsWith('question_')) {
+            data[key] = value;
+        }
+    }
+
+    pendingData = data;
+
+    // Show confirmation modal in confirm state
+    showModalState('confirm');
+    document.getElementById('thankYouModal').classList.remove('hidden');
+});
+
+async function confirmSubmission(event) {
+    if (event) event.preventDefault();
+    if (!pendingData) {
+        editResponses();
+        return;
+    }
+
+    const submitBtn = document.getElementById('submitBtn');
+    const submitText = document.getElementById('submitText');
+    const submitSpinner = document.getElementById('submitSpinner');
+    
+    // Show loading state
+    showModalState('loading');
+
+    try {
+        const response = await fetch('{% url "core:submit_brand_discovery" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': pendingData.csrfmiddlewaretoken,
+            },
+            body: JSON.stringify(pendingData),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            // Show success state
+            showModalState('success');
+        } else {
+            closeThankYouModal();
+            alert('Error: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        closeThankYouModal();
+        alert('An error occurred. Please try again.');
+    } finally {
+        // Re-enable main submit button
+        submitBtn.disabled = false;
+        submitText.classList.remove('hidden');
+        submitSpinner.classList.add('hidden');
+    }
+}
+
+function showModalState(state) {
+    const confirmState = document.getElementById('modalConfirmState');
+    const loadingState = document.getElementById('modalLoadingState');
+    const successState = document.getElementById('modalSuccessState');
+    
+    confirmState.classList.add('hidden');
+    loadingState.classList.add('hidden');
+    successState.classList.add('hidden');
+    
+    if (state === 'confirm') {
+        confirmState.classList.remove('hidden');
+    } else if (state === 'loading') {
+        loadingState.classList.remove('hidden');
+    } else if (state === 'success') {
+        successState.classList.remove('hidden');
+    }
+}
+
+function closeThankYouModal() {
+    document.getElementById('thankYouModal').classList.add('hidden');
+    // Reset to confirm state for next time
+    showModalState('confirm');
+    // Reset form if in success state
+    const successState = document.getElementById('modalSuccessState');
+    if (successState && !successState.classList.contains('hidden')) {
+        const brandDiscoveryForm = document.getElementById('brandDiscoveryForm');
+        if (brandDiscoveryForm) {
+            brandDiscoveryForm.reset();
+        }
+        pendingData = null;
+    }
+}
+
+function editResponses(event) {
+    if (event) event.preventDefault();
+    closeThankYouModal();
+
+    // Re-enable submit button for edits
+    const submitBtn = document.getElementById('submitBtn');
+    const submitText = document.getElementById('submitText');
+    const submitSpinner = document.getElementById('submitSpinner');
+    submitBtn.disabled = false;
+    submitText.classList.remove('hidden');
+    submitSpinner.classList.add('hidden');
+
+    const formEl = document.getElementById('brandDiscoveryForm');
+    if (formEl) {
+        formEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+</script>
+
+{% endblock %}
