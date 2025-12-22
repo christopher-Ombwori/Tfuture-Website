@@ -751,3 +751,169 @@ class BrandDiscoverySubmission(models.Model):
     
     def __str__(self):
         return f"{self.business_name} - {self.rep_name} ({self.get_status_display()})"
+
+
+class PrivacyPolicyPage(Page):
+    """
+    Privacy Policy page composed of structured clauses.
+    The page header/title is fixed in the template; editors add clauses only.
+    """
+
+    description = RichTextField(
+        blank=True,
+        help_text="Brief description shown below the title (optional)"
+    )
+
+    clauses = StreamField(
+        [
+            (
+                "clause",
+                blocks.StructBlock(
+                    [
+                        ("title", blocks.CharBlock(required=True, help_text="Clause title")),
+                        (
+                            "body",
+                            blocks.RichTextBlock(
+                                required=True,
+                                help_text="Clause content",
+                                features=[
+                                    "h2",
+                                    "h3",
+                                    "bold",
+                                    "italic",
+                                    "link",
+                                    "ul",
+                                    "ol",
+                                    "hr",
+                                    "code",
+                                ],
+                            ),
+                        ),
+                    ],
+                    icon="form",
+                    label="Clause",
+                ),
+            )
+        ],
+        blank=True,
+        use_json_field=True,
+        help_text="Add privacy policy clauses (title + content)",
+    )
+
+    updates_log = StreamField(
+        [
+            (
+                "update",
+                blocks.StructBlock(
+                    [
+                        ("at", blocks.DateTimeBlock(required=True, help_text="Exact update timestamp")),
+                        ("by", blocks.CharBlock(required=False, help_text="Updated by (username)", max_length=255)),
+                        ("note", blocks.TextBlock(required=False, help_text="Optional note (e.g., what changed)")),
+                    ],
+                    icon="date",
+                    label="Update Entry",
+                ),
+            )
+        ],
+        blank=True,
+        use_json_field=True,
+        help_text="Internal log of updates (backend only)",
+    )
+
+    content_panels = Page.content_panels + [
+        FieldPanel("description"),
+        FieldPanel("clauses"),
+        FieldPanel("updates_log", read_only=True),
+    ]
+
+    parent_page_types = ["wagtailcore.Page"]
+    subpage_types = []
+
+    template = "cms/privacy_policy_page.html"
+
+    class Meta:
+        verbose_name = "Privacy Policy"
+        verbose_name_plural = "Privacy Policies"
+
+
+class TermsOfServicePage(Page):
+    """
+    Terms of Service page composed of structured clauses.
+    The page header/title is fixed in the template; editors add clauses only.
+    """
+
+    description = RichTextField(
+        blank=True,
+        help_text="Brief description shown below the title (optional)"
+    )
+
+    clauses = StreamField(
+        [
+            (
+                "clause",
+                blocks.StructBlock(
+                    [
+                        ("title", blocks.CharBlock(required=True, help_text="Clause title")),
+                        (
+                            "body",
+                            blocks.RichTextBlock(
+                                required=True,
+                                help_text="Clause content",
+                                features=[
+                                    "h2",
+                                    "h3",
+                                    "bold",
+                                    "italic",
+                                    "link",
+                                    "ul",
+                                    "ol",
+                                    "hr",
+                                    "code",
+                                ],
+                            ),
+                        ),
+                    ],
+                    icon="form",
+                    label="Clause",
+                ),
+            )
+        ],
+        blank=True,
+        use_json_field=True,
+        help_text="Add terms of service clauses (title + content)",
+    )
+
+    updates_log = StreamField(
+        [
+            (
+                "update",
+                blocks.StructBlock(
+                    [
+                        ("at", blocks.DateTimeBlock(required=True, help_text="Exact update timestamp")),
+                        ("by", blocks.CharBlock(required=False, help_text="Updated by (username)", max_length=255)),
+                        ("note", blocks.TextBlock(required=False, help_text="Optional note (e.g., what changed)")),
+                    ],
+                    icon="date",
+                    label="Update Entry",
+                ),
+            )
+        ],
+        blank=True,
+        use_json_field=True,
+        help_text="Internal log of updates (backend only)",
+    )
+
+    content_panels = Page.content_panels + [
+        FieldPanel("description"),
+        FieldPanel("clauses"),
+        FieldPanel("updates_log", read_only=True),
+    ]
+
+    parent_page_types = ["wagtailcore.Page"]
+    subpage_types = []
+
+    template = "cms/terms_of_service_page.html"
+
+    class Meta:
+        verbose_name = "Terms of Service"
+        verbose_name_plural = "Terms of Service"

@@ -1,0 +1,261 @@
+{% extends 'base.html' %}
+{% load wagtailcore_tags %}
+
+{% block title %}Terms of Service - TFuture Designs{% endblock %}
+
+{% block robots_meta %}<meta name="robots" content="noindex,follow">{% endblock %}
+
+{% block content %}
+<!-- Brevo Tracker -->
+<script src="https://cdn.brevo.com/js/sdk-loader.js" async></script>
+<script>
+    // Version: 2.0
+    window.Brevo = window.Brevo || [];
+    Brevo.push([
+        "init",
+        {
+        client_key: "58430jpbd8g7yb3d4rolzm9n"
+        }
+    ]);
+</script>
+<div class="min-h-screen bg-primary">
+    <!-- Hero Section -->
+    <section class="relative py-20 overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-secondary/50 to-primary/50"></div>
+        <div class="container mx-auto px-4 relative">
+            <div class="max-w-3xl mx-auto text-center fade-in-up">
+                <h1 class="text-4xl md:text-5xl font-bold mb-6 gradient-text">Terms of Service</h1>
+                <p class="text-lg text-gray-400">Last updated: {% now "F  Y" %}</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Terms Content -->
+    <section class="py-16">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <!-- Terms Container -->
+                <div class="space-y-0 bg-white/5 rounded-lg overflow-hidden border border-white/10">
+                    
+                    <!-- 1. Services -->
+                    <div class="px-8 py-8 md:px-10 md:py-10 border-b border-white/10">
+                        <h2 class="text-2xl font-bold mb-4 text-accent">1. Services</h2>
+                        <p class="text-gray-300 leading-relaxed mb-4">TFuture Designs operates as a brand architecture and design studio, providing services that help businesses define, structure, and express their identity. Our services include, but are not limited to:</p>
+                        <ul class="space-y-3 text-gray-300 mb-4">
+                            <li class="flex items-start">
+                                <span class="w-2 h-2 bg-accent rounded-full mr-3 mt-1.5 flex-shrink-0"></span>
+                                <span><strong class="text-white">Brand Architecture & Strategy</strong> – defining brand positioning, values, messaging, and strategic systems</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="w-2 h-2 bg-accent rounded-full mr-3 mt-1.5 flex-shrink-0"></span>
+                                <span><strong class="text-white">Visual Identity & Brand Design</strong> – logos, color systems, typography, patterns, visual language, and identity applications</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="w-2 h-2 bg-accent rounded-full mr-3 mt-1.5 flex-shrink-0"></span>
+                                <span><strong class="text-white">Digital & Print Design</strong> – social media assets, marketing materials, presentations, editorial layouts, and other creative collateral</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="w-2 h-2 bg-accent rounded-full mr-3 mt-1.5 flex-shrink-0"></span>
+                                <span><strong class="text-white">Supporting Brand Materials</strong> – stationery, merchandise, templates, and other materials that bring the brand to life</span>
+                            </li>
+                        </ul>
+                        <div class="space-y-3 text-gray-300">
+                            <p class="leading-relaxed">The exact scope, deliverables, timelines, and fees are agreed upon before the project begins, either through written communication or a formal proposal.</p>
+                            <p class="leading-relaxed">Any work outside the agreed scope will be treated as additional work and may incur extra costs.</p>
+                        </div>
+                    </div>
+
+                    <!-- 2. Project Start & Payment -->
+                    <div class="px-8 py-8 md:px-10 md:py-10 border-b border-white/10">
+                        <h2 class="text-2xl font-bold mb-4 text-accent">2. Project Start & Payment</h2>
+                        <div class="space-y-3 text-gray-300">
+                            <p class="leading-relaxed"><strong class="text-white">A 50% deposit is required before any work begins.</strong> This deposit secures your project slot and covers research, strategy, and initial concept development.</p>
+                            <p class="leading-relaxed">Deposits are non-refundable.</p>
+                            <p class="leading-relaxed">The remaining balance is due before final files are released, unless otherwise agreed in writing. Late payments may result in paused work or delayed delivery.</p>
+                        </div>
+                    </div>
+
+                    <!-- 3. Revisions -->
+                    <div class="px-8 py-8 md:px-10 md:py-10 border-b border-white/10">
+                        <h2 class="text-2xl font-bold mb-4 text-accent">3. Revisions</h2>
+                        <div class="space-y-3 text-gray-300">
+                            <p class="leading-relaxed">Each project includes a defined number of revision rounds, as outlined in the agreed scope.</p>
+                            <p class="leading-relaxed">Revisions apply to refining the selected direction, not creating entirely new concepts. Requests outside the agreed revision rounds or scope will be billed separately.</p>
+                        </div>
+                    </div>
+
+                    <!-- 4. Client Responsibilities -->
+                    <div class="px-8 py-8 md:px-10 md:py-10 border-b border-white/10">
+                        <h2 class="text-2xl font-bold mb-4 text-accent">4. Client Responsibilities</h2>
+                        <p class="text-gray-300 leading-relaxed mb-4">The Client agrees to:</p>
+                        <ul class="space-y-2 text-gray-300 mb-4">
+                            <li class="flex items-start">
+                                <span class="w-2 h-2 bg-accent rounded-full mr-3 mt-1.5 flex-shrink-0"></span>
+                                <span>Provide accurate and complete information</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="w-2 h-2 bg-accent rounded-full mr-3 mt-1.5 flex-shrink-0"></span>
+                                <span>Give timely feedback and approvals</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="w-2 h-2 bg-accent rounded-full mr-3 mt-1.5 flex-shrink-0"></span>
+                                <span>Review deliverables carefully before final approval</span>
+                            </li>
+                        </ul>
+                        <p class="text-gray-300 leading-relaxed">Delays caused by missing feedback or approvals may affect project timelines.</p>
+                    </div>
+
+                    <!-- 5. Ownership & Intellectual Property -->
+                    <div class="px-8 py-8 md:px-10 md:py-10 border-b border-white/10">
+                        <h2 class="text-2xl font-bold mb-4 text-accent">5. Ownership & Intellectual Property</h2>
+                        <p class="text-gray-300 leading-relaxed mb-4">Upon full payment, the Client receives full ownership of the final approved deliverables.</p>
+                        <p class="text-gray-300 leading-relaxed mb-3">TFuture Designs retains ownership of:</p>
+                        <ul class="space-y-2 text-gray-300">
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-accent rounded-full mr-3"></span>
+                                Unused concepts
+                            </li>
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-accent rounded-full mr-3"></span>
+                                Drafts
+                            </li>
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-accent rounded-full mr-3"></span>
+                                Explorations
+                            </li>
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-accent rounded-full mr-3"></span>
+                                Process work not selected by the Client
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- 6. Portfolio Use & Confidentiality -->
+                    <div class="px-8 py-8 md:px-10 md:py-10 border-b border-white/10">
+                        <h2 class="text-2xl font-bold mb-4 text-accent">6. Portfolio Use & Confidentiality</h2>
+                        <div class="space-y-3 text-gray-300">
+                            <p class="leading-relaxed">TFuture Designs reserves the right to display completed work in its portfolio, website, and social platforms for promotional purposes, unless otherwise agreed in writing.</p>
+                            <p class="leading-relaxed">Any content shared publicly will be limited to final, non-sensitive visual materials. Confidential information, internal documents, business strategies, research insights, or proprietary data will not be disclosed or used without the Client's explicit permission.</p>
+                            <p class="leading-relaxed">Client confidentiality is treated with priority, and all strategic or internal materials remain private unless written consent is provided.</p>
+                        </div>
+                    </div>
+
+                    <!-- 7. Fonts, Assets & Licensing -->
+                    <div class="px-8 py-8 md:px-10 md:py-10 border-b border-white/10">
+                        <h2 class="text-2xl font-bold mb-4 text-accent">7. Fonts, Assets & Licensing</h2>
+                        <div class="space-y-3 text-gray-300">
+                            <p class="leading-relaxed">If third-party fonts, images, or assets are used, licensing requirements will be disclosed. The Client is responsible for purchasing required licenses unless stated otherwise.</p>
+                            <p class="leading-relaxed">TFuture Designs is not liable for misuse of licensed assets by the Client.</p>
+                        </div>
+                    </div>
+
+                    <!-- 8. Deliverables & Acceptance -->
+                    <div class="px-8 py-8 md:px-10 md:py-10 border-b border-white/10">
+                        <h2 class="text-2xl font-bold mb-4 text-accent">8. Deliverables & Acceptance</h2>
+                        <p class="text-gray-300 leading-relaxed mb-3">Deliverables are considered accepted once:</p>
+                        <ul class="space-y-2 text-gray-300 mb-4">
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-accent rounded-full mr-3"></span>
+                                Final approval is given, or
+                            </li>
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-accent rounded-full mr-3"></span>
+                                Files are delivered after the final revision round
+                            </li>
+                        </ul>
+                        <p class="text-gray-300 leading-relaxed">Files are delivered digitally via email or secure cloud link in standard industry formats.</p>
+                    </div>
+
+                    <!-- 9. Cancellations & Termination -->
+                    <div class="px-8 py-8 md:px-10 md:py-10 border-b border-white/10">
+                        <h2 class="text-2xl font-bold mb-4 text-accent">9. Cancellations & Termination</h2>
+                        <p class="text-gray-300 leading-relaxed mb-3">If the Client cancels a project:</p>
+                        <ul class="space-y-2 text-gray-300 mb-4">
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-accent rounded-full mr-3"></span>
+                                The deposit remains non-refundable
+                            </li>
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-accent rounded-full mr-3"></span>
+                                Any work completed beyond the deposit may be billed accordingly
+                            </li>
+                        </ul>
+                        <p class="text-gray-300 leading-relaxed">TFuture Designs reserves the right to terminate a project if communication breaks down, payments are not honored, or these terms are violated.</p>
+                    </div>
+
+                    <!-- 10. Limitation of Liability -->
+                    <div class="px-8 py-8 md:px-10 md:py-10 border-b border-white/10">
+                        <h2 class="text-2xl font-bold mb-4 text-accent">10. Limitation of Liability</h2>
+                        <div class="space-y-3 text-gray-300">
+                            <p class="leading-relaxed">TFuture Designs shall not be liable for any indirect, incidental, or consequential damages arising from the use or inability to use delivered work.</p>
+                            <p class="leading-relaxed">Total liability, if any, is limited to the amount paid for the project.</p>
+                        </div>
+                    </div>
+
+                    <!-- 11. Privacy -->
+                    <div class="px-8 py-8 md:px-10 md:py-10 border-b border-white/10">
+                        <h2 class="text-2xl font-bold mb-4 text-accent">11. Privacy</h2>
+                        <p class="text-gray-300 leading-relaxed">
+                            All personal and business information is handled in accordance with our
+                            <a href="{% if privacy_policy_page %}{% pageurl privacy_policy_page %}{% else %}/privacy-policy/{% endif %}"
+                               class="text-accent underline hover:opacity-90">Privacy Policy</a>.
+                        </p>
+                    </div>
+
+                    <!-- 12. Dispute Resolution -->
+                    <div class="px-8 py-8 md:px-10 md:py-10 border-b border-white/10">
+                        <h2 class="text-2xl font-bold mb-4 text-accent">12. Dispute Resolution</h2>
+                        <p class="text-gray-300 leading-relaxed">Both parties agree to first attempt resolution through good-faith discussion. If unresolved, mediation or arbitration may be pursued before legal action.</p>
+                    </div>
+
+                    <!-- 13. Changes to These Terms -->
+                    <div class="px-8 py-8 md:px-10 md:py-10 border-b border-white/10">
+                        <h2 class="text-2xl font-bold mb-4 text-accent">13. Changes to These Terms</h2>
+                        <div class="space-y-3 text-gray-300">
+                            <p class="leading-relaxed">TFuture Designs reserves the right to update these Terms at any time. The most current version will always be available on our website.</p>
+                            <p class="leading-relaxed">Continued engagement constitutes acceptance of any updates.</p>
+                        </div>
+                    </div>
+
+                    <!-- 14. Contact -->
+                    <div class="px-8 py-8 md:px-10 md:py-10">
+                        <h2 class="text-2xl font-bold mb-4 text-accent">14. Contact</h2>
+                        <p class="text-gray-300 leading-relaxed">For questions regarding these Terms, contact:</p>
+                        <p class="text-accent font-semibold mt-2">contact@tfuturedesigns.studio</p>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .fade-in-up {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.6s ease-out forwards;
+    }
+
+    @keyframes fadeInUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .fade-in-up:nth-child(2) { animation-delay: 0.1s; }
+    .fade-in-up:nth-child(3) { animation-delay: 0.2s; }
+    .fade-in-up:nth-child(4) { animation-delay: 0.3s; }
+    .fade-in-up:nth-child(5) { animation-delay: 0.4s; }
+    .fade-in-up:nth-child(6) { animation-delay: 0.5s; }
+    .fade-in-up:nth-child(7) { animation-delay: 0.6s; }
+    .fade-in-up:nth-child(8) { animation-delay: 0.7s; }
+    .fade-in-up:nth-child(9) { animation-delay: 0.8s; }
+    .fade-in-up:nth-child(10) { animation-delay: 0.9s; }
+    .fade-in-up:nth-child(11) { animation-delay: 1s; }
+    .fade-in-up:nth-child(12) { animation-delay: 1.1s; }
+</style>
+{% endblock %} 
