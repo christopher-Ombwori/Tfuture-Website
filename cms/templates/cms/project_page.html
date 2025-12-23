@@ -166,9 +166,11 @@
             {% endfor %}
           </div>
           {% endif %}
+          {% if page.show_hero_image %}
           <div class="mt-8">
             {% image blk.value.hero_image width-1920 class="w-full h-auto" loading="lazy" alt="TFuture Designs - {{ blk.value.headline }} | Kenya based Premier Design Agency" %}
           </div>
+          {% endif %}
         </div>
       {% endif %}
     {% endfor %}

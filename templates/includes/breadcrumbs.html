@@ -10,9 +10,7 @@
         </li>
         
         {% if request.resolver_match.url_name == 'about' %}
-            <li class="text-text">About Us</li>
-        {% elif request.resolver_match.url_name == 'terms' %}
-            <li class="text-text">Terms & Conditions</li>
+          <li class="text-text">About Us</li>
         {% elif request.resolver_match.url_name == 'blog' %}
             <li class="text-text">Information Hub</li>
         {% elif page %}
@@ -40,13 +38,6 @@
       "position": 2,
       "name": "About Us",
       "item": "{{ request.scheme }}://{{ request.get_host }}{% url 'core:about' %}"
-    }
-    {% elif request.resolver_match.url_name == 'terms' %}
-    ,{
-      "@type": "ListItem",
-      "position": 2,
-      "name": "Terms & Conditions",
-      "item": "{{ request.scheme }}://{{ request.get_host }}{% url 'core:terms' %}"
     }
     {% elif request.resolver_match.url_name == 'blog' %}
     ,{

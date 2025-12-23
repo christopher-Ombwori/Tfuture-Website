@@ -196,6 +196,11 @@ class ProjectPage(Page, ProjectSEOExtension):
     # Optional Behance link for the project
     behance_link = models.URLField(max_length=255, blank=True, null=True, help_text="Optional link to the project on Behance")
 
+    show_hero_image = models.BooleanField(
+        default=True,
+        help_text="Show the hero image on the project detail page (still used for thumbnails and meta images).",
+    )
+
     hero = StreamField([
         ("hero", HeroBlock()),
     ], use_json_field=True, blank=True, default=list)
@@ -317,6 +322,7 @@ class ProjectPage(Page, ProjectSEOExtension):
         FieldPanel("category"),
         FieldPanel("is_featured"),
         FieldPanel("behance_link"),
+        FieldPanel("show_hero_image"),
         FieldPanel("hero"),
         FieldPanel("intro"),
         FieldPanel("body"),
