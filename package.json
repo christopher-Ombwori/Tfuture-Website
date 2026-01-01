@@ -1,0 +1,23 @@
+{
+  "name": "tfuture-website",
+  "version": "1.0.0",
+  "description": "This repository contains the TFuture website built with Django 5 and Wagtail 7. It separates business operations (Django Admin) from content management (Wagtail CMS), and integrates Brevo for transactional email.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/christopher-Ombwori/Tfuture-Website.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/christopher-Ombwori/Tfuture-Website/issues"
+  },
+  "homepage": "https://github.com/christopher-Ombwori/Tfuture-Website#readme",
+  "devDependencies": {
+    "mjml": "^4.18.0"
+  }
+}

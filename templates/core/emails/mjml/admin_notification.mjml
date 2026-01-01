@@ -1,0 +1,43 @@
+<mjml>
+  <mj-head>
+    <mj-attributes>
+      <mj-all font-family="Arial, sans-serif" color="#333" />
+      <mj-text font-size="14px" line-height="1.5" />
+    </mj-attributes>
+  </mj-head>
+  <mj-body background-color="#f9f9f9">
+    <mj-section background-color="#1d2840" padding="32px 20px 18px 20px">
+      <mj-column>
+        <mj-image src="https://www.tfuturedesigns.studio/static/images/email_images/tfuture%20logo%20teal.png" alt="TFuture logo teal" align="center" width="140px" padding="0 0 12px 0" />
+        <mj-text align="center" color="#ffffff" font-size="20px" font-weight="700" padding="0">New Service Request Received</mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section padding="0">
+      <mj-column background-color="#ffffff" padding="20px" border="none">
+        <mj-text padding="0 0 15px 0">A new service request has been submitted. Please review the details below:</mj-text>
+
+        <mj-divider border-width="1px" border-color="#eee" padding="10px 0" />
+        <mj-text font-size="16px" font-weight="700" color="#444" padding="10px 0 5px 0">Client Information</mj-text>
+        <mj-text><strong>Name:</strong> {{ first_name }} {{ last_name }}</mj-text>
+        <mj-text><strong>Email:</strong> {{ email }}</mj-text>
+        <mj-text><strong>Phone:</strong> {{ phone }}</mj-text>
+
+        <mj-divider border-width="1px" border-color="#eee" padding="10px 0" />
+        <mj-text font-size="16px" font-weight="700" color="#444" padding="10px 0 5px 0">Request Details</mj-text>
+        <mj-text><strong>Service:</strong> {{ service_name }}</mj-text>
+        <mj-text><strong>Request ID:</strong> #{{ request_id }}</mj-text>
+        <mj-text><strong>Date Submitted:</strong> {{ created_at|date:"F j, Y" }} at {{ created_at|time:"g:i A" }}</mj-text>
+
+        <mj-divider border-width="1px" border-color="#eee" padding="10px 0" />
+        <mj-text font-size="16px" font-weight="700" color="#444" padding="10px 0 5px 0">Request Description</mj-text>
+        <mj-text>{{ message }}</mj-text>
+
+        <mj-divider border-width="1px" border-color="#eee" padding="12px 0" />
+        <mj-button href="mailto:{{ email }}?subject=RE: Your Service Request #{{ request_id }}" background-color="#14B8A6" color="#ffffff" font-size="14px" font-weight="600" inner-padding="10px 18px" border-radius="4px">Contact Client</mj-button>
+
+        <mj-text align="center" font-size="12px" color="#888" padding="20px 0 0 0">This is an automated notification from <strong>TFuture</strong>.<br/>Please respond to the client within 24 hours to maintain service standards.</mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

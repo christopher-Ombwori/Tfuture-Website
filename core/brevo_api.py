@@ -191,7 +191,7 @@ def send_brand_discovery_customer_confirmation(submission):
         html_content = render_to_string('core/emails/brand_discovery_customer_confirmation.html', context)
         
         # Send email to customer
-        subject = "Brand Discovery Inquiry Confirmation - TFuture"
+        subject = "Brand Discovery Form Submission Confirmation - TFuture"
         
         result = BrevoAPI.send_email(
             to_email=submission.email,

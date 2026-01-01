@@ -1,0 +1,77 @@
+<mjml>
+  <mj-head>
+    <mj-attributes>
+      <mj-all font-family="Segoe UI, Tahoma, sans-serif" color="#111827" />
+      <mj-text font-size="15px" line-height="1.6" />
+    </mj-attributes>
+  </mj-head>
+  <mj-body background-color="#f3f4f6">
+    <mj-section background-color="#1d2840" padding="32px 20px 24px 20px">
+      <mj-column>
+        <mj-image src="https://www.tfuturedesigns.studio/static/images/email_images/tfuture%20logo%20teal.png" alt="TFuture logo teal" align="center" width="160px" />
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#ffffff" padding="0 30px 30px 30px">
+      <mj-column>
+        <mj-text align="center" font-size="56px" padding="20px 0 0 0">🎯</mj-text>
+        <mj-text align="center" color="#1f2937" font-size="22px" font-weight="700" padding="8px 0 20px 0">New Brand Discovery Inquiry</mj-text>
+        <mj-text padding="0 0 10px 0">A new brand discovery inquiry has been submitted. Here are the details:</mj-text>
+
+        <mj-text font-size="16px" font-weight="700" color="#1f2937" padding="20px 0 10px 0">📋 Contact Information</mj-text>
+        <mj-text padding="0 0 10px 0">
+          <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background:#f9fafb;border-radius:12px;margin:0;">
+            <tr style="border-bottom:1px solid #e5e7eb;">
+              <td style="width:150px;font-weight:700;color:#374151;padding:10px 12px;">Business Name</td>
+              <td style="padding:10px 12px;color:#111827;"><strong>{{ business_name }}</strong></td>
+            </tr>
+            <tr style="border-bottom:1px solid #e5e7eb;">
+              <td style="width:150px;font-weight:700;color:#374151;padding:10px 12px;">Representative</td>
+              <td style="padding:10px 12px;color:#111827;">{{ rep_name }}</td>
+            </tr>
+            <tr style="border-bottom:1px solid #e5e7eb;">
+              <td style="width:150px;font-weight:700;color:#374151;padding:10px 12px;">Email</td>
+              <td style="padding:10px 12px;color:#111827;"><a href="mailto:{{ email }}" style="color:#14B8A6;text-decoration:none;">{{ email }}</a></td>
+            </tr>
+            <tr style="border-bottom:1px solid #e5e7eb;">
+              <td style="width:150px;font-weight:700;color:#374151;padding:10px 12px;">Phone</td>
+              <td style="padding:10px 12px;color:#111827;"><a href="tel:{{ phone }}" style="color:#14B8A6;text-decoration:none;">{{ phone }}</a></td>
+            </tr>
+            <tr>
+              <td style="width:150px;font-weight:700;color:#374151;padding:10px 12px;">Submission Date</td>
+              <td style="padding:10px 12px;color:#111827;">{{ created_at|date:"M d, Y H:i" }}</td>
+            </tr>
+          </table>
+        </mj-text>
+
+        <mj-raw>{% if additional_responses %}</mj-raw>
+        <mj-text font-size="16px" font-weight="700" color="#1f2937" padding="10px 0 10px 0">📝 Additional Information</mj-text>
+        <mj-text padding="0 0 10px 0">
+          <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background:#f9fafb;border-radius:12px;margin:0;">
+            <mj-raw>{% for key, value in additional_responses.items %}</mj-raw>
+            <tr style="border-bottom:1px solid #e5e7eb;">
+              <td style="width:180px;font-weight:700;color:#374151;padding:12px 12px;vertical-align:top;">{{ key|title }}</td>
+              <td style="padding:12px 12px;color:#111827;white-space:pre-wrap;line-height:1.5;">{{ value }}</td>
+            </tr>
+            <mj-raw>{% endfor %}</mj-raw>
+          </table>
+        </mj-text>
+        <mj-raw>{% endif %}</mj-raw>
+
+        <mj-text padding="10px 0 10px 0" color="#0f766e" font-size="14px">
+          <div style="background:#e0f2f1;padding:15px;border-radius:8px;">⏰ Action Required: Please review this inquiry and follow up with the potential client within 24-48 hours.</div>
+        </mj-text>
+
+        <mj-button href="https://www.tfuturedesigns.studio/my-admin-futuristic" background-color="#14B8A6" color="#ffffff" font-size="14px" font-weight="600" inner-padding="12px 25px" border-radius="8px">View Full Details in Admin</mj-button>
+
+        <mj-text padding="15px 0 0 0" font-size="14px" color="#111827">
+          <div style="background:#f3f4f6;padding:15px;border-radius:8px;">
+            <p style="margin:8px 0;"><strong>Submission ID:</strong> {{ submission_id }}</p>
+            <p style="margin:8px 0;">Use this ID to track and manage this inquiry.</p>
+          </div>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+  </mj-body>
+</mjml>

@@ -1,0 +1,114 @@
+<mjml>
+  <mj-head>
+    <mj-attributes>
+      <mj-all font-family="Segoe UI, Tahoma, sans-serif" color="#111827" />
+      <mj-text font-size="15px" line-height="1.6" />
+    </mj-attributes>
+  </mj-head>
+  <mj-body background-color="#f3f4f6">
+    <mj-section background-color="#1d2840" padding="18px 20px 18px 20px">
+      <mj-column>
+        <mj-image src="https://www.tfuturedesigns.studio/static/images/email_images/tfuture%20logo%20teal.png" alt="TFuture logo teal" align="center" width="200px" padding="0" />
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#ffffff" padding="0">
+      <mj-column padding="0">
+        <mj-text padding="0">
+          <div style="background-color:#ffffff;border-radius:12px;padding:30px 30px 10px 30px;margin:0 20px 20px 20px;">
+            <div align="center" style="margin-bottom:8px;"><img src="https://www.tfuturedesigns.studio/static/images/email_images/success%20confirmation.png" alt="Success" width="96" style="display:block;margin:0 auto;" /></div>
+            <div align="center" style="color:#1f2937;font-size:28px;font-weight:700;margin-bottom:20px;">Request Received</div>
+            <div style="font-size:18px;font-weight:600;color:#1f2937;margin-bottom:12px;margin-top:20px;">Request Details</div>
+        <mj-text padding="0 0 20px 0">
+          <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background:#f9fafb;border-radius:12px;margin:0;margin-top:20px;">
+            <tr style="border-bottom:1px solid #e5e7eb;">
+              <td style="padding:12px 12px;font-weight:600;color:#374151;width:40%;">Name:</td>
+              <td style="padding:12px 12px;text-align:left;">{{ first_name }} {{ last_name }}</td>
+            </tr>
+            <tr style="border-bottom:1px solid #e5e7eb;">
+              <td style="padding:12px 12px;font-weight:600;color:#374151;">Service:</td>
+              <td style="padding:12px 12px;text-align:left;">{{ service_name }}</td>
+            </tr>
+            <tr style="border-bottom:1px solid #e5e7eb;">
+              <td style="padding:12px 12px;font-weight:600;color:#374151;">Request ID:</td>
+              <td style="padding:12px 12px;text-align:left;">#{{ request_id }}</td>
+            </tr>
+            <tr>
+              <td style="padding:12px 12px;font-weight:600;color:#374151;">Submitted:</td>
+              <td style="padding:12px 12px;text-align:left;">{{ created_at|date:"F j, Y" }} at {{ created_at|time:"g:i A" }}</td>
+            </tr>
+          </table>
+        </mj-text>
+
+        <mj-text font-size="18px" font-weight="600" color="#1f2937" padding="0 0 10px 0">Message Submitted</mj-text>
+        <mj-text padding="0 0 20px 0">
+          <div style="padding:20px;background:#f9fafb;border-radius:12px;">{{ message }}</div>
+        </mj-text>
+
+        <mj-text font-size="18px" font-weight="600" color="#1f2937" padding="0 0 10px 0">What's Next?</mj-text>
+        <mj-text padding="0 0 20px 0">
+          <div style="padding:20px;background:#ecfeff;border-radius:8px;">
+            <div style="margin-bottom:12px;font-size:15px;color:#374151;">✔ Our team is reviewing your request.</div>
+            <div style="margin-bottom:12px;font-size:15px;color:#374151;">✔ You'll hear from us within 24 hours.</div>
+            <div style="margin-bottom:0;font-size:15px;color:#374151;">✔ A custom proposal will be sent to you.</div>
+          </div>
+        </mj-text>
+
+        <mj-button href="mailto:contact@tfuturedesigns.studio" background-color="#14B8A6" color="#ffffff" font-size="14px" font-weight="600" inner-padding="12px 25px" border-radius="8px">Contact Support</mj-button>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#1d2840" padding="18px 25px 14px 25px">
+      <mj-column>
+
+        <!-- Footer Logo -->
+        <mj-image
+          src="https://www.tfuturedesigns.studio/static/images/email_images/tfuture%20logo%20white-02.png"
+          alt="TFuture Designs"
+          align="center"
+          width="90px"
+          padding="0 0 2px 0"
+        />
+
+        <!-- Tagline -->
+        <mj-text
+          align="center"
+          color="#9CA3AF"
+          font-size="12px"
+          line-height="1.2"
+          padding="0 0 10px 0"
+        >
+          Envision it, we make it happen
+        </mj-text>
+
+        <!-- Social Icons -->
+        <mj-text align="center" padding="0 5px 10px 0" line-height="0">
+          <a href="https://www.linkedin.com/company/tfuture-designs/" target="_blank">
+            <img src="https://www.tfuturedesigns.studio/static/images/email_images/linkedin-icon.png" width="22" style="display:inline-block;border:0;" />
+          </a>
+          <a href="https://www.instagram.com/tfuturedesigns/" target="_blank">
+            <img src="https://www.tfuturedesigns.studio/static/images/email_images/instagram-icon.png" width="22" style="display:inline-block;border:0;" />
+          </a>
+          <a href="https://www.facebook.com/profile.php?id=61574848637945" target="_blank">
+            <img src="https://www.tfuturedesigns.studio/static/images/email_images/facebook-icon.png" width="22" style="display:inline-block;border:0;" />
+          </a>
+          <a href="https://www.tiktok.com/@tfuturedesigns/" target="_blank">
+            <img src="https://www.tfuturedesigns.studio/static/images/email_images/tiktok-icon.png" width="22" style="display:inline-block;border:0;" />
+          </a>
+        </mj-text>
+
+        <!-- Disclaimer -->
+        <mj-text
+          align="center"
+          color="#9CA3AF"
+          font-size="11px"
+          padding="0"
+          line-height="1.3"
+        >
+          Please note: This is an automated confirmation email.
+        </mj-text>
+
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>
