@@ -8,7 +8,7 @@
   <mj-body background-color="#f3f4f6">
     <mj-section background-color="#1d2840" padding="18px 20px 18px 20px">
       <mj-column>
-        <mj-image src="https://www.tfuturedesigns.studio/static/images/email_images/tfuture%20logo%20teal.png" alt="TFuture logo teal" align="center" width="200px" padding="0" />
+        <mj-image src="https://www.tfuturedesigns.studio/static/images/email_images/tfuture-logo-teal.png" alt="TFuture logo teal" align="center" width="200px" padding="0" />
       </mj-column>
     </mj-section>
 
@@ -16,7 +16,7 @@
       <mj-column padding="0">
         <mj-text padding="0">
           <div style="background-color:#ffffff;border-radius:12px;padding:30px 30px 10px 30px;margin:0 20px 20px 20px;">
-            <div align="center" style="margin-bottom:8px;"><img src="https://www.tfuturedesigns.studio/static/images/email_images/success%20confirmation.png" alt="Success" width="96" style="display:block;margin:0 auto;" /></div>
+            <div align="center" style="margin-bottom:8px;"><img src="https://www.tfuturedesigns.studio/static/images/email_images/success-confirmation.png" alt="Success" width="96" style="display:block;margin:0 auto;" /></div>
             <div align="center" style="color:#1f2937;font-size:28px;font-weight:700;margin-bottom:20px;">Request Received</div>
             <div style="font-size:18px;font-weight:600;color:#1f2937;margin-bottom:12px;margin-top:20px;">Request Details</div>
         <mj-text padding="0 0 20px 0">
@@ -63,7 +63,7 @@
 
         <!-- Footer Logo -->
         <mj-image
-          src="https://www.tfuturedesigns.studio/static/images/email_images/tfuture%20logo%20white-02.png"
+          src="https://www.tfuturedesigns.studio/static/images/email_images/tfuture-logo-white-02.png"
           alt="TFuture Designs"
           align="center"
           width="90px"

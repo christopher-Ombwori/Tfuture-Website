@@ -8,7 +8,7 @@
   <mj-body background-color="#f3f4f6">
     <mj-section background-color="#1d2840" padding="32px 20px 24px 20px">
       <mj-column>
-        <mj-image src="https://www.tfuturedesigns.studio/static/images/email_images/tfuture%20logo%20teal.png" alt="TFuture logo teal" align="center" width="160px" />
+        <mj-image src="https://www.tfuturedesigns.studio/static/images/email_images/tfuture-logo-teal.png" alt="TFuture logo teal" align="center" width="160px" />
       </mj-column>
     </mj-section>
 

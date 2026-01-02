@@ -10,7 +10,7 @@
   <mj-body background-color="#f3f4f6">
     <mj-section background-color="#1d2840" padding="18px 20px 18px 20px">
       <mj-column>
-        <mj-image src="https://www.tfuturedesigns.studio/static/images/email_images/tfuture%20logo%20teal.png" alt="TFuture logo " align="center" width="240px" padding="0" />
+        <mj-image src="https://www.tfuturedesigns.studio/static/images/email_images/tfuture-logo-teal.png" alt="TFuture logo " align="center" width="240px" padding="0" />
       </mj-column>
     </mj-section>
 
@@ -18,7 +18,7 @@
       <mj-column padding="0">
         <mj-text padding="0">
           <div style="background-color:#ffffff;padding:26px 26px 12px 26px;">
-            <div style="text-align:center;margin-bottom:18px;"><img src="https://www.tfuturedesigns.studio/static/images/email_images/success%20confirmation.png" alt="Success icon" width="96" style="display:block;margin:0 auto;" /></div>
+            <div style="text-align:center;margin-bottom:18px;"><img src="https://www.tfuturedesigns.studio/static/images/email_images/success-confirmation.png" alt="Success icon" width="96" style="display:block;margin:0 auto;" /></div>
             <p style="margin:0 0 14px 0;color:#1f2937;font-size:15px;">Hello {{ rep_name }},</p>
             <p style="margin:0 0 14px 0;color:#1f2937;font-size:15px;">Thank you for completing the brand discovery form. We've successfully received your inputs for <strong style="font-weight:600;">{{ business_name }}</strong>.</p>
             <p style="margin:0 0 10px 0;color:#1f2937;font-size:15px;">Our team is now aligning your priorities with the proposed deliverables. Within 24–48 hours, we'll share a clear plan including:</p>
@@ -39,7 +39,7 @@
 
     <!-- Footer Logo -->
     <mj-image
-      src="https://www.tfuturedesigns.studio/static/images/email_images/tfuture%20logo%20white-02.png"
+      src="https://www.tfuturedesigns.studio/static/images/email_images/tfuture-logo-white-02.png"
       alt="TFuture Designs"
       align="center"
       width="90px"

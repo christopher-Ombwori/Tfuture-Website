@@ -8,7 +8,7 @@
   <mj-body background-color="#f9f9f9">
     <mj-section background-color="#1d2840" padding="32px 20px 18px 20px">
       <mj-column>
-        <mj-image src="https://www.tfuturedesigns.studio/static/images/email_images/tfuture%20logo%20teal.png" alt="TFuture logo teal" align="center" width="140px" padding="0 0 12px 0" />
+        <mj-image src="https://www.tfuturedesigns.studio/static/images/email_images/tfuture-logo-teal.png" alt="TFuture logo teal" align="center" width="140px" padding="0 0 12px 0" />
         <mj-text align="center" color="#ffffff" font-size="20px" font-weight="700" padding="0">New Service Request Received</mj-text>
       </mj-column>
     </mj-section>
