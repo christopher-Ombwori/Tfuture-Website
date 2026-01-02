@@ -27,7 +27,7 @@
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="{% block og_title %}{% firstof self.seo_title page_title self.title %}{% endblock %}">
     <meta property="og:description" content="{% block og_description %}{% firstof self.search_description meta_description %}{% endblock %}">
-    <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.svg' %}{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/fav-icon-logo.svg' %}{% endblock %}">
     <meta property="og:url" content="{{ request.build_absolute_uri }}">
     <meta property="og:type" content="{% block og_type %}website{% endblock %}">
     <meta property="og:site_name" content="TFuture Designs">
@@ -36,12 +36,12 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{% block twitter_title %}{% firstof self.seo_title page_title self.title %}{% endblock %}">
     <meta name="twitter:description" content="{% block twitter_description %}{% firstof self.search_description meta_description %}{% endblock %}">
-    <meta name="twitter:image" content="{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.svg' %}{% endblock %}">
+    <meta name="twitter:image" content="{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/fav-icon-logo.svg' %}{% endblock %}">
     <meta name="twitter:site" content="@TFutureDesigns">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="{% static 'images/logo.svg' %}">
-    <link rel="icon" type="image/png" href="{% static 'images/logo.png' %}">
+    <link rel="icon" type="image/svg+xml" href="{% static 'images/fav-icon-logo.svg' %}">
+    <link rel="icon" type="image/png" href="{% static 'images/fav-icon logo.png' %}">
     
     <!-- Enhanced Structured Data for LLM SEO -->
         <script type="application/ld+json">
@@ -51,8 +51,8 @@
       "name": "TFuture Designs",
             "description": "Brand experience studio in Nairobi, Kenya, specializing in brand architecture, identity systems, and event-led brand campaigns for businesses across Africa.",
       "url": "{{ request.build_absolute_uri }}",
-      "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.svg' %}",
-      "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.png' %}",
+      "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/fav-icon-logo.svg' %}",
+      "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/fav-icon logo.png' %}",
       "address": {
         "@type": "PostalAddress",
                 "addressLocality": "Nairobi",
@@ -299,7 +299,7 @@
       "@type": "Organization",
       "name": "TFuture Designs",
       "url": "{{ request.scheme }}://{{ request.get_host }}",
-      "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.svg' %}",
+      "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/fav-icon-logo.svg' %}",
       "sameAs": [
         "https://twitter.com/TFutureDesigns",
         "https://www.linkedin.com/company/tfuture-designs",
@@ -336,8 +336,7 @@
         <div class="container mx-auto px-6 sm:px-8 lg:px-12 py-4">
             <div class="flex justify-between items-center">
                 <a href="/" class="flex items-center">
-                    <img src="{% static 'images/logo.svg' %}" alt="TFuture Logo" class="h-8 w-8">
-                    <span class="ml-2 text-2xl font-bold gradient-text">TFuture</span>
+                    <img src="{% static 'images/tfuture logo teal.png' %}" alt="TFuture Logo" class="h-10">
                 </a>
                 
                 <!-- Mobile menu button -->
@@ -353,16 +352,16 @@
                     <a href="/" class="transition-colors font-medium hover:text-accent {% if current == 'home' %}text-accent{% endif %}">Home</a>
                     {% if our_work_page %}
                     <a href="{% pageurl our_work_page %}" 
-                    class="transition-colors font-medium hover:text-accent {% if current == 'our_work_page' %}text-accent{% endif %}">
+                    class="transition-colors font-medium hover:text-accent {% if request.path == our_work_page.url %}text-accent{% endif %}">
                   Our Work
                 </a>
                 {% endif %}
 
                     {% if products_page %}
-                    <a href="{% pageurl products_page %}" class="transition-colors font-medium hover:text-accent">Products</a>
+                    <a href="{% pageurl products_page %}" class="transition-colors font-medium hover:text-accent {% if request.path == products_page.url %}text-accent{% endif %}">Products</a>
                     {% endif %}
                     {% if blog_index_page %}
-                    <a href="{% pageurl blog_index_page %}" class="transition-colors font-medium hover:text-accent">Information Hub</a>
+                    <a href="{% pageurl blog_index_page %}" class="transition-colors font-medium hover:text-accent {% if request.path == blog_index_page.url %}text-accent{% endif %}">Information Hub</a>
                     {% else %}
                     <a href="{% url 'core:blog' %}" class="transition-colors font-medium hover:text-accent {% if current == 'blog' %}text-accent{% endif %}">Information Hub</a>
                     {% endif %}
@@ -379,19 +378,19 @@
             <!-- Mobile Navigation -->
             <div id="mobile-menu" class="md:hidden hidden">
                 <div class="pt-4 pb-3 space-y-3">
-                    <a href="/" class="block px-3 py-2 text-base font-medium hover:text-accent transition-colors">Home</a>
+                    <a href="/" class="block px-3 py-2 text-base font-medium hover:text-accent transition-colors {% if request.resolver_match.url_name == 'home' %}text-accent{% endif %}">Home</a>
                     {% if our_work_page %}
-                    <a href="{% pageurl our_work_page %}" class="block px-3 py-2 text-base font-medium hover:text-accent transition-colors">Our Work</a>
+                    <a href="{% pageurl our_work_page %}" class="block px-3 py-2 text-base font-medium hover:text-accent transition-colors {% if request.path == our_work_page.url %}text-accent{% endif %}">Our Work</a>
                     {% endif %}
                     {% if products_page %}
-                    <a href="{% pageurl products_page %}" class="block px-3 py-2 text-base font-medium hover:text-accent transition-colors">Products</a>
+                    <a href="{% pageurl products_page %}" class="block px-3 py-2 text-base font-medium hover:text-accent transition-colors {% if request.path == products_page.url %}text-accent{% endif %}">Products</a>
                     {% endif %}
                     {% if blog_index_page %}
-                    <a href="{% pageurl blog_index_page %}" class="block px-3 py-2 text-base font-medium hover:text-accent transition-colors">Information Hub</a>
+                    <a href="{% pageurl blog_index_page %}" class="block px-3 py-2 text-base font-medium hover:text-accent transition-colors {% if request.path == blog_index_page.url %}text-accent{% endif %}">Information Hub</a>
                     {% else %}
-                    <a href="{% url 'core:blog' %}" class="block px-3 py-2 text-base font-medium hover:text-accent transition-colors">Information Hub</a>
+                    <a href="{% url 'core:blog' %}" class="block px-3 py-2 text-base font-medium hover:text-accent transition-colors {% if request.resolver_match.url_name == 'blog' %}text-accent{% endif %}">Information Hub</a>
                     {% endif %}
-                    <a href="{% url 'core:about' %}" class="block px-3 py-2 text-base font-medium hover:text-accent transition-colors">About Us</a>
+                    <a href="{% url 'core:about' %}" class="block px-3 py-2 text-base font-medium hover:text-accent transition-colors {% if request.resolver_match.url_name == 'about' %}text-accent{% endif %}">About Us</a>
                     <div class="px-3 pt-2">
                         <button onclick="openServiceModal('{{ general_inquiry.id }}', '{{ general_inquiry.name }}')" class="block w-full bg-accent hover:bg-accent/80 text-primary rounded-full px-6 py-2 text-sm font-medium text-center transition-all hover:scale-105">Contact Us</button>
                     </div>
@@ -453,8 +452,7 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div>
                     <div class="flex items-center mb-4">
-                        <img src="{% static 'images/logo.svg' %}" alt="TFuture Logo" class="h-8 w-8">
-                        <span class="ml-2 text-xl font-bold gradient-text">TFuture</span>
+                        <img src="{% static 'images/tfuture logo white-02.png' %}" alt="TFuture Logo" class="h-[42px]">
                     </div>
                     <p class="text-gray-400">Brand Experience Architects</p>
                 </div>
