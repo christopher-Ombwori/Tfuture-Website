@@ -429,6 +429,8 @@ class BlogPage(Page, index.Indexed):
     # Preview fields
     featured_image = models.ForeignKey(
         "wagtailimages.Image",
+        null=True,
+        blank=False,
         on_delete=models.PROTECT,
         related_name="+",
         help_text="Required - used for previews and social sharing"
