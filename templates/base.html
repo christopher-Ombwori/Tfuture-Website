@@ -135,6 +135,10 @@
             color: #fafbff;
             line-height: 1.6;
         }
+        /* Neutralize default prose margins and apply tight adjacent spacing */
+        .content-typography.prose :where(p,h1,h2,h3,h4,h5,h6,ul,ol,li,blockquote){ margin: 0; }
+        .content-typography.prose :where(p,h1,h2,h3,h4,h5,h6,ul,ol,li,blockquote)+:where(p,h1,h2,h3,h4,h5,h6,ul,ol,li,blockquote){ margin-top: 0.35rem; }
+        .content-typography.prose :where(blockquote)+:where(p,h1,h2,h3,h4,h5,h6,ul,ol,li){ margin-top: 0.4rem; }
         /* Tighter spacing for mobile */
         @media (max-width: 640px) {
             .content-typography {
