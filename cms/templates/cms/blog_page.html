@@ -85,24 +85,24 @@
   <div class="mx-auto px-6 max-w-4xl">
 
     <!-- Hero -->
-    <header class="mb-8">
+    <header class="mb-2">
       {% if page.category %}
-        <div class="uppercase tracking-widest text-xs text-accent mb-4 font-medium">
+        <div class="uppercase tracking-widest text-xs text-accent mb-2 font-medium">
           {{ page.category.name }}
         </div>
       {% endif %}
 
-      <h1 class="font-display text-3xl sm:text-4xl font-bold tracking-tight leading-tight mb-2">
+      <h1 class="font-display text-3xl sm:text-4xl font-bold tracking-tight leading-tight mb-1">
         {{ page.title }}
       </h1>
 
-      <div class="flex items-center gap-4 text-sm text-gray-400 mb-6">
+      <div class="flex items-center gap-4 text-sm text-gray-400 mb-2">
         <span>{{ page.first_published_at|date:"M d, Y" }}</span>
       </div>
     </header>
 
     {% if page.featured_image %}
-      <div class="mb-8 overflow-hidden border border-white/10">
+      <div class="mb-2 overflow-hidden border border-white/10">
         {% image page.featured_image width-1200 class="w-full h-auto" alt=page.title %}
       </div>
     {% endif %}
