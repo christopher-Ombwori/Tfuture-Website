@@ -92,7 +92,7 @@
         </div>
       {% endif %}
 
-      <h1 class="font-display text-2xl sm:text-5xl font-bold tracking-tight leading-tight mb-8">
+      <h1 class="font-display text-2xl sm:text-5xl font-bold tracking-tight leading-tight mb-4 sm:mb-8">
         {{ page.title }}
       </h1>
 
@@ -101,14 +101,14 @@
       </div>
 
       {% if page.excerpt %}
-        <p class="mt-8 text-lg text-gray-300 leading-relaxed">
+        <p class="mt-4 sm:mt-8 text-lg text-gray-300 leading-relaxed">
           {{ page.excerpt }}
         </p>
       {% endif %}
     </header>
 
     {% if page.featured_image %}
-      <div class="mb-16 overflow-hidden border border-white/10">
+      <div class="mb-4 sm:mb-16 overflow-hidden border border-white/10">
         {% image page.featured_image width-1200 class="w-full h-auto" alt=page.title %}
       </div>
     {% endif %}
