@@ -80,7 +80,7 @@
   </div>
 
   <div class="container mx-auto px-6 sm:px-8 lg:px-12 text-center relative z-10">
-    <h1 class="text-4xl md:text-6xl font-extrabold gradient-text drop-shadow-lg tracking-tight">
+    <h1 class="text-3xl md:text-6xl font-extrabold gradient-text drop-shadow-lg tracking-tight">
       Information Hub
     </h1>
     {% if page.intro %}
@@ -115,43 +115,55 @@
 
   <!-- Blog Grid -->
   <div class="container mx-auto px-6 sm:px-8 lg:px-12 mt-12">
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
   {% for post in posts %}
   <div class="portfolio-item fade-in-up">
-    <a href="{% pageurl post %}" class="block group rounded-lg overflow-hidden bg-transparent hover:bg-white/2 border border-white/5 hover:border-white/10 transition-all">
+    <a href="{% pageurl post %}" class="block group rounded-lg overflow-hidden bg-white/5 border border-white/10 hover:border-accent/40 transition-all duration-300">
       <!-- Image Section -->
       <div class="relative aspect-[16/9] bg-black flex items-center justify-center overflow-hidden">
         {% if post.featured_image %}
-          {% image post.featured_image width-800 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" alt=post.title %}
+          {% image post.featured_image width-800 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt=post.title %}
         {% else %}
-          <div class="w-full h-full bg-secondary group-hover:bg-secondary/80 transition-colors duration-300"></div>
+          <div class="w-full h-full bg-gradient-to-br from-secondary to-secondary/80 flex items-center justify-center">
+            <svg class="w-16 h-16 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          </div>
         {% endif %}
 
-        <!-- Subtle hover overlay -->
+        <!-- Accent overlay on hover -->
         <div class="absolute inset-0 bg-accent/0 group-hover:bg-accent/10 transition-colors duration-300"></div>
+        
+        <!-- Dark gradient for text readability -->
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300"></div>
+        
+        <!-- Category badge -->
+        {% if post.categories.first %}
+        <div class="absolute top-4 left-4 z-10">
+          <span class="inline-block px-3 py-1 bg-accent/90 text-primary text-xs font-semibold rounded-full backdrop-blur-sm">
+            {{ post.categories.first.name }}
+          </span>
+        </div>
+        {% endif %}
       </div>
       
       <!-- Text Content Below Image -->
-      <div class="p-3 sm:p-4 md:p-6 bg-black/5 backdrop-blur-sm">
-        <h3 class="text-lg sm:text-xl md:text-2xl font-display font-semibold text-white mb-1 sm:mb-2 group-hover:text-accent transition-colors duration-300">
+      <div class="p-4 lg:p-6 bg-gradient-to-b from-black/40 to-black/20 backdrop-blur-sm">
+        <h3 class="text-lg lg:text-xl font-display font-semibold text-white mb-4 group-hover:text-accent transition-colors duration-300 line-clamp-2">
           {{ post.title }}
         </h3>
-        {% if post.excerpt %}
-          <p class="text-gray-400 text-xs sm:text-sm mb-2 sm:mb-3 md:mb-4 leading-relaxed line-clamp-2 sm:line-clamp-3">{{ post.excerpt|truncatechars:120 }}</p>
-        {% endif %}
-        <span class="inline-flex items-center text-accent text-xs sm:text-sm font-medium group-hover:text-white transition-colors duration-300">
-          <span class="relative after:content-[''] after:inline-block after:w-6 after:h-px after:bg-accent after:align-middle after:transition-all after:duration-300 mr-2">
-            Read article
-          </span>
+        
+        <span class="inline-flex items-center text-accent text-sm font-medium group-hover:gap-2 transition-all duration-300">
+          <span class="relative">Read article</span>
           <svg class="w-4 h-4 transform transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M13 5l7 7-7 7" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
           </svg>
         </span>
       </div>
     </a>
   </div>
   {% empty %}
-    <p class="text-gray-400 col-span-full">No posts yet.</p>
+    <p class="text-gray-400 col-span-full text-center py-12">No posts yet.</p>
   {% endfor %}
 </div>
 
