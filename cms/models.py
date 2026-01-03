@@ -429,12 +429,14 @@ class BlogPage(Page, index.Indexed):
     # Preview fields
     featured_image = models.ForeignKey(
         "wagtailimages.Image",
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
+        on_delete=models.PROTECT,
         related_name="+",
+        help_text="Required - used for previews and social sharing"
     )
-    excerpt = models.TextField(blank=True, help_text="Short summary for listings and social.")
+    show_featured_image = models.BooleanField(
+        default=True,
+        help_text="Display featured image on the blog page (always shown in previews)"
+    )
 
     # Whether this blog post should be shown as featured on the homepage
     is_featured = models.BooleanField(default=False, help_text="Feature this blog on the homepage")
@@ -557,7 +559,6 @@ class BlogPage(Page, index.Indexed):
 
     search_fields = Page.search_fields + [
         index.SearchField("title"),
-        index.SearchField("excerpt"),
         index.SearchField("body"),
     ]
 
@@ -568,8 +569,8 @@ class BlogPage(Page, index.Indexed):
         ], heading="Organization"),
         MultiFieldPanel([
             FieldPanel("featured_image"),
-            FieldPanel("excerpt"),
-        ], heading="Preview"),
+            FieldPanel("show_featured_image"),
+        ], heading="Featured Image"),
         FieldPanel("is_featured"),
         FieldPanel("body"),
     ]

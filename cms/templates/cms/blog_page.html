@@ -3,15 +3,13 @@
 
 {% block title %}{{ page.seo_title|default:page.title }} — TFuture{% endblock %}
 
-{% block meta_description %}{{ page.excerpt }}{% endblock %}
+{% block meta_description %}{{ page.search_description|default:page.title }}{% endblock %}
 
 {% block og_title %}{{ page.title }}{% endblock %}
-{% block og_description %}{{ page.excerpt }}{% endblock %}
+{% block og_description %}{{ page.search_description|default:page.title }}{% endblock %}
 {% block og_type %}article{% endblock %}
-{% if page.featured_image %}
 {% image page.featured_image width-1200 as og_img %}
 {% block og_image %}{{ request.scheme }}://{{ request.get_host }}{{ og_img.url }}{% endblock %}
-{% endif %}
 
 {% block content %}
 <!-- Schema.org BlogPosting structured data with enhanced LLM-friendly attributes -->
@@ -20,14 +18,13 @@
   "@context": "https://schema.org",
   "@type": "BlogPosting",
   "headline": "{{ page.title }}",
-  "description": "{{ page.excerpt }}",
+  "description": "{{ page.search_description|default:page.title }}",
   "datePublished": "{{ page.first_published_at|date:'c' }}",
   "dateModified": "{{ page.last_published_at|date:'c' }}",
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "{{ request.build_absolute_uri }}"
   },
-  {% if page.featured_image %}
   {% image page.featured_image width-1200 as schema_img %}
   "image": {
     "@type": "ImageObject",
@@ -36,7 +33,6 @@
     "height": {{ schema_img.height }},
     "caption": "{{ page.title }}"
   },
-  {% endif %}
   "author": {
     "@type": "Organization",
     "name": "TFuture Designs",
@@ -96,13 +92,13 @@
         {{ page.title }}
       </h1>
 
-      <div class="flex items-center gap-4 text-sm text-gray-400 mb-2">
+      <div class="flex items-center gap-4 text-sm text-gray-400 mb-8">
         <span>{{ page.first_published_at|date:"M d, Y" }}</span>
       </div>
     </header>
 
-    {% if page.featured_image %}
-      <div class="mb-2 overflow-hidden border border-white/10">
+    {% if page.show_featured_image %}
+      <div class="mb-6 overflow-hidden border border-white/10">
         {% image page.featured_image width-1200 class="w-full h-auto" alt=page.title %}
       </div>
     {% endif %}

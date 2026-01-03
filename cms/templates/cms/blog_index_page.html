@@ -35,7 +35,7 @@
         "item": {
           "@type": "Article",
           "headline": "{{ post.title }}",
-          "description": "{{ post.excerpt }}",
+          "description": "{{ post.search_description|default:post.title }}",
           "url": "{{ request.scheme }}://{{ request.get_host }}{% pageurl post %}",
           "datePublished": "{{ post.first_published_at|date:'c' }}"
           {% if post.featured_image %}
