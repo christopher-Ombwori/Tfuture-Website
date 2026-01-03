@@ -134,6 +134,7 @@
         .content-typography {
             color: #fafbff;
             line-height: 1.6;
+            max-width: 72ch; /* keep line lengths consistent */
         }
         /* Neutralize default prose margins and apply tight adjacent spacing */
         .content-typography.prose :where(p,h1,h2,h3,h4,h5,h6,ul,ol,li,blockquote){ margin: 0; }
@@ -158,7 +159,7 @@
             .content-typography h6 { font-size: 0.85rem; line-height: 1.4rem; margin: 0; }
             .content-typography img { margin: 0; }
             .content-typography figure { margin: 0; }
-            .content-typography p { margin: 0; }
+            .content-typography p { margin: 0; text-align: justify; hyphens: auto; overflow-wrap: anywhere; }
             .content-typography ul { margin: 0; }
             .content-typography ol { margin: 0; }
             .content-typography li { margin: 0; }
@@ -167,7 +168,7 @@
         .content-typography h2 { font-size: 1.5rem; line-height: 1.8rem; font-weight: 700; margin: 0; }
         .content-typography h3 { font-size: 1.25rem; line-height: 1.6rem; font-weight: 700; margin: 0; }
         .content-typography h4 { font-size: 1.1rem; line-height: 1.5rem; font-weight: 600; margin: 0; }
-        .content-typography p { margin: 0; }
+        .content-typography p { margin: 0; text-align: justify; hyphens: auto; overflow-wrap: anywhere; }
         .content-typography br { display: inline; }
         .content-typography p:empty { display: none; }
         .content-typography blockquote { border-left: 4px solid #64FFDA55; padding-left: 0.75rem; font-style: italic; color: #A8B2D1; margin: 0; }
