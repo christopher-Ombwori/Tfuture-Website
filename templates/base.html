@@ -139,6 +139,12 @@
         .content-typography.prose :where(p,h1,h2,h3,h4,h5,h6,ul,ol,li,blockquote){ margin: 0; }
         .content-typography.prose :where(p,h1,h2,h3,h4,h5,h6,ul,ol,li,blockquote)+:where(p,h1,h2,h3,h4,h5,h6,ul,ol,li,blockquote){ margin-top: 0.35rem; }
         .content-typography.prose :where(blockquote)+:where(p,h1,h2,h3,h4,h5,h6,ul,ol,li){ margin-top: 0.4rem; }
+        /* Trim spacing between consecutive rich text blocks */
+        .content-typography > * { margin: 0; }
+        .content-typography > * + * { margin-top: 0.6rem; }
+        @media (max-width: 640px) {
+            .content-typography > * + * { margin-top: 0.45rem; }
+        }
         /* Tighter spacing for mobile */
         @media (max-width: 640px) {
             .content-typography {
