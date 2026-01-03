@@ -134,7 +134,15 @@
         .content-typography {
             color: #fafbff;
             line-height: 1.6;
-            max-width: 72ch; /* keep line lengths consistent */
+        }
+        /* Blog page specific - constrain line length */
+        .content-typography.blog-content {
+            max-width: 72ch;
+        }
+        .content-typography.blog-content p,
+        .content-typography.blog-content ul,
+        .content-typography.blog-content ol {
+            max-width: 72ch;
         }
         /* Neutralize default prose margins and apply tight adjacent spacing */
         .content-typography.prose :where(p,h1,h2,h3,h4,h5,h6,ul,ol,li,blockquote){ margin: 0; }
@@ -175,8 +183,8 @@
         .content-typography code { background: rgba(100,255,218,0.1); padding: 0.125rem 0.375rem; border-radius: 0.25rem; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 0.95em; color: #64FFDA; }
         .content-typography pre { background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 0.5rem; overflow: auto; border: 1px solid rgba(100,255,218,0.2); }
         .content-typography pre code { background: transparent; padding: 0; }
-        .content-typography ul { list-style-type: disc; padding-left: 1.5rem; margin: 0.75rem 0; max-width: 65ch; }
-        .content-typography ol { list-style-type: decimal; padding-left: 1.5rem; margin: 0.75rem 0; max-width: 65ch; }
+        .content-typography ul { list-style-type: disc; padding-left: 1.5rem; margin: 0.75rem 0; max-width: 72ch; }
+        .content-typography ol { list-style-type: decimal; padding-left: 1.5rem; margin: 0.75rem 0; max-width: 72ch; }
         .content-typography li { margin: 0.25rem 0; }
         
         /* Enhanced RichText styling */
