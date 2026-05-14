@@ -1,0 +1,1772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Information Hub — TFuture Designs</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+/* ─────────────────────────────────────────────
+   RESET & ROOT
+───────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+:root {
+  /* TFuture's existing palette — untouched */
+  --bg:        #0d0d0b;
+  --surface:   #141412;
+  --card:      #191917;
+  --teal:      #0a9b8a;
+  --teal-dim:  rgba(10,155,138,0.12);
+  --teal-glow: rgba(10,155,138,0.22);
+  --white:     #f4f1ec;
+  --muted:     rgba(244,241,236,0.45);
+  --border:    rgba(244,241,236,0.08);
+  --border-teal: rgba(10,155,138,0.3);
+
+  /* Fonts introduced in the redesign */
+  --f-display: 'Syne', sans-serif;
+  --f-serif:   'Instrument Serif', serif;
+  --f-body:    'DM Sans', sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: var(--f-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { text-decoration: none; color: inherit; }
+img { display: block; max-width: 100%; }
+
+/* ─────────────────────────────────────────────
+   NAV — matches existing site structure
+───────────────────────────────────────────── */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(13,13,11,0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 clamp(1.25rem, 5vw, 3rem);
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.nav-logo {
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+  color: var(--white);
+  flex-shrink: 0;
+}
+
+.nav-logo span { color: var(--teal); }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2rem);
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  transition: color 0.2s;
+  white-space: nowrap;
+}
+
+.nav-links a:hover,
+.nav-links a.active { color: var(--white); }
+
+.nav-links a.active::after {
+  content: '';
+  display: block;
+  height: 2px;
+  background: var(--teal);
+  margin-top: 2px;
+  border-radius: 1px;
+}
+
+.nav-cta {
+  font-family: var(--f-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.5rem 1.1rem;
+  border: 1px solid var(--teal);
+  color: var(--teal);
+  border-radius: 2px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.nav-cta:hover {
+  background: var(--teal);
+  color: var(--bg);
+}
+
+.nav-mobile-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.nav-mobile-toggle span {
+  width: 22px;
+  height: 2px;
+  background: var(--white);
+  border-radius: 1px;
+  transition: all 0.3s;
+}
+
+/* ─────────────────────────────────────────────
+   PAGE HERO / MASTHEAD
+───────────────────────────────────────────── */
+.hub-hero {
+  padding: clamp(3rem, 8vw, 6rem) clamp(1.25rem, 5vw, 3rem) clamp(2rem, 5vw, 3.5rem);
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.hub-hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: clamp(1.25rem, 5vw, 3rem); right: clamp(1.25rem, 5vw, 3rem);
+  height: 1px;
+  background: linear-gradient(90deg, var(--teal) 0%, transparent 50%);
+}
+
+.hub-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 1.25rem;
+}
+
+.hub-eyebrow::before {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: var(--teal);
+}
+
+.hub-title {
+  font-family: var(--f-display);
+  font-size: clamp(2.4rem, 6vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1.0;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.25rem;
+}
+
+.hub-title em {
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--teal);
+}
+
+.hub-sub {
+  font-size: clamp(0.85rem, 2vw, 1rem);
+  color: var(--muted);
+  max-width: 480px;
+  line-height: 1.75;
+  margin-bottom: 2rem;
+}
+
+/* Stats row */
+.hub-stats {
+  display: flex;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  flex-wrap: wrap;
+}
+
+.hub-stat-num {
+  font-family: var(--f-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--white);
+  line-height: 1;
+}
+
+.hub-stat-label {
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 0.2rem;
+}
+
+/* ─────────────────────────────────────────────
+   FILTER BAR
+───────────────────────────────────────────── */
+.filter-bar {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.75rem clamp(1.25rem, 5vw, 3rem);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--border);
+}
+
+.filter-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-right: 0.5rem;
+  white-space: nowrap;
+}
+
+.filter-pill {
+  font-family: var(--f-body);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  padding: 0.38rem 0.9rem;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.filter-pill:hover {
+  border-color: rgba(10,155,138,0.5);
+  color: var(--white);
+}
+
+.filter-pill.active {
+  background: var(--teal);
+  border-color: var(--teal);
+  color: var(--bg);
+  font-weight: 500;
+}
+
+/* ─────────────────────────────────────────────
+   MAIN CONTENT GRID
+───────────────────────────────────────────── */
+.content-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(2rem, 5vw, 3.5rem) clamp(1.25rem, 5vw, 3rem);
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: clamp(2rem, 4vw, 4rem);
+  align-items: start;
+}
+
+/* ─────────────────────────────────────────────
+   FEATURED ARTICLE (first card, full-width feel)
+───────────────────────────────────────────── */
+.featured-article {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  overflow: hidden;
+  margin-bottom: 1px;
+  transition: border-color 0.25s;
+  cursor: pointer;
+}
+
+.featured-article:hover {
+  border-color: var(--border-teal);
+  border-left-color: var(--teal);
+}
+
+.featured-article:hover .article-img-inner {
+  transform: scale(1.04);
+}
+
+.featured-article:hover .read-link {
+  color: var(--teal);
+  gap: 0.7rem;
+}
+
+.featured-img {
+  overflow: hidden;
+  aspect-ratio: 4/3;
+}
+
+.article-img-inner {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.55s ease;
+}
+
+/* placeholder gradient when no image */
+.img-placeholder {
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+  background: linear-gradient(135deg, #141412 0%, #1e1e1a 50%, #141412 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--f-display);
+  font-size: 3rem;
+  font-weight: 800;
+  color: rgba(10,155,138,0.15);
+  letter-spacing: -0.04em;
+}
+
+.featured-body {
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.article-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.article-category {
+  font-size: 0.58rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--teal);
+  background: var(--teal-dim);
+  padding: 0.28rem 0.7rem;
+  border-radius: 2px;
+}
+
+.article-date {
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.article-read-time {
+  font-size: 0.62rem;
+  color: var(--muted);
+  margin-left: auto;
+}
+
+.featured-badge {
+  font-size: 0.55rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--bg);
+  background: var(--teal);
+  padding: 0.22rem 0.6rem;
+  border-radius: 1px;
+}
+
+.article-title {
+  font-family: var(--f-display);
+  font-size: clamp(1.15rem, 2.5vw, 1.6rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--white);
+}
+
+.article-title em {
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-weight: 400;
+}
+
+.article-excerpt {
+  font-size: 0.83rem;
+  line-height: 1.75;
+  color: var(--muted);
+  flex: 1;
+}
+
+.read-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--f-display);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--white);
+  transition: all 0.2s;
+  margin-top: auto;
+}
+
+.read-link svg {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.2s;
+}
+
+.read-link:hover svg { transform: translateX(4px); }
+
+/* ─────────────────────────────────────────────
+   ARTICLE GRID — remaining posts
+───────────────────────────────────────────── */
+.articles-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  margin-top: 1px;
+}
+
+.article-card {
+  background: var(--card);
+  padding: clamp(1.25rem, 2.5vw, 2rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  cursor: pointer;
+  transition: background 0.25s;
+}
+
+.article-card:hover {
+  background: var(--surface);
+}
+
+.article-card:hover .card-title {
+  color: var(--teal);
+}
+
+.article-card:hover .read-link {
+  color: var(--teal);
+  gap: 0.7rem;
+}
+
+.card-img {
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.card-img img, .card-img .img-placeholder {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+  min-height: unset;
+  font-size: 1.5rem;
+}
+
+.article-card:hover .card-img img,
+.article-card:hover .card-img .img-placeholder {
+  transform: scale(1.05);
+}
+
+.card-title {
+  font-family: var(--f-display);
+  font-size: clamp(0.9rem, 1.8vw, 1.05rem);
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  transition: color 0.2s;
+}
+
+.card-excerpt {
+  font-size: 0.78rem;
+  line-height: 1.7;
+  color: var(--muted);
+  flex: 1;
+}
+
+/* ─────────────────────────────────────────────
+   LOAD MORE
+───────────────────────────────────────────── */
+.load-more-row {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.load-more-btn {
+  font-family: var(--f-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.75rem 2rem;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s;
+  border-radius: 2px;
+}
+
+.load-more-btn:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+/* ─────────────────────────────────────────────
+   SIDEBAR
+───────────────────────────────────────────── */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  position: sticky;
+  top: 80px;
+}
+
+.sidebar-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+}
+
+.sidebar-heading {
+  font-family: var(--f-display);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.sidebar-heading::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* Topics list */
+.topics-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.topic-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.topic-item:last-child { border-bottom: none; }
+
+.topic-name {
+  font-size: 0.8rem;
+  color: var(--muted);
+  transition: color 0.2s;
+}
+
+.topic-item:hover .topic-name { color: var(--white); }
+
+.topic-count {
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  color: var(--teal);
+  background: var(--teal-dim);
+  padding: 0.15rem 0.5rem;
+  border-radius: 100px;
+}
+
+/* Newsletter widget */
+.newsletter-widget {
+  background: linear-gradient(135deg, var(--teal-dim) 0%, transparent 100%);
+  border: 1px solid var(--border-teal);
+  padding: 1.5rem;
+}
+
+.newsletter-icon {
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.newsletter-title {
+  font-family: var(--f-display);
+  font-size: 0.95rem;
+  font-weight: 800;
+  line-height: 1.25;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.01em;
+}
+
+.newsletter-title em {
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--teal);
+}
+
+.newsletter-sub {
+  font-size: 0.75rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.newsletter-input {
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  color: var(--white);
+  font-family: var(--f-body);
+  font-size: 0.78rem;
+  padding: 0.65rem 0.9rem;
+  border-radius: 2px;
+  outline: none;
+  transition: border-color 0.2s;
+  margin-bottom: 0.5rem;
+}
+
+.newsletter-input:focus {
+  border-color: var(--border-teal);
+}
+
+.newsletter-input::placeholder { color: var(--muted); }
+
+.newsletter-btn {
+  width: 100%;
+  background: var(--teal);
+  color: var(--bg);
+  font-family: var(--f-display);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.7rem;
+  border: none;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: opacity 0.2s;
+}
+
+.newsletter-btn:hover { opacity: 0.88; }
+
+/* Popular posts */
+.popular-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.popular-item {
+  display: flex;
+  gap: 0.85rem;
+  cursor: pointer;
+  align-items: flex-start;
+}
+
+.popular-num {
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-size: 1.4rem;
+  color: var(--teal-dim);
+  line-height: 1;
+  min-width: 1.5rem;
+  border-right: 1px solid var(--border);
+  padding-right: 0.85rem;
+}
+
+.popular-title {
+  font-family: var(--f-display);
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--muted);
+  transition: color 0.2s;
+}
+
+.popular-item:hover .popular-title { color: var(--white); }
+.popular-item:hover .popular-num { color: rgba(10,155,138,0.4); }
+
+/* ─────────────────────────────────────────────
+   ARTICLE PAGE VIEW (toggled)
+───────────────────────────────────────────── */
+.article-page {
+  display: none;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(2rem, 5vw, 4rem) clamp(1.25rem, 5vw, 3rem);
+}
+
+.article-page.active { display: block; }
+.hub-listing { display: block; }
+.hub-listing.hidden { display: none; }
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--f-display);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.2s;
+  margin-bottom: 2rem;
+  background: none;
+  border: none;
+}
+
+.back-btn:hover { color: var(--teal); }
+
+.article-layout {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: clamp(2rem, 4vw, 4rem);
+  align-items: start;
+}
+
+.article-header {
+  margin-bottom: 2.5rem;
+}
+
+.article-hero-img {
+  width: 100%;
+  aspect-ratio: 16/7;
+  object-fit: cover;
+  margin-bottom: 2.5rem;
+  border: 1px solid var(--border);
+}
+
+.article-hero-placeholder {
+  width: 100%;
+  aspect-ratio: 16/7;
+  background: linear-gradient(135deg, #141412, #1e1e1a, #141412);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--f-display);
+  font-size: 4rem;
+  font-weight: 800;
+  color: rgba(10,155,138,0.1);
+  margin-bottom: 2.5rem;
+  border: 1px solid var(--border);
+}
+
+.article-page-title {
+  font-family: var(--f-display);
+  font-size: clamp(1.7rem, 4vw, 3rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  margin-bottom: 1.25rem;
+}
+
+.article-page-title em {
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--teal);
+}
+
+.article-author-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.author-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--teal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--f-display);
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--bg);
+  flex-shrink: 0;
+}
+
+.author-name {
+  font-family: var(--f-display);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.author-role {
+  font-size: 0.68rem;
+  color: var(--muted);
+}
+
+.article-meta-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Article body typography */
+.article-body {
+  font-size: clamp(0.9rem, 1.8vw, 1.05rem);
+  line-height: 1.85;
+  color: rgba(244,241,236,0.85);
+}
+
+.article-body p { margin-bottom: 1.4rem; }
+
+.article-body h2 {
+  font-family: var(--f-display);
+  font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--white);
+  margin: 2.5rem 0 1rem;
+  line-height: 1.2;
+}
+
+.article-body h3 {
+  font-family: var(--f-display);
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  font-weight: 700;
+  color: var(--white);
+  margin: 2rem 0 0.75rem;
+}
+
+.article-body ul, .article-body ol {
+  padding-left: 1.5rem;
+  margin-bottom: 1.4rem;
+}
+
+.article-body li {
+  margin-bottom: 0.5rem;
+  color: rgba(244,241,236,0.8);
+}
+
+.article-body li::marker { color: var(--teal); }
+
+.article-body strong {
+  font-weight: 600;
+  color: var(--white);
+}
+
+/* Pull quote */
+.pull-quote {
+  border-left: 3px solid var(--teal);
+  padding: 1.25rem 1.5rem;
+  margin: 2.5rem 0;
+  background: var(--teal-dim);
+}
+
+.pull-quote p {
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  line-height: 1.6;
+  color: var(--white);
+  margin: 0;
+}
+
+/* Resource link cards */
+.resource-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1px;
+  margin: 1.5rem 0 2rem;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+
+.resource-item {
+  background: var(--card);
+  padding: 1.1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.resource-item:hover { background: var(--surface); }
+
+.resource-name {
+  font-family: var(--f-display);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.resource-desc {
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+
+.resource-link-text {
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-top: 0.25rem;
+}
+
+/* Article sticky sidebar */
+.article-sidebar {
+  position: sticky;
+  top: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.toc-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--teal);
+  padding: 1.25rem;
+}
+
+.toc-heading {
+  font-family: var(--f-display);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 1rem;
+}
+
+.toc-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.toc-list li a {
+  font-size: 0.76rem;
+  color: var(--muted);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid var(--border);
+  transition: color 0.2s;
+  line-height: 1.4;
+}
+
+.toc-list li:last-child a { border-bottom: none; }
+.toc-list li a:hover { color: var(--teal); }
+
+.toc-list li a::before {
+  content: attr(data-num);
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-size: 0.7rem;
+  color: rgba(10,155,138,0.4);
+  flex-shrink: 0;
+  margin-top: 0.05rem;
+}
+
+.share-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 1.25rem;
+}
+
+.share-heading {
+  font-family: var(--f-display);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.85rem;
+}
+
+.share-btns {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.share-btn {
+  flex: 1;
+  padding: 0.55rem;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-family: var(--f-body);
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.share-btn:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+/* ─────────────────────────────────────────────
+   FOOTER CTA
+───────────────────────────────────────────── */
+.blog-footer-cta {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: clamp(2.5rem, 6vw, 4rem) clamp(1.25rem, 5vw, 3rem);
+  text-align: center;
+}
+
+.bfc-inner {
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+.bfc-eyebrow {
+  font-size: 0.6rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 1rem;
+}
+
+.bfc-title {
+  font-family: var(--f-display);
+  font-size: clamp(1.5rem, 4vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+}
+
+.bfc-title em {
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--teal);
+}
+
+.bfc-sub {
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 1.75rem;
+}
+
+.bfc-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--f-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.85rem 2rem;
+  background: var(--teal);
+  color: var(--bg);
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.bfc-btn:hover { opacity: 0.88; }
+
+/* ─────────────────────────────────────────────
+   MOBILE MENU
+───────────────────────────────────────────── */
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 60px;
+  inset-inline: 0;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 1.5rem clamp(1.25rem, 5vw, 3rem);
+  flex-direction: column;
+  gap: 0.25rem;
+  z-index: 99;
+}
+
+.mobile-menu.open { display: flex; }
+
+.mobile-menu a {
+  font-family: var(--f-display);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--muted);
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border);
+  transition: color 0.2s;
+}
+
+.mobile-menu a:last-child { border-bottom: none; }
+.mobile-menu a:hover, .mobile-menu a.active { color: var(--teal); }
+
+/* ─────────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────────── */
+@media (max-width: 960px) {
+  .content-wrap {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+  }
+
+  .article-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .article-sidebar {
+    position: static;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 680px) {
+  .featured-article {
+    grid-template-columns: 1fr;
+  }
+
+  .featured-img {
+    aspect-ratio: 16/9;
+  }
+
+  .articles-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-links, .nav-cta {
+    display: none;
+  }
+
+  .nav-mobile-toggle {
+    display: flex;
+  }
+
+  .article-sidebar {
+    grid-template-columns: 1fr;
+  }
+
+  .hub-stats {
+    gap: 1.5rem;
+  }
+
+  .resource-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 420px) {
+  .resource-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   UTILITY / ANIMATIONS
+───────────────────────────────────────────── */
+.fade-in {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background: var(--border);
+  margin: 0.5rem 0;
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="https://tfuturedesigns.studio" class="nav-logo">T<span>Future</span> Designs</a>
+  <ul class="nav-links">
+    <li><a href="https://tfuturedesigns.studio">Home</a></li>
+    <li><a href="https://tfuturedesigns.studio/our-work/">Our Work</a></li>
+    <li><a href="#" class="active">Information Hub</a></li>
+    <li><a href="https://tfuturedesigns.studio/about/">About Us</a></li>
+  </ul>
+  <a href="#" class="nav-cta">Contact Us</a>
+  <div class="nav-mobile-toggle" id="menuToggle" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="https://tfuturedesigns.studio">Home</a>
+  <a href="https://tfuturedesigns.studio/our-work/">Our Work</a>
+  <a href="#" class="active">Information Hub</a>
+  <a href="https://tfuturedesigns.studio/about/">About Us</a>
+  <a href="#">Contact Us</a>
+</div>
+
+<!-- ══════════════════════════════════════════
+     HUB LISTING VIEW
+══════════════════════════════════════════ -->
+<div class="hub-listing" id="hubListing">
+
+  <!-- Hero -->
+  <div class="hub-hero fade-in">
+    <div class="hub-eyebrow">Information Hub</div>
+    <h1 class="hub-title">Insights on<br>Brand & <em>Design</em></h1>
+    <p class="hub-sub">Practical articles, tools, and resources to help you build stronger brands and sharper design systems — written by the TFuture team.</p>
+    <div class="hub-stats">
+      <div>
+        <div class="hub-stat-num">10+</div>
+        <div class="hub-stat-label">Articles Published</div>
+      </div>
+      <div>
+        <div class="hub-stat-num">3</div>
+        <div class="hub-stat-label">Topics Covered</div>
+      </div>
+      <div>
+        <div class="hub-stat-num">Free</div>
+        <div class="hub-stat-label">Always</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter Bar -->
+  <div class="filter-bar">
+    <span class="filter-label">Filter</span>
+    <button class="filter-pill active" onclick="filterArticles(this, 'all')">All</button>
+    <button class="filter-pill" onclick="filterArticles(this, 'branding')">Branding</button>
+    <button class="filter-pill" onclick="filterArticles(this, 'design-tools')">Design Tools</button>
+    <button class="filter-pill" onclick="filterArticles(this, 'strategy')">Strategy</button>
+    <button class="filter-pill" onclick="filterArticles(this, 'resources')">Resources</button>
+  </div>
+
+  <!-- Main content + sidebar -->
+  <div class="content-wrap">
+
+    <!-- Articles column -->
+    <div>
+
+      <!-- Featured Article -->
+      <div class="featured-article fade-in" onclick="showArticle('branding')">
+        <div class="featured-img">
+          <div class="img-placeholder">B</div>
+        </div>
+        <div class="featured-body">
+          <div>
+            <div class="article-meta">
+              <span class="article-category">Branding</span>
+              <span class="featured-badge">Featured</span>
+              <span class="article-read-time">8 min read</span>
+            </div>
+          </div>
+          <div>
+            <h2 class="article-title">Branding: What it is & Why it's <em>Critical</em> for Business Success</h2>
+            <p class="article-excerpt">Most businesses think branding is a logo. It isn't. Learn the full picture — from strategy and positioning to why a strong brand system is the highest-return investment an early-stage business can make.</p>
+          </div>
+          <div class="read-link">
+            Read Article
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Articles Grid -->
+      <div class="articles-grid" id="articlesGrid">
+
+        <div class="article-card" data-category="resources" onclick="showArticle('mockups')">
+          <div class="card-img">
+            <div class="img-placeholder" style="font-size:1.2rem;min-height:unset;aspect-ratio:16/9;">🔧</div>
+          </div>
+          <div class="article-meta">
+            <span class="article-category">Resources</span>
+            <span class="article-date">2025</span>
+            <span class="article-read-time">5 min</span>
+          </div>
+          <div class="card-title">Best Sites for Free Mockups</div>
+          <p class="card-excerpt">A curated list of the best free mockup sources — tested and approved by designers who actually use them daily.</p>
+          <div class="read-link">
+            Read
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+
+        <div class="article-card" data-category="strategy">
+          <div class="card-img">
+            <div class="img-placeholder" style="font-size:1.2rem;min-height:unset;aspect-ratio:16/9;">📐</div>
+          </div>
+          <div class="article-meta">
+            <span class="article-category">Strategy</span>
+            <span class="article-date">Coming Soon</span>
+          </div>
+          <div class="card-title">How to Build a Brand System That Scales</div>
+          <p class="card-excerpt">Beyond the logo: the components every growing business needs to keep their brand consistent across all touchpoints.</p>
+          <div class="read-link" style="color:var(--muted);">Coming Soon</div>
+        </div>
+
+        <div class="article-card" data-category="design-tools">
+          <div class="card-img">
+            <div class="img-placeholder" style="font-size:1.2rem;min-height:unset;aspect-ratio:16/9;">🎨</div>
+          </div>
+          <div class="article-meta">
+            <span class="article-category">Design Tools</span>
+            <span class="article-date">Coming Soon</span>
+          </div>
+          <div class="card-title">Figma vs. Adobe: Which Should Your Brand Designer Use?</div>
+          <p class="card-excerpt">An honest comparison from a studio that uses both — and knows exactly when to reach for which tool.</p>
+          <div class="read-link" style="color:var(--muted);">Coming Soon</div>
+        </div>
+
+        <div class="article-card" data-category="branding">
+          <div class="card-img">
+            <div class="img-placeholder" style="font-size:1.2rem;min-height:unset;aspect-ratio:16/9;">🌍</div>
+          </div>
+          <div class="article-meta">
+            <span class="article-category">Branding</span>
+            <span class="article-date">Coming Soon</span>
+          </div>
+          <div class="card-title">Branding for African Markets: What Works Here</div>
+          <p class="card-excerpt">Western branding frameworks don't always translate. Here's what we've learned building brands across Kenya and East Africa.</p>
+          <div class="read-link" style="color:var(--muted);">Coming Soon</div>
+        </div>
+
+      </div>
+
+      <div class="load-more-row">
+        <button class="load-more-btn">Load More Articles</button>
+      </div>
+
+    </div><!-- /articles column -->
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+      <!-- Newsletter -->
+      <div class="newsletter-widget">
+        <div class="newsletter-icon">✉️</div>
+        <div class="newsletter-title">Brand insights,<br><em>direct to you</em></div>
+        <p class="newsletter-sub">No spam. Just useful articles on branding, design, and building bold businesses in Africa.</p>
+        <input class="newsletter-input" type="email" placeholder="your@email.com">
+        <button class="newsletter-btn">Subscribe →</button>
+      </div>
+
+      <!-- Topics -->
+      <div class="sidebar-card">
+        <div class="sidebar-heading">Browse Topics</div>
+        <div class="topics-list">
+          <div class="topic-item" onclick="filterArticles(null,'branding')">
+            <span class="topic-name">Branding</span>
+            <span class="topic-count">2</span>
+          </div>
+          <div class="topic-item" onclick="filterArticles(null,'resources')">
+            <span class="topic-name">Resources</span>
+            <span class="topic-count">1</span>
+          </div>
+          <div class="topic-item" onclick="filterArticles(null,'design-tools')">
+            <span class="topic-name">Design Tools</span>
+            <span class="topic-count">1</span>
+          </div>
+          <div class="topic-item" onclick="filterArticles(null,'strategy')">
+            <span class="topic-name">Strategy</span>
+            <span class="topic-count">1</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Popular -->
+      <div class="sidebar-card">
+        <div class="sidebar-heading">Most Read</div>
+        <div class="popular-list">
+          <div class="popular-item" onclick="showArticle('branding')">
+            <div class="popular-num">01</div>
+            <div class="popular-title">Branding: What it is & Why it's Critical for Business Success</div>
+          </div>
+          <div class="popular-item" onclick="showArticle('mockups')">
+            <div class="popular-num">02</div>
+            <div class="popular-title">Best Sites for Free Mockups</div>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+  </div><!-- /content-wrap -->
+
+</div><!-- /hub-listing -->
+
+
+<!-- ══════════════════════════════════════════
+     ARTICLE PAGE — BRANDING
+══════════════════════════════════════════ -->
+<div class="article-page" id="article-branding">
+
+  <div style="max-width:1200px;margin:0 auto;padding:2rem clamp(1.25rem,5vw,3rem) 0;">
+    <button class="back-btn" onclick="showListing()">
+      ← Back to Information Hub
+    </button>
+  </div>
+
+  <div class="article-layout" style="max-width:1200px;margin:0 auto;padding:0 clamp(1.25rem,5vw,3rem) clamp(2rem,5vw,4rem);">
+
+    <div>
+      <div class="article-hero-placeholder">Branding</div>
+
+      <div class="article-header">
+        <div class="article-meta" style="margin-bottom:1rem;">
+          <span class="article-category">Branding</span>
+          <span class="article-date">2025</span>
+          <span class="article-read-time">8 min read</span>
+        </div>
+        <h1 class="article-page-title">Branding: What it is & Why it's <em>Critical</em> for Business Success</h1>
+      </div>
+
+      <div class="article-author-row">
+        <div class="author-avatar">TF</div>
+        <div>
+          <div class="author-name">TFuture Editorial</div>
+          <div class="author-role">TFuture Designs Studio</div>
+        </div>
+        <div class="article-meta-right">
+          <span class="article-read-time">8 min read</span>
+        </div>
+      </div>
+
+      <div class="article-body">
+
+        <p>Every successful business has one thing in common: people recognise it, remember it, and trust it before they ever speak to anyone there. That recognition isn't luck. It's branding — and it's the most misunderstood investment a business can make.</p>
+
+        <h2>What Branding Actually Is</h2>
+
+        <p>Most people think branding is a logo. It isn't. A logo is one component of a brand system — like a letterhead is to a business. Branding is the totality of how your business presents itself and is perceived by the world.</p>
+
+        <div class="pull-quote">
+          <p>"Branding is thinking. Design is expression. The thinking comes first."</p>
+        </div>
+
+        <p>At its core, branding answers three questions your audience is always asking, whether consciously or not: <strong>Who are you? Why should I care? Can I trust you?</strong> A strong brand answers all three — consistently, across every touchpoint.</p>
+
+        <h2>The Components of a Complete Brand</h2>
+
+        <p>A full brand system includes far more than a logo. Here's what actually makes up a complete brand:</p>
+
+        <ul>
+          <li><strong>Brand Strategy</strong> — your positioning, differentiation, and the audience you serve</li>
+          <li><strong>Visual Identity</strong> — logo, colour palette, typography, iconography, and usage rules</li>
+          <li><strong>Brand Voice</strong> — how you write, what you say, and the tone you use</li>
+          <li><strong>Brand Guidelines</strong> — the rulebook that keeps everything consistent</li>
+          <li><strong>Touchpoint Application</strong> — how the brand shows up on a business card, a social post, a pitch deck, and a stage backdrop</li>
+        </ul>
+
+        <h2>Why It Matters for Your Business</h2>
+
+        <p>Brand investment pays off in ways that are hard to quantify but impossible to ignore. Customers trust recognisable, consistent brands more. They pay more for them. They return to them. And they recommend them.</p>
+
+        <p>For early-stage businesses in Kenya and across Africa, this matters even more. In markets where credibility is often established by word of mouth and first impressions, a professional, cohesive brand communicates that you are serious — before you say a word.</p>
+
+        <div class="pull-quote">
+          <p>"In markets where trust is everything, your brand is your handshake. Make it count."</p>
+        </div>
+
+        <h2>Common Branding Mistakes to Avoid</h2>
+
+        <ul>
+          <li>Starting with the logo instead of the strategy</li>
+          <li>Using inconsistent colours, fonts, or messaging across platforms</li>
+          <li>Copying competitor aesthetics instead of defining your own identity</li>
+          <li>Treating branding as a one-time project rather than an ongoing system</li>
+          <li>Skipping brand guidelines — the rulebook nobody reads until things go wrong</li>
+        </ul>
+
+        <h2>When Should You Invest in Branding?</h2>
+
+        <p>The best time to invest in a proper brand system is before you scale. Once you're operating at volume — producing content, pitching investors, attending events — having a shaky brand underneath everything is expensive to fix. The second best time is right now.</p>
+
+        <p>If your logo was made in Canva in 2022 and your colour palette has drifted across 14 slightly different shades of whatever felt right that day, it's time to build the system properly.</p>
+
+      </div>
+    </div>
+
+    <!-- Article Sidebar -->
+    <aside class="article-sidebar">
+
+      <div class="toc-card">
+        <div class="toc-heading">In This Article</div>
+        <ul class="toc-list">
+          <li><a href="#" data-num="01">What Branding Actually Is</a></li>
+          <li><a href="#" data-num="02">Components of a Brand</a></li>
+          <li><a href="#" data-num="03">Why It Matters</a></li>
+          <li><a href="#" data-num="04">Common Mistakes</a></li>
+          <li><a href="#" data-num="05">When to Invest</a></li>
+        </ul>
+      </div>
+
+      <div class="share-card">
+        <div class="share-heading">Share This</div>
+        <div class="share-btns">
+          <button class="share-btn">LinkedIn</button>
+          <button class="share-btn">X / Twitter</button>
+          <button class="share-btn">Copy Link</button>
+        </div>
+      </div>
+
+      <div class="sidebar-card">
+        <div class="sidebar-heading">Related</div>
+        <div class="popular-list">
+          <div class="popular-item" onclick="showArticle('mockups')">
+            <div class="popular-num">01</div>
+            <div class="popular-title">Best Sites for Free Mockups</div>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     ARTICLE PAGE — MOCKUPS
+══════════════════════════════════════════ -->
+<div class="article-page" id="article-mockups">
+
+  <div style="max-width:1200px;margin:0 auto;padding:2rem clamp(1.25rem,5vw,3rem) 0;">
+    <button class="back-btn" onclick="showListing()">← Back to Information Hub</button>
+  </div>
+
+  <div class="article-layout" style="max-width:1200px;margin:0 auto;padding:0 clamp(1.25rem,5vw,3rem) clamp(2rem,5vw,4rem);">
+
+    <div>
+      <div class="article-hero-placeholder" style="font-size:3rem;">🔧</div>
+
+      <div class="article-header">
+        <div class="article-meta" style="margin-bottom:1rem;">
+          <span class="article-category">Resources</span>
+          <span class="article-date">2025</span>
+          <span class="article-read-time">5 min read</span>
+        </div>
+        <h1 class="article-page-title">Best Sites for <em>Free Mockups</em></h1>
+      </div>
+
+      <div class="article-author-row">
+        <div class="author-avatar">TF</div>
+        <div>
+          <div class="author-name">TFuture Editorial</div>
+          <div class="author-role">TFuture Designs Studio</div>
+        </div>
+        <div class="article-meta-right">
+          <span class="article-read-time">5 min read</span>
+        </div>
+      </div>
+
+      <div class="article-body">
+
+        <p>Mockups are the fastest way to make your designs look professional before they're printed or shipped. Whether you're presenting a brand identity to a client or creating portfolio shots, a good mockup turns flat artwork into something that feels real and tangible.</p>
+
+        <p>Here are the sites we actually use at TFuture — tested, curated, and free.</p>
+
+        <h2>The Best Free Mockup Sources</h2>
+
+        <div class="resource-grid">
+          <div class="resource-item">
+            <div class="resource-name">Mockup World</div>
+            <div class="resource-desc">Huge categorised library. Great for packaging and print.</div>
+            <div class="resource-link-text">mockupworld.co →</div>
+          </div>
+          <div class="resource-item">
+            <div class="resource-name">Unblast</div>
+            <div class="resource-desc">High-quality PSD and scene mockups. Clean and modern.</div>
+            <div class="resource-link-text">unblast.com →</div>
+          </div>
+          <div class="resource-item">
+            <div class="resource-name">Pixeden</div>
+            <div class="resource-desc">Good for device screens, stationery, and apparel.</div>
+            <div class="resource-link-text">pixeden.com →</div>
+          </div>
+          <div class="resource-item">
+            <div class="resource-name">Mockuper</div>
+            <div class="resource-desc">Browser-based. No Photoshop needed — great for quick use.</div>
+            <div class="resource-link-text">mockuper.net →</div>
+          </div>
+          <div class="resource-item">
+            <div class="resource-name">Placeit</div>
+            <div class="resource-desc">Freemium. Huge variety — apparel, devices, and signage.</div>
+            <div class="resource-link-text">placeit.net →</div>
+          </div>
+          <div class="resource-item">
+            <div class="resource-name">Smartmockups</div>
+            <div class="resource-desc">Easy drag-and-drop interface with social-ready outputs.</div>
+            <div class="resource-link-text">smartmockups.com →</div>
+          </div>
+        </div>
+
+        <h2>How to Choose the Right Mockup</h2>
+
+        <p>Not all mockups serve every purpose. A packaging mockup for a product launch needs a different level of realism than a social media preview. Here's a quick guide:</p>
+
+        <ul>
+          <li><strong>Client presentations</strong> — use high-resolution PSD mockups (Unblast, Mockup World)</li>
+          <li><strong>Quick social posts</strong> — browser tools like Mockuper or Smartmockups save time</li>
+          <li><strong>Apparel & merchandise</strong> — Placeit has the widest selection for wearables</li>
+          <li><strong>Stationery & print</strong> — Pixeden is consistently excellent here</li>
+        </ul>
+
+        <div class="pull-quote">
+          <p>"A great mockup doesn't just show your design — it sells the feeling of holding it."</p>
+        </div>
+
+        <h2>Tips for Better Mockup Results</h2>
+
+        <p>The mockup is only as good as the artwork you put in it. A few things that make a consistent difference: use the correct colour profile (sRGB for screen, CMYK for print), keep your artwork layers clean before placing, and always check that the mockup's lighting matches where your design would naturally live.</p>
+
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="article-sidebar">
+
+      <div class="toc-card">
+        <div class="toc-heading">In This Article</div>
+        <ul class="toc-list">
+          <li><a href="#" data-num="01">Best Free Sources</a></li>
+          <li><a href="#" data-num="02">How to Choose</a></li>
+          <li><a href="#" data-num="03">Tips for Better Results</a></li>
+        </ul>
+      </div>
+
+      <div class="share-card">
+        <div class="share-heading">Share This</div>
+        <div class="share-btns">
+          <button class="share-btn">LinkedIn</button>
+          <button class="share-btn">X / Twitter</button>
+          <button class="share-btn">Copy Link</button>
+        </div>
+      </div>
+
+      <div class="sidebar-card">
+        <div class="sidebar-heading">Related</div>
+        <div class="popular-list">
+          <div class="popular-item" onclick="showArticle('branding')">
+            <div class="popular-num">01</div>
+            <div class="popular-title">Branding: What it is & Why it's Critical</div>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+  </div>
+</div>
+
+
+<!-- Footer CTA -->
+<div class="blog-footer-cta">
+  <div class="bfc-inner">
+    <div class="bfc-eyebrow">Work With TFuture</div>
+    <div class="bfc-title">Ready to build a brand that <em>lasts</em>?</div>
+    <p class="bfc-sub">From strategy to identity system to full rollout — we build brands that are built to scale.</p>
+    <button class="bfc-btn">Start a Project →</button>
+  </div>
+</div>
+
+<script>
+/* ── Mobile menu ── */
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+/* ── Filter articles ── */
+function filterArticles(btn, category) {
+  // Update pill state
+  if (btn) {
+    document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  const cards = document.querySelectorAll('#articlesGrid .article-card');
+  cards.forEach(card => {
+    const cat = card.dataset.category;
+    card.style.display = (category === 'all' || cat === category) ? '' : 'none';
+  });
+}
+
+/* ── Article view switching ── */
+function showArticle(slug) {
+  // Hide listing
+  document.getElementById('hubListing').classList.add('hidden');
+
+  // Hide all articles
+  document.querySelectorAll('.article-page').forEach(p => p.classList.remove('active'));
+
+  // Show requested
+  const target = document.getElementById('article-' + slug);
+  if (target) {
+    target.classList.add('active');
+    target.classList.add('fade-in');
+  }
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showListing() {
+  document.querySelectorAll('.article-page').forEach(p => p.classList.remove('active'));
+  document.getElementById('hubListing').classList.remove('hidden');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ── Share buttons ── */
+document.querySelectorAll('.share-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    if (this.textContent === 'Copy Link') {
+      navigator.clipboard?.writeText(window.location.href);
+      this.textContent = 'Copied!';
+      setTimeout(() => this.textContent = 'Copy Link', 2000);
+    }
+  });
+});
+</script>
+</body>
+</html>

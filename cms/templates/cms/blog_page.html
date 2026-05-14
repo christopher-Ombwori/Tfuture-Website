@@ -1,126 +1,511 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags wagtailimages_tags static %}
+{% load wagtailcore_tags wagtailimages_tags static cms_tags %}
+{% load blog_extras %}
 
-{% block title %}{{ page.seo_title|default:page.title }} — TFuture{% endblock %}
-
-{% block meta_description %}{{ page.search_description|default:page.title }}{% endblock %}
-
+{# Open Graph / Twitter overrides for this article #}
 {% block og_title %}{{ page.title }}{% endblock %}
-{% block og_description %}{{ page.search_description|default:page.title }}{% endblock %}
+{% block og_description %}{{ page.intro|striptags|truncatechars:200 }}{% endblock %}
 {% block og_type %}article{% endblock %}
-{% image page.featured_image width-1200 as og_img %}
-{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{{ og_img.url }}{% endblock %}
+{% block twitter_title %}{{ page.title }}{% endblock %}
+{% block twitter_description %}{{ page.intro|striptags|truncatechars:200 }}{% endblock %}
+{% block og_image %}{% if page.featured_image %}{% image page.featured_image width-1200 as og_img %}{{ request.scheme }}://{{ request.get_host }}{{ og_img.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/fav-icon-logo.svg' %}{% endif %}{% endblock %}
+{% block twitter_image %}{% if page.featured_image %}{% image page.featured_image width-1200 as tw_img %}{{ request.scheme }}://{{ request.get_host }}{{ tw_img.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/fav-icon-logo.svg' %}{% endif %}{% endblock %}
+
+{% block title %}{{ page.title }} - TFuture Designs Blog{% endblock %}
+
+{% block meta_description %}{{ page.intro|striptags|truncatewords:20 }}{% endblock %}
 
 {% block content %}
-<!-- Schema.org BlogPosting structured data with enhanced LLM-friendly attributes -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "{{ page.title }}",
-  "description": "{{ page.search_description|default:page.title }}",
-  "datePublished": "{{ page.first_published_at|date:'c' }}",
-  "dateModified": "{{ page.last_published_at|date:'c' }}",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "{{ request.build_absolute_uri }}"
-  },
-  {% image page.featured_image width-1200 as schema_img %}
-  "image": {
-    "@type": "ImageObject",
-    "url": "{{ request.scheme }}://{{ request.get_host }}{{ schema_img.url }}",
-    "width": {{ schema_img.width }},
-    "height": {{ schema_img.height }},
-    "caption": "{{ page.title }}"
-  },
-  "author": {
-    "@type": "Organization",
-    "name": "TFuture Designs",
-    "url": "{{ request.scheme }}://{{ request.get_host }}",
-    "description": "Kenya based premier design agency specializing in providing Design and Branding solutions for businesses across Africa. We have devoted ourselves, to make sure your business is at its best when it comes to branding."
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "TFuture Designs",
-    "url": "{{ request.scheme }}://{{ request.get_host }}",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/fav-icon-logo.svg' %}",
-      "width": 600,
-      "height": 60
+<style>
+  :root {
+    --primary: #0A192F;
+    --secondary: #112240;
+    --accent: #64FFDA;
+    --white: #f0f0f0;
+    --muted: rgba(240, 240, 240, 0.6);
+    --border: rgba(240, 240, 240, 0.1);
+  }
+
+  /* Back Button */
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+    margin-bottom: 2rem;
+  }
+
+  .back-btn:hover {
+    color: var(--accent);
+  }
+
+  /* Article Header */
+  .article-hero-img {
+    width: 100%;
+    aspect-ratio: 16/7;
+    object-fit: cover;
+    margin-bottom: 2.5rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+
+  .article-hero-placeholder {
+    width: 100%;
+    aspect-ratio: 16/7;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    opacity: 0.2;
+    margin-bottom: 2.5rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+
+  .article-page-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+    color: var(--white);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+
+  .article-category {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(100, 255, 218, 0.15);
+    padding: 0.4rem 0.9rem;
+    border-radius: 3px;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 1.5rem;
+  }
+
+  .article-author-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .author-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(100, 255, 218, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  .author-name {
+    font-weight: 700;
+    color: var(--white);
+    font-size: 0.95rem;
+  }
+
+  .author-role {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  .article-meta-right {
+    margin-left: auto;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+
+  /* Article Layout */
+  .article-layout {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 clamp(1.25rem, 5vw, 3rem) clamp(2rem, 5vw, 4rem);
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: clamp(2rem, 4vw, 4rem);
+    align-items: start;
+  }
+
+  /* Article Body */
+  .article-body {
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: var(--muted);
+  }
+
+  .article-body p {
+    margin-bottom: 1.5rem;
+  }
+
+  .article-body h2,
+  .article-body h3 {
+    color: var(--white);
+    font-weight: 700;
+    margin: 2.5rem 0 1rem;
+    letter-spacing: -0.01em;
+  }
+
+  .article-body h2 {
+    font-size: 1.6rem;
+  }
+
+  .article-body h3 {
+    font-size: 1.25rem;
+  }
+
+  .article-body ul,
+  .article-body ol {
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .article-body li {
+    margin-bottom: 0.6rem;
+  }
+
+  .article-body li::marker {
+    color: var(--accent);
+  }
+
+  .article-body strong {
+    color: var(--white);
+    font-weight: 600;
+  }
+
+  .article-body blockquote {
+    border-left: 3px solid var(--accent);
+    padding: 1.5rem;
+    margin: 2rem 0;
+    background: rgba(100, 255, 218, 0.08);
+    color: var(--white);
+    font-style: italic;
+  }
+
+  /* Sidebar */
+  .article-sidebar {
+    position: sticky;
+    top: 120px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .sidebar-card {
+    background: var(--secondary);
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    border-radius: 4px;
+  }
+
+  .sidebar-heading {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.25rem;
+  }
+
+  /* Share Buttons */
+  .share-btns {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .share-btn {
+    flex: 1;
+    min-width: 60px;
+    padding: 0.75rem;
+    border: 1px solid var(--border);
+    background: rgba(100, 255, 218, 0.08);
+    color: var(--accent);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.2s;
+    text-decoration: none;
+    text-align: center;
+  }
+
+  .share-btn:hover {
+    border-color: var(--accent);
+    background: rgba(100, 255, 218, 0.15);
+  }
+
+  /* CTA Box */
+  .cta-box {
+    background: linear-gradient(135deg, rgba(100, 255, 218, 0.1) 0%, rgba(17, 34, 64, 0.5) 100%);
+    border: 1px solid rgba(100, 255, 218, 0.3);
+  }
+
+  .cta-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 0.75rem;
+  }
+
+  .cta-text {
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-bottom: 1.25rem;
+  }
+
+  .cta-btn {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    background: var(--accent);
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .cta-btn:hover {
+    opacity: 0.9;
+  }
+
+  /* Navigation */
+  .article-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .nav-link {
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .nav-link-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .nav-link-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.3;
+  }
+
+  .nav-link:hover .nav-link-title {
+    color: var(--accent);
+  }
+
+  .nav-link.next {
+    text-align: right;
+  }
+
+  /* Responsive */
+  @media (max-width: 960px) {
+    .article-layout {
+      grid-template-columns: 1fr;
     }
-  },
-  {% if page.tags.all %}
-  "keywords": "{% for tag in page.tags.all %}{{ tag }}{% if not forloop.last %}, {% endif %}{% endfor %}",
-  {% endif %}
-  {% if page.category %}
-  "articleSection": "{{ page.category.name }}",
-  {% endif %}
-  "wordCount": "{{ page.body|striptags|wordcount }}",
-  "inLanguage": "en",
-  "potentialAction": [
-    {
-      "@type": "ReadAction",
-      "target": ["{{ request.build_absolute_uri }}"]
-    },
-    {
-      "@type": "CommentAction",
-      "target": ["{{ request.build_absolute_uri }}#comments"]
+
+    .article-sidebar {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      position: static;
     }
-  ],
-  "isAccessibleForFree": "True",
-  "discussionUrl": "{{ request.build_absolute_uri }}#comments",
-  "speakable": {
-     "@type": "SpeakableSpecification",
-     "cssSelector": ["h1", ".article-body p", ".article-summary"]
-   }
-}
-</script>
 
-<section class="py-20">
-  <div class="mx-auto px-6 max-w-4xl">
+    .article-nav {
+      grid-template-columns: 1fr;
+    }
+  }
 
-    <!-- Hero -->
-    <header class="mb-2">
-      {% if page.category %}
-        <div class="uppercase tracking-widest text-xs text-accent mb-2 font-medium">
-          {{ page.category.name }}
-        </div>
-      {% endif %}
+  @media (max-width: 680px) {
+    .article-sidebar {
+      grid-template-columns: 1fr;
+    }
 
-      <h1 class="font-display text-3xl sm:text-4xl font-bold tracking-tight leading-tight mb-1">
-        {{ page.title }}
-      </h1>
+    .share-btns {
+      gap: 0.5rem;
+    }
 
-      <div class="flex items-center gap-4 text-sm text-gray-400 mb-8">
-        <span>{{ page.first_published_at|date:"M d, Y" }}</span>
+    .share-btn {
+      font-size: 0.7rem;
+      padding: 0.6rem;
+      min-width: 50px;
+    }
+  }
+</style>
+
+<!-- Back Button -->
+<div style="max-width: 1200px; margin: 0 auto; padding: 2rem clamp(1.25rem, 5vw, 3rem) 0;">
+  <a href="{% pageurl page.get_parent.specific %}" class="back-btn">← Back to Blog</a>
+</div>
+
+<!-- Article Layout -->
+<div class="article-layout">
+  <main>
+    <!-- Hero Image (responsive, lazy-loaded) -->
+    {% if page.featured_image and page.show_featured_image %}
+      {% image page.featured_image width-400 as img_sm %}
+      {% image page.featured_image width-1000 as img_lg %}
+      <img src="{{ img_lg.url }}"
+           srcset="{{ img_sm.url }} 400w, {{ img_lg.url }} 1000w"
+           sizes="(max-width:600px) 100vw, 800px"
+           loading="lazy"
+           alt="{{ page.title }}"
+           class="article-hero-img">
+    {% else %}
+      <div class="article-hero-placeholder">📰</div>
+    {% endif %}
+
+    <!-- Category -->
+    {% if page.category %}
+      <span class="article-category">{{ page.category.name }}</span>
+    {% endif %}
+
+    <!-- Title -->
+    <h1 class="article-page-title">{{ page.title }}</h1>
+
+    <!-- Author & Meta -->
+    <div class="article-author-row">
+      <div class="author-avatar">✍️</div>
+      <div>
+        <div class="author-name">TFuture Team</div>
+        <div class="author-role">Brand Strategy & Design</div>
       </div>
-    </header>
+      <div class="article-meta-right">
+        <div><strong>Published:</strong> {{ page.first_published_at|date:"M d, Y" }}</div>
+        {% if page.last_published_at %}
+          <div><strong>Updated:</strong> {{ page.last_published_at|date:"M d, Y" }}</div>
+        {% endif %}
+        <div>{{ page|reading_time }}</div>
+      </div>
+    </div>
 
-    {% if page.show_featured_image %}
-      <div class="mb-6 overflow-hidden border border-white/10">
-        {% image page.featured_image width-1200 class="w-full h-auto" alt=page.title %}
+    <!-- Intro -->
+    {% if page.intro %}
+      <div style="border-left: 3px solid var(--accent); padding: 1.5rem; margin-bottom: 2rem; background: rgba(100, 255, 218, 0.08); border-radius: 0 3px 3px 0;">
+        <p style="font-size: 1.1rem; color: var(--white); margin: 0; font-style: italic; line-height: 1.8;">{{ page.intro|striptags }}</p>
       </div>
     {% endif %}
 
-    <!-- Body -->
-    <div class="content-typography blog-content prose prose-invert max-w-none">
-      {% for block in page.body %}
-        {% include_block block %}
-      {% endfor %}
+    <!-- Article Body -->
+    <div class="article-body">
+      {% if page.body %}
+        {% for block in page.body %}
+          {% include_block block %}
+        {% endfor %}
+      {% endif %}
     </div>
+
+    {# Article structured data for rich results #}
+    {% if page.featured_image %}
+      {% image page.featured_image width-1200 as ld_img %}
+    {% endif %}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "mainEntityOfPage": {"@type":"WebPage", "@id": "{{ request.build_absolute_uri }}"},
+      "headline": "{{ page.title|escapejs }}",
+      "description": "{{ page.intro|striptags|truncatechars:200|escapejs }}",
+      "datePublished": "{{ page.first_published_at|date:"Y-m-d" }}",
+      {% if page.last_published_at %}
+      "dateModified": "{{ page.last_published_at|date:"Y-m-d" }}",
+      {% else %}
+      "dateModified": "{{ page.first_published_at|date:"Y-m-d" }}",
+      {% endif %}
+      "author": {"@type": "Organization", "name": "TFuture Designs"},
+      "publisher": {"@type": "Organization", "name": "TFuture Designs", "logo": {"@type":"ImageObject","url":"{{ request.scheme }}://{{ request.get_host }}{% static 'images/fav-icon-logo.svg' %}"}},
+      {% if page.featured_image %}
+      "image": {"@type": "ImageObject", "url": "{{ request.scheme }}://{{ request.get_host }}{{ ld_img.url }}"}
+      {% endif %}
+    }
+    </script>
 
     <!-- Tags -->
     {% if page.tags.all %}
-      <div class="mt-16 flex flex-wrap gap-2">
-        {% for tag in page.tags.all %}
-          <a href="{% pageurl page.get_parent %}?tag={{ tag }}"
-             class="px-3 py-1 text-sm bg-white/5 border border-white/10 hover:border-accent transition">
-             #{{ tag }}
-          </a>
-        {% endfor %}
+      <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border);">
+        <div style="display: flex; flex-wrap: wrap; gap: 0.75rem;">
+          {% for tag in page.tags.all %}
+            <a href="#tag-{{ tag.slug }}" style="padding: 0.5rem 1rem; border: 1px solid var(--border); border-radius: 20px; color: var(--accent); font-size: 0.85rem; text-decoration: none; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--accent)'; this.style.background='rgba(100,255,218,0.1)';" onmouseout="this.style.borderColor='var(--border)'; this.style.background='transparent';">
+              #{{ tag }}
+            </a>
+          {% endfor %}
+        </div>
       </div>
     {% endif %}
-  </div>
-</section>
+
+    <!-- Article Navigation -->
+    {% with prev_post=page.get_previous_siblings.live.first next_post=page.get_next_siblings.live.first %}
+      {% if prev_post or next_post %}
+        <div class="article-nav">
+          {% if prev_post %}
+            <a href="{% pageurl prev_post.specific %}" class="nav-link">
+              <div class="nav-link-label">← Previous Article</div>
+              <div class="nav-link-title">{{ prev_post.title }}</div>
+            </a>
+          {% endif %}
+
+          {% if next_post %}
+            <a href="{% pageurl next_post.specific %}" class="nav-link next">
+              <div class="nav-link-label">Next Article →</div>
+              <div class="nav-link-title">{{ next_post.title }}</div>
+            </a>
+          {% endif %}
+        </div>
+      {% endif %}
+    {% endwith %}
+  </main>
+
+  <!-- Sidebar -->
+  <aside class="article-sidebar">
+    <!-- Share -->
+    <div class="sidebar-card">
+      <div class="sidebar-heading">Share This</div>
+      <div class="share-btns">
+        <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ page.title }}" target="_blank" class="share-btn" title="Share on Twitter">𝕏</a>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}" target="_blank" class="share-btn" title="Share on LinkedIn">in</a>
+        <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" class="share-btn" title="Share on Facebook">f</a>
+        <button onclick="navigator.clipboard.writeText(window.location.href)" class="share-btn" title="Copy Link">🔗</button>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="sidebar-card cta-box">
+      <div class="cta-title">Need Help?</div>
+      <p class="cta-text">Let's discuss how we can bring your brand vision to life.</p>
+      <a href="/" class="cta-btn">Get in Touch</a>
+    </div>
+  </aside>
+</div>
+
 {% endblock %}

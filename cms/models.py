@@ -407,17 +407,25 @@ class BlogIndexPage(Page):
         if tag_name:
             posts = posts.filter(tags__name=tag_name)
 
-        # Simple pagination
+        # Featured post (prefer is_featured, else newest)
+        featured_post = posts.filter(is_featured=True).first() or posts.first()
+        remaining_posts = posts.exclude(id=featured_post.id) if featured_post else posts
+
+        context["total_posts"] = posts.count()
+        context["total_categories"] = BlogCategory.objects.count()
+
+        # Simple pagination for remaining posts
         try:
             page_number = int(request.GET.get("page", 1))
         except ValueError:
             page_number = 1
-        per_page = 9
+        per_page = 8
         start = (page_number - 1) * per_page
         end = start + per_page
-        context["posts"] = posts[start:end]
-        context["page"] = page_number
-        context["has_next"] = posts.count() > end
+        context["featured_post"] = featured_post
+        context["posts"] = remaining_posts[start:end]
+        context["current_page"] = page_number
+        context["has_next"] = remaining_posts.count() > end
         context["has_prev"] = start > 0
         context["categories"] = BlogCategory.objects.all()
         context["current_category"] = category_slug
@@ -438,6 +446,12 @@ class BlogPage(Page, index.Indexed):
     show_featured_image = models.BooleanField(
         default=True,
         help_text="Display featured image on the blog page (always shown in previews)"
+    )
+    
+    # Brief introduction/summary for preview
+    intro = models.TextField(
+        blank=True,
+        help_text="Brief summary shown in article previews and previews"
     )
 
     # Whether this blog post should be shown as featured on the homepage
@@ -572,7 +586,8 @@ class BlogPage(Page, index.Indexed):
         MultiFieldPanel([
             FieldPanel("featured_image"),
             FieldPanel("show_featured_image"),
-        ], heading="Featured Image"),
+            FieldPanel("intro"),
+        ], heading="Featured Image & Preview"),
         FieldPanel("is_featured"),
         FieldPanel("body"),
     ]
